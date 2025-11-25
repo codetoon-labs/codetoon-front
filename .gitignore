@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# GraphQL Code Generator
+src/gql/gql.ts
+src/gql/graphql.ts
+
+# IDE
+.idea
+/.idea
+
+# OpenNext.js / Cloudflare Workers
+.open-next/
+.wrangler/
+
+# macOS
+._*
+
+# Documentation files (generated)
+*.md
+.claude
