@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import Link from "next/link";
+import Image from "next/image";
 
 interface NavItemProps {
   label: string;
@@ -10,30 +12,41 @@ interface NavItemProps {
 
 function NavItem({ label, href = "#", isActive = false }: NavItemProps) {
   return (
-    <a 
+    <Link
       href={href}
       className={`
-        flex items-center justify-center px-2 py-2 rounded-md
-        font-medium text-[20px] leading-[28.8px] text-black
-        transition-colors duration-200 cursor-pointer
-        hover:bg-gray-100/50
-        ${isActive ? 'bg-gray-100/80' : ''}
+        flex items-center justify-center px-2 py-2
+         text-[22px] leading-[28.8px] text-black
+        transition-all duration-200 cursor-pointer
+        border-b-2 border-transparent
+        ${!isActive ? 'font-medium hover:text-[#0B65A7] hover:border-[#0d71ba]' : ''}
+        ${isActive ? 'font-bold bg-gradient-to-r from-[#FAEDA1] via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent !border-[#0d71ba]' : ''}
       `}
     >
       {label}
-    </a>
+    </Link>
   );
 }
 
 function CodetoonLogo() {
   return (
+      <>
     <div className="relative w-[172px] h-[50px] overflow-hidden">
       <div className="absolute inset-0 flex items-center">
-        <span className="font-bold text-[24px] text-[#0d71ba]">
-          CodeToon
-        </span>
+        <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
+            <Image
+                className=""
+                src="/logo.svg"
+                alt="Next.js logo"
+                width={172}
+                height={50}
+                priority
+            />
+        </Link>
       </div>
     </div>
+
+      </>
   );
 }
 
@@ -47,14 +60,15 @@ export default function Header() {
   ];
 
   return (
-    <header className="w-full px-[20px] py-[12px]">
+    <header className="px-[20px] py-[12px]">
       <nav className="
-        w-full h-[74px] max-w-[1000px] mx-auto
+        w-full h-[74px] max-w-[1000px]
         flex items-center justify-between
         px-[20px] py-[12px]
         bg-[rgba(236,242,248,0.2)] backdrop-blur-[20px]
         border border-[#e6e7e8] rounded-full
         box-border
+        fixed z-10 left-1/2 -translate-x-1/2
       ">
         {/* Logo */}
         <CodetoonLogo />
