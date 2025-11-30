@@ -233,13 +233,13 @@ export default function Footer() {
                {/* Social Media */}
                <div className="flex gap-[16px]">
                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
-                       <FacebookIcon className="w-[40px] h-[40px]" />
+                       <FacebookIcon className="w-[35px] h-[35px]" />
                    </a>
                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
-                       <TwitterIcon className="w-[40px] h-[40px]" />
+                       <TwitterIcon className="w-[35px] h-[35px]" />
                    </a>
                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
-                       <LinkedInIcon className="w-[40px] h-[40px]" />
+                       <LinkedInIcon className="w-[35px] h-[35px]" />
                    </a>
                </div>
 
