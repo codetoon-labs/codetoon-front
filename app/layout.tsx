@@ -14,10 +14,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "CodeToon - Digital Agency",
-  description: "Full service digital agency, crafting tech and design solutions based in Egypt",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: 'CodeToon',
+        description: 'CodeToon is a software development company that provides custom software solutions to businesses of all sizes.',
+        icons: {
+            icon: '/favicon.ico',
+        },
+        openGraph: {
+            images: '/favicon_io/og-image.png',
+        },
+    }
+}
+
+
 
 export default function RootLayout({
   children,
@@ -29,11 +39,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
+        <Header/>
         <main className="min-h-screen">
           {children}
         </main>
-        <Footer />
+        <Footer/>
       </body>
     </html>
   );
