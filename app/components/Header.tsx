@@ -30,14 +30,14 @@ function NavItem({ label, href = "#", isActive = false }: NavItemProps) {
 
 function CodetoonLogo() {
   return (
-      <>
+
     <div className="relative w-[172px] h-[50px] overflow-hidden">
       <div className="absolute inset-0 flex items-center">
         <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
             <Image
                 className=""
                 src="/logo.svg"
-                alt="Next.js logo"
+                alt="Codetoon logo"
                 width={172}
                 height={50}
                 priority
@@ -45,8 +45,6 @@ function CodetoonLogo() {
         </Link>
       </div>
     </div>
-
-      </>
   );
 }
 
@@ -60,7 +58,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="px-[20px] py-[12px]">
+    <header>
       <nav className="
         w-full h-[74px] max-w-[1000px]
         flex items-center justify-between
@@ -68,7 +66,7 @@ export default function Header() {
         bg-[rgba(236,242,248,0.2)] backdrop-blur-[20px]
         border border-[#e6e7e8] rounded-full
         box-border
-        fixed z-10 left-1/2 -translate-x-1/2
+        fixed top-12 z-10 left-1/2 -translate-x-1/2
       ">
         {/* Logo */}
         <CodetoonLogo />
@@ -87,7 +85,8 @@ export default function Header() {
 
         {/* Contact Button */}
         <button className="
-          flex items-center gap-[10px]
+          flex items-center justify-center gap-[10px]
+
           h-[48px] px-[20px] py-[10px]
           bg-[#0d71ba] border border-[#e6f0f8] rounded-[40px]
           font-bold text-[20px] text-[#f4d315]

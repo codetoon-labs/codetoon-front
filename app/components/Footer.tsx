@@ -114,7 +114,7 @@ function CodetoonLogo({ className }: { className?: string }) {
               <Image
                   className=""
                   src="/logo.svg"
-                  alt="Next.js logo"
+                  alt="Codetoon logo"
                   width={250}
                   height={50}
                   priority
@@ -144,17 +144,17 @@ export default function Footer() {
 
 
   return (
-    <footer className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-[#9EA1A255] shadow-lg">
+    <footer className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-gray-300/50 shadow-lg">
       <div className="flex flex-col">
         {/* Main Footer Content */}
         <div className="flex items-start justify-around pb-[48px] px-12  mb-[16px]">
             {/* Logo and Tagline */}
-          <div className="gap-[24px] justify-center items-center px-8 ">
+          <div className="gap-[24px] justify-center items-center px-8 me-40">
             <CodetoonLogo className="w-[270px] h-[80px]" />
           </div>
           {/* Services Section */}
           <div className="w-[109px] flex flex-col basis-64  gap-[12px]">
-            <h3 className="font-bold text-[24px] leading-[38.4px] text-gray-700 mb-[12px]">
+            <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
               Services
             </h3>
             <div className="flex flex-col gap-[12px]">
@@ -162,7 +162,7 @@ export default function Footer() {
                 <Link
                   key={link}
                   href="#"
-                  className="font-medium text-[20px] leading-[22px] text-gray-700"
+                  className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
                 >
                   {link}
                 </Link>
@@ -172,12 +172,12 @@ export default function Footer() {
 
           {/* About Us Section */}
           <div className="w-[135px] flex flex-col basis-64 gap-[12px]">
-            <h3 className="font-bold text-[24px] leading-[38.4px] text-gray-700 mb-[12px]">
+            <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
               About us
             </h3>
             <Link
               href="#"
-              className="font-medium text-[20px] leading-[22px] text-gray-700"
+              className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
             >
               Our Story
             </Link>
@@ -185,7 +185,7 @@ export default function Footer() {
 
           {/* Our Work Section */}
           <div className="w-[135px] flex flex-col basis-64 gap-[12px]">
-            <h3 className="font-bold text-[24px] leading-[38.4px] text-gray-700 mb-[12px]">
+            <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
               Our Work
             </h3>
             <div className="flex flex-col gap-[12px]">
@@ -193,7 +193,7 @@ export default function Footer() {
                 <Link
                   key={index}
                   href="/"
-                  className="font-medium text-[20px] leading-[22px] text-gray-700"
+                  className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
                 >
                   {link}
                 </Link>
@@ -204,23 +204,23 @@ export default function Footer() {
           {/* Contact Section */}
           <div className="w-[407px] flex flex-col basis-128 gap-[48px]">
             <div className="flex flex-col gap-[12px]">
-              <h3 className="font-bold text-[24px] leading-[38.4px] text-gray-700 mb-[12px]">
+              <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 Contact us
               </h3>
               <div className="flex flex-col gap-[9px]">
                 {/* Address */}
                 <div className="flex gap-[10px] items-center">
-                  <LocationIcon className="w-[24px] h-[24px] text-gray-700 flex-shrink-0" />
-                  <p className="font-medium text-[16px] leading-[17.6px] text-gray-700">
+                  <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba] flex-shrink-0" />
+                  <Link href="#" className="font-medium text-[16px] leading-[17.6px] text-gray-700">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  </p>
+                  </Link>
                 </div>
                 {/* Phone */}
                 <div className="flex gap-[10px] items-center">
-                  <PhoneIcon className="w-[24px] h-[24px] text-gray-700 flex-shrink-0" />
-                  <p className="font-medium text-[16px] leading-[17.6px] text-gray-700">
+                  <PhoneIcon className="w-[24px] h-[24px] text-[#0d71ba] flex-shrink-0" />
+                  <Link href="#" className="font-medium text-[16px] leading-[17.6px] text-gray-700">
                     0123456789
-                  </p>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -232,23 +232,23 @@ export default function Footer() {
            <div className="flex flex-col gap-[36px] justify-around items-center mb-9 border-t-1 mt-6 pt-26 border-gray-300/50 w-[1700px]">
                {/* Social Media */}
                <div className="flex gap-[16px]">
-                   <a href="#" className="text-gray-700">
+                   <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                        <FacebookIcon className="w-[40px] h-[40px]" />
                    </a>
-                   <a href="#" className="text-gray-700">
+                   <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                        <TwitterIcon className="w-[40px] h-[40px]" />
                    </a>
-                   <a href="#" className="text-gray-700">
+                   <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                        <LinkedInIcon className="w-[40px] h-[40px]" />
                    </a>
                </div>
 
                {/* Copyright and Links */}
                <div className="flex items-center justify-center w-[1184px] h-[16px]">
-                   <div className="flex jus gap-[4px] items-center">
-                       <CopyrightIcon className="w-[25px] h-[25px] text-gray-700" />
+                   <div className="flex gap-[4px] items-center">
+                       <CopyrightIcon className="w-[25px] h-[25px]" />
                        <p className="text-[16px] leading-normal text-gray-700">
-                           Copyright2025-CodeToon
+                           Copyright {new Date().getFullYear()} - CodeToon
                        </p>
                    </div>
                </div>
