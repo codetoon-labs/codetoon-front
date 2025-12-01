@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from 'next/navigation';
 
 interface NavItemProps {
   label: string;
@@ -33,7 +34,7 @@ function CodetoonLogo() {
 
     <div className="relative w-[172px] h-[50px] overflow-hidden">
       <div className="absolute inset-0 flex items-center">
-        <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
+        <Link href="/public" className="font-bold text-[24px] text-[#0d71ba]">
             <Image
                 className=""
                 src="/logo.svg"
@@ -49,10 +50,12 @@ function CodetoonLogo() {
 }
 
 export default function Header() {
+  const pathname = usePathname();
+
   const navItems = [
-    { label: 'Home', href: '/', isActive: true },
-    { label: 'About Us', href: '/about' },
-    { label: 'Services', href: '/services' },
+    { label: 'Home', href: '/' },
+    { label: 'About Us', href: '/about-us' },
+    { label: 'services', href: '/services' },
     { label: 'Projects', href: '/projects' },
     { label: 'Products', href: '/products' },
   ];
@@ -66,7 +69,7 @@ export default function Header() {
         bg-[rgba(236,242,248,0.2)] backdrop-blur-[20px]
         border border-[#e6e7e8] rounded-full
         box-border
-        fixed top-12 z-10 left-1/2 -translate-x-1/2
+        fixed top-16 z-10 left-1/2 -translate-x-1/2
       ">
         {/* Logo */}
         <CodetoonLogo />
@@ -74,11 +77,11 @@ export default function Header() {
         {/* Navigation Items */}
         <div className="flex items-center gap-[16px]">
           {navItems.map((item) => (
-            <NavItem 
+            <NavItem
               key={item.label}
               label={item.label}
               href={item.href}
-              isActive={item.isActive}
+              isActive={pathname === item.href}
             />
           ))}
         </div>

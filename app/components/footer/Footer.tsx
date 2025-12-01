@@ -110,7 +110,7 @@ function CodetoonLogo({ className }: { className?: string }) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div className="absolute inset-0 flex items-center">
-          <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
+          <Link href="/public" className="font-bold text-[24px] text-[#0d71ba]">
               <Image
                   className=""
                   src="/logo.svg"
@@ -147,7 +147,7 @@ export default function Footer() {
     <footer className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-gray-300/50 shadow-lg">
       <div className="flex flex-col">
         {/* Main Footer Content */}
-        <div className="flex items-start justify-around pb-[48px] px-12  mb-[16px]">
+        <div id="main-footer-content" className="flex items-start justify-around pb-[48px] px-12  mb-[16px]">
             {/* Logo and Tagline */}
           <div className="gap-[24px] justify-center items-center px-8 me-40">
             <CodetoonLogo className="w-[270px] h-[80px]" />
@@ -192,7 +192,7 @@ export default function Footer() {
               {workLinks.map((link, index) => (
                 <Link
                   key={index}
-                  href="/"
+                  href="/public"
                   className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
                 >
                   {link}
