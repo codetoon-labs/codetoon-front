@@ -22,35 +22,85 @@ export  function Background() {
 }
 
 export default function Home() {
-  return (
-    <section className="flex min-h-screen items-center justify-center bg-[#f5fbfe] font-sans dark:bg-black">
-        <Background/>
-        <div className="flex flex-col items-center z-9 text-center relative top-[100px] gap-7">
-            <div className="flex start items-start justify-center gap-[26px] px-[48px]">
-                <p className="w-[278px] font-semibold text-[20px] leading-6 text-start text-[#535556]">Delivering the WOW factor—through code, design, and strategy.</p>
-                <h1 className="flex flex-col w-[624px] text-[108px] font-[600] leading-[77px] uppercase">
-                    <span className="self-start mb-8">Change</span>
-                    <span className="self-end mb-8 bg-gradient-to-r from-[#000] via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</span>
-                    <span className="self-start mb-7">cause</span>
-                    <span className="self-center relative right-10 mb-8 p-1 bg-gradient-to-r  from-[#000] via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">we can</span>
-                </h1>
-                <div className="flex flex-col items-end gap-[339px]">
-                    <p className="w-[180px] text-[20px] leading-6 font-semibold text-[#535556]">From idea to “OMG that’s awesome!”</p>
-                    <p className="w-[240px] text-[20px] leading-6 font-semibold text-[#0D71BA]">Full service digital agency, crafting tech and design solutions based in Egypt</p>
+    return <>
+
+        <section className="flex min-h-screen items-center justify-center font-sans dark:bg-black">
+            <Background/>
+            <div className="container mx-auto">
+                <div className="flex flex-col items-center  z-9 text-center  relative top-[100px] gap-7">
+                    <div className="flex justify-between xl:w-full gap-[26px] 2xl:px-[0] sm:px-[48px]">
+                        <p className="w-[278px] font-semibold text-[20px] leading-6 text-start text-[#535556]">Delivering the WOW factor—through code, design, and strategy.</p>
+                        <h1 className="flex flex-col w-[624px] text-[108px] font-[600] leading-[77px] uppercase">
+                            <span className="self-start mb-7">Change</span>
+                            <span className="self-end mb-8 p-1 bg-gradient-to-r from-[#000] via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</span>
+                            <span className="self-start mb-7">cause</span>
+                            <span className="self-center relative right-10 mb-8 p-1 bg-gradient-to-r  from-[#000] via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">we can</span>
+                        </h1>
+                        <div className="flex flex-col items-end gap-[339px]">
+                            <p className="w-[180px] text-[20px] leading-6 font-semibold text-[#535556]">From idea to "OMG that's awesome!"</p>
+                            <p className="w-[240px] text-[20px] leading-6 font-semibold text-[#0D71BA]">Full service digital agency, crafting tech and design solutions based in Egypt</p>
+                        </div>
+                    </div>
+                    <div>
+                        <Link href='/'>
+                            <button className="cursor-pointer bg-[#0d71ba] px-5 py-2 rounded-[8px] font-bold text-[18px] flex items-center justify-center gap-[10px] text-[#F4D315]">
+                                Let&#39;s Build Together
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#F4D315"/>
+                                    <path d="M17.2444 5.28982C17.5251 5.37173 17.9065 5.51534 18.1956 5.80444C18.4847 6.09355 18.6284 6.47497 18.7103 6.75566C18.8008 7.06599 18.8606 7.41701 18.9018 7.77008C18.9846 8.4788 19.0051 9.31068 18.9991 10.0842C18.993 10.8637 18.9594 11.6122 18.9277 12.1639C18.9118 12.4403 18.8962 12.6688 18.8846 12.8288C18.8788 12.908 18.8686 13.0376 18.8651 13.0822L18.865 13.0834C18.8186 13.6338 18.3348 14.0429 17.7845 13.9965C17.2342 13.9501 16.8257 13.4664 16.872 12.9161C16.8751 12.8765 16.8844 12.7595 16.8899 12.6838C16.9009 12.5323 16.9157 12.314 16.931 12.0489C16.9616 11.5176 16.9934 10.8042 16.9991 10.0685C17.0049 9.32682 16.984 8.59001 16.9153 8.002C16.8808 7.7067 16.8116 7.39695 16.7645 7.23556C16.6031 7.18846 16.2934 7.11924 15.9981 7.08476C15.41 7.01611 14.6732 6.99512 13.9315 7.00092C13.1958 7.00668 12.4825 7.03846 11.9511 7.06904C11.686 7.0843 11.4677 7.09917 11.3163 7.11017C11.2406 7.11567 11.124 7.12485 11.0844 7.12797C10.5341 7.17431 10.05 6.76584 10.0036 6.21554C9.9572 5.6652 10.3657 5.18146 10.9161 5.13507L10.9183 5.13489C10.9639 5.1313 11.0926 5.12115 11.1713 5.11543C11.3313 5.1038 11.5598 5.08825 11.8362 5.07234C12.3878 5.0406 13.1363 5.00709 13.9159 5.00099C14.6894 4.99493 15.5213 5.01551 16.23 5.09826C16.5831 5.13948 16.9341 5.19925 17.2444 5.28982Z" fill="#F4D315"/>
+                                </svg>
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
-            <div>
-                <Link href='/'>
-                    <button className="cursor-pointer bg-[#0d71ba] px-5 py-2 rounded-[8px] font-bold text-[18px] flex items-center justify-center gap-[10px] text-[#F4D315]">
-                        Let&#39;s Build Together
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#F4D315"/>
-                        <path d="M17.2444 5.28982C17.5251 5.37173 17.9065 5.51534 18.1956 5.80444C18.4847 6.09355 18.6284 6.47497 18.7103 6.75566C18.8008 7.06599 18.8606 7.41701 18.9018 7.77008C18.9846 8.4788 19.0051 9.31068 18.9991 10.0842C18.993 10.8637 18.9594 11.6122 18.9277 12.1639C18.9118 12.4403 18.8962 12.6688 18.8846 12.8288C18.8788 12.908 18.8686 13.0376 18.8651 13.0822L18.865 13.0834C18.8186 13.6338 18.3348 14.0429 17.7845 13.9965C17.2342 13.9501 16.8257 13.4664 16.872 12.9161C16.8751 12.8765 16.8844 12.7595 16.8899 12.6838C16.9009 12.5323 16.9157 12.314 16.931 12.0489C16.9616 11.5176 16.9934 10.8042 16.9991 10.0685C17.0049 9.32682 16.984 8.59001 16.9153 8.002C16.8808 7.7067 16.8116 7.39695 16.7645 7.23556C16.6031 7.18846 16.2934 7.11924 15.9981 7.08476C15.41 7.01611 14.6732 6.99512 13.9315 7.00092C13.1958 7.00668 12.4825 7.03846 11.9511 7.06904C11.686 7.0843 11.4677 7.09917 11.3163 7.11017C11.2406 7.11567 11.124 7.12485 11.0844 7.12797C10.5341 7.17431 10.05 6.76584 10.0036 6.21554C9.9572 5.6652 10.3657 5.18146 10.9161 5.13507L10.9183 5.13489C10.9639 5.1313 11.0926 5.12115 11.1713 5.11543C11.3313 5.1038 11.5598 5.08825 11.8362 5.07234C12.3878 5.0406 13.1363 5.00709 13.9159 5.00099C14.6894 4.99493 15.5213 5.01551 16.23 5.09826C16.5831 5.13948 16.9341 5.19925 17.2444 5.28982Z" fill="#F4D315"/>
-                        </svg>
-                    </button>
-                </Link>
+        </section>
+
+        <section className="flex flex-col items-center justify-start dark:bg-black mt-[110px]">
+            <div className="container mx-auto">
+                <div className="2xl:px-[0] sm:px-[48px]">
+                    <div className="flex items-center gap-[107px]">
+                        <h2 className="text-[80px] font-[650] text-[#0d71ba] italic">Build.</h2>
+                        <h2 className="text-[80px] font-[600] text-[#000]">Brand.</h2>
+                        <h2 className="text-[80px] font-[600] text-[#000]">Boost.</h2>
+                    </div>
+
+                </div>
             </div>
-        </div>
-    </section>
-  );
+            <div className="hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full">
+                <div className="py-[28px] mt-[24px] container mx-auto">
+                            <div className="flex gap-[16px] items-center">
+                                <div className="">
+                                    <div className="flex gap-[8px]">
+                                        <span className="text-[20px] font-semibold text-[#000305] mt-[27px]">(01)</span>
+                                        <h3 className="text-[36px] font-semibold text-[#2B3136] group-hover/item:scale-110 transition-all duration-300">Technology</h3>
+                                    </div>
+                                    <p className="font-[400] text-[16px] text-[#535556] mt-[16px]">Lorem ipsum dolor sit
+                                        amet, consectetur
+                                        adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio
+                                        mattis.
+                                        Class
+                                        aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+                                        himenaeos.
+                                        Curabitur tempus urna at turpis condimentum lobortis.
+                                    </p>
+                                </div>
+                                <Link href="#">
+                                    <button
+                                        className="flex items-center justify-center p-[10px] bg-[#0D71BA] rounded-full cursor-pointer hover:bg-[#B6D4EA] hover:shadow-[0_4px_15px_rgba(124,176,218,0.6)] group transition-all duration-300">
+                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z"
+                                                className="fill-[#F4D315] group-hover:fill-[#07436F] transition-all duration-200"/>
+                                        </svg>
+                                    </button>
+                                </Link>
+                            </div>
+                        </div>
+            </div>
+        </section>
+    </>
+
+        ;
 }

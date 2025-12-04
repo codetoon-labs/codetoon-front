@@ -34,9 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${cairo.variable} font-sans antialiased`}
+        className={`${cairo.variable} font-sans antialiased  bg-[#f5fbfe]`}
       >
-        <CursorFollower />
+        {/*<CursorFollower />*/}
         <Header/>
         <main className="min-h-screen">
           {children}
