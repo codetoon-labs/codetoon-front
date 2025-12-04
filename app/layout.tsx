@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/navbar/Header";
 import Footer from "./components/footer/Footer";
 import CursorFollower from "./components/cursorApp/page";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 
 const cairo = Cairo({
     subsets: ["latin"],
@@ -13,13 +14,14 @@ const cairo = Cairo({
 
 export async function generateMetadata(): Promise<Metadata> {
     return {
-        title: 'CodeToon',
+        metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+        title:'CodeToon',
         description: 'CodeToon is a software development company that provides custom software solutions to businesses of all sizes.',
-        icons: {
-            icon: '/favicon.ico',
+        icons:{
+            icon:'/favicon.ico',
         },
         openGraph: {
-            images: '/favicon_io/og-image.png',
+            images:'/favicon_io/og-image.png',
         },
     }
 }
@@ -34,14 +36,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${cairo.variable} font-sans antialiased`}
+        className={`${cairo.variable} font-sans antialiased bg-[#f5fbfe]`}
       >
-        <CursorFollower />
+        <CursorFollower/>
         <Header/>
-        <main className="min-h-screen">
+         <main className="min-h-screen">
           {children}
-        </main>
+         </main>
         <Footer/>
+        <ScrollToTop/>
       </body>
     </html>
   );
