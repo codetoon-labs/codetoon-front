@@ -165,8 +165,8 @@ export default function Home() {
 
         <section className="container mx-auto my-[110px]">
             <div className="2xl:px-[0] sm:px-[48px]">
-                <h2 className="flex flex-col w-[380px] text-[108px] font-[600] leading-[88px]">
-                    <span className="text-[#000305] font-semibold text-[100px]">Our</span>
+                <h2 className="flex flex-col w-[380px] text-[100px] font-[600] leading-[88px]">
+                    <span className="text-[#000305] font-semibold ">Our</span>
                     <span className="self-end font-[650] text-[100px] italic text-[#0D71BA]">Work</span>
                 </h2>
                 <div className="my-[40px]">
@@ -177,9 +177,10 @@ export default function Home() {
                                     className="w-full max-w-[748px] xl:max-w-[748px] 2xl:max-w-[900px]"
                                     src="/Frame 14.png"
                                     alt="Our Work" width={900} height={420}/>
-                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center items-center">
-                                    <Link  href="#">
-                                        <button className="px-[40PX] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[#6DA9D5]">
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
+                                    <Link href="#">
+                                        <button
+                                            className="px-[40PX] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[#6DA9D5]">
                                             View project
                                         </button>
                                     </Link>
@@ -266,7 +267,7 @@ export default function Home() {
                                     className="w-full max-w-[748px] xl:max-w-[748px] 2xl:max-w-[900px]"
                                     src="/Frame 14.png"
                                     alt="Our Work" width={900} height={420}/>
-                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center items-center">
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
                                     <Link href="#">
                                         <button
                                             className="px-[40PX] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[#6DA9D5]">
@@ -347,7 +348,49 @@ export default function Home() {
                         </p>
                     </div>
                 </div>
+
+                <div className="mt-[34px] flex items-center justify-center gap-[7px]">
+                    <p className="text-[#535556] text-[16px] font-[500]">Smart design. Sharp code. Real results.</p>
+                    <Link href="#">
+                        <button className="flex items-center gap-[7px] font-bold text-[20px] text-[#0D71BA] border-b-[2px] border-[#0D71BA] py-[13px] px-[4px] cursor-pointer">
+                            View All Projects
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.5267 18L13.1187 16.5858L16.6882 13.0006L3.5 13.0006L3.5 11.0006L16.6886 11.0006L13.1186 7.41422L14.5266 6L20.5 12.0003L14.5267 18Z"
+                                    fill="#0D71BA"/>
+                            </svg>
+                        </button>
+                    </Link>
+                </div>
             </div>
+        </section>
+
+        <section className="container mx-auto my-[110px]">
+            <div className="2xl:px-[0] sm:px-[48px]">
+                <h2 className="flex flex-col w-[380px] text-[108px] font-[600] leading-[88px]">
+                    <span className="text-[#000305] font-semibold text-[100px]">Our</span>
+                    <span className="self-end font-[650] text-[100px] italic text-[#0D71BA]">Story</span>
+                </h2>
+
+                <div className="flex justify-around items-center">
+                    <div className="w-[429px]">
+                        <h3 className="flex flex-col text-[64px] font-semibold leading-[76.8px] uppercase">
+                            <span className="">One Problem.</span>
+                            <span className="">One Vision.</span>
+                            <span className="">One Bold Fix.</span>
+                        </h3>
+                        <p className="text-[#393B3C] text-[24px] font-[500] leading-[28.8px] mt-[24px]">
+                            How a restless crew in Egypt decided to end scattered growth once and for all.
+                        </p>
+                    </div>
+
+                    <Image className="w-full max-w-[380px] xl:max-w-[380px] h-[440px] rounded-[16px] rotate-[-10deg]"
+                           src="/maegan-martin-6nsGg3Iw37c-unsplash 1.png"
+                           alt="Our Work" width={380} height={440}/>
+                </div>
+            </div>
+
         </section>
     </>
 
