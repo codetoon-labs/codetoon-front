@@ -29,25 +29,36 @@ export default function Home() {
             <div className="container mx-auto">
                 <div className="flex flex-col items-center z-9 text-center relative top-[100px] gap-7">
                     <div className="flex justify-between xl:w-full gap-[26px] 2xl:px-[0] sm:px-[48px]">
-                        <p className="w-[278px] font-semibold text-[20px] leading-6 text-start text-[#535556]">Delivering the WOW factor—through code, design, and strategy.</p>
+                        <p className="w-[278px] font-semibold text-[20px] leading-6 text-start text-[#535556]">Delivering
+                            the WOW factor—through code, design, and strategy.</p>
                         <h1 className="flex flex-col w-[624px] text-[108px] font-[600] leading-[77px] uppercase">
                             <span className="self-start mb-7">Change</span>
-                            <span className="self-end mb-8 p-1 bg-gradient-to-r from-[#000] via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</span>
+                            <span
+                                className="self-end mb-8 p-1 bg-gradient-to-r from-[#000] via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</span>
                             <span className="self-start mb-7">cause</span>
-                            <span className="self-center relative right-10 mb-8 p-1 bg-gradient-to-r from-[#000] via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">we can</span>
+                            <span
+                                className="self-center relative right-10 mb-8 p-1 bg-gradient-to-r from-[#000] via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">we can</span>
                         </h1>
                         <div className="flex flex-col items-end gap-[339px]">
-                            <p className="w-[180px] text-[20px] leading-6 font-semibold text-[#535556]">From idea to "OMG that's awesome!"</p>
-                            <p className="w-[240px] text-[20px] leading-6 font-semibold text-[#0D71BA]">Full service digital agency, crafting tech and design solutions based in Egypt</p>
+                            <p className="w-[180px] text-[20px] leading-6 font-semibold text-[#535556]">From idea to
+                                "OMG that's awesome!"</p>
+                            <p className="w-[240px] text-[20px] leading-6 font-semibold text-[#0D71BA]">Full service
+                                digital agency, crafting tech and design solutions based in Egypt</p>
                         </div>
                     </div>
                     <div>
                         <Link href='/'>
-                            <button className="cursor-pointer bg-[#0d71ba] px-5 py-2 rounded-[8px] font-bold text-[18px] flex items-center justify-center gap-[10px] text-[#F4D315]">
+                            <button
+                                className="cursor-pointer bg-[#0d71ba] px-5 py-2 rounded-[8px] font-bold text-[18px] flex items-center justify-center gap-[10px] text-[#F4D315]">
                                 Let&#39;s Build Together
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#F4D315"/>
-                                    <path d="M17.2444 5.28982C17.5251 5.37173 17.9065 5.51534 18.1956 5.80444C18.4847 6.09355 18.6284 6.47497 18.7103 6.75566C18.8008 7.06599 18.8606 7.41701 18.9018 7.77008C18.9846 8.4788 19.0051 9.31068 18.9991 10.0842C18.993 10.8637 18.9594 11.6122 18.9277 12.1639C18.9118 12.4403 18.8962 12.6688 18.8846 12.8288C18.8788 12.908 18.8686 13.0376 18.8651 13.0822L18.865 13.0834C18.8186 13.6338 18.3348 14.0429 17.7845 13.9965C17.2342 13.9501 16.8257 13.4664 16.872 12.9161C16.8751 12.8765 16.8844 12.7595 16.8899 12.6838C16.9009 12.5323 16.9157 12.314 16.931 12.0489C16.9616 11.5176 16.9934 10.8042 16.9991 10.0685C17.0049 9.32682 16.984 8.59001 16.9153 8.002C16.8808 7.7067 16.8116 7.39695 16.7645 7.23556C16.6031 7.18846 16.2934 7.11924 15.9981 7.08476C15.41 7.01611 14.6732 6.99512 13.9315 7.00092C13.1958 7.00668 12.4825 7.03846 11.9511 7.06904C11.686 7.0843 11.4677 7.09917 11.3163 7.11017C11.2406 7.11567 11.124 7.12485 11.0844 7.12797C10.5341 7.17431 10.05 6.76584 10.0036 6.21554C9.9572 5.6652 10.3657 5.18146 10.9161 5.13507L10.9183 5.13489C10.9639 5.1313 11.0926 5.12115 11.1713 5.11543C11.3313 5.1038 11.5598 5.08825 11.8362 5.07234C12.3878 5.0406 13.1363 5.00709 13.9159 5.00099C14.6894 4.99493 15.5213 5.01551 16.23 5.09826C16.5831 5.13948 16.9341 5.19925 17.2444 5.28982Z" fill="#F4D315"/>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path fillRule="evenodd" clipRule="evenodd"
+                                          d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z"
+                                          fill="#F4D315"/>
+                                    <path
+                                        d="M17.2444 5.28982C17.5251 5.37173 17.9065 5.51534 18.1956 5.80444C18.4847 6.09355 18.6284 6.47497 18.7103 6.75566C18.8008 7.06599 18.8606 7.41701 18.9018 7.77008C18.9846 8.4788 19.0051 9.31068 18.9991 10.0842C18.993 10.8637 18.9594 11.6122 18.9277 12.1639C18.9118 12.4403 18.8962 12.6688 18.8846 12.8288C18.8788 12.908 18.8686 13.0376 18.8651 13.0822L18.865 13.0834C18.8186 13.6338 18.3348 14.0429 17.7845 13.9965C17.2342 13.9501 16.8257 13.4664 16.872 12.9161C16.8751 12.8765 16.8844 12.7595 16.8899 12.6838C16.9009 12.5323 16.9157 12.314 16.931 12.0489C16.9616 11.5176 16.9934 10.8042 16.9991 10.0685C17.0049 9.32682 16.984 8.59001 16.9153 8.002C16.8808 7.7067 16.8116 7.39695 16.7645 7.23556C16.6031 7.18846 16.2934 7.11924 15.9981 7.08476C15.41 7.01611 14.6732 6.99512 13.9315 7.00092C13.1958 7.00668 12.4825 7.03846 11.9511 7.06904C11.686 7.0843 11.4677 7.09917 11.3163 7.11017C11.2406 7.11567 11.124 7.12485 11.0844 7.12797C10.5341 7.17431 10.05 6.76584 10.0036 6.21554C9.9572 5.6652 10.3657 5.18146 10.9161 5.13507L10.9183 5.13489C10.9639 5.1313 11.0926 5.12115 11.1713 5.11543C11.3313 5.1038 11.5598 5.08825 11.8362 5.07234C12.3878 5.0406 13.1363 5.00709 13.9159 5.00099C14.6894 4.99493 15.5213 5.01551 16.23 5.09826C16.5831 5.13948 16.9341 5.19925 17.2444 5.28982Z"
+                                        fill="#F4D315"/>
                                 </svg>
                             </button>
                         </Link>
@@ -57,7 +68,7 @@ export default function Home() {
         </section>
 
         <section className="flex flex-col justify-start dark:bg-black mt-[110px]">
-            <div className="container mx-auto">
+            <div className="max-w-screen-xl px-6 xl:px-12 2xl:max-w-screen-2xl 2xl:px-16">
                 <div className="2xl:px-[0] sm:px-[48px]">
                     <div className="flex items-center gap-[107px]">
                         <h2 className="text-[80px] font-[650] text-[#0d71ba] italic">Build.</h2>
@@ -68,7 +79,40 @@ export default function Home() {
                 </div>
             </div>
             <div className="my-[24px] border-b border-[#393B3C]">
-                <div className="py-[28px]  hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full">
+                <div className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full">
+                    <div
+                        className="max-w-screen-xl px-6 xl:px-12 2xl:max-w-screen-2xl 2xl:px-16 mx-auto flex gap-[16px] items-center 2xl:px-[0] sm:px-[48px]">
+                        <div className="">
+                            <div className="flex gap-[8px]">
+                                <span className="text-[20px] font-semibold text-[#000305] mt-[27px]">(01)</span>
+                                <h3 className="text-[36px] font-semibold text-[#2B3136] group-hover/item:scale-110 transition-all duration-300">Technology</h3>
+                            </div>
+                            <p className="font-[400] text-[16px] text-[#535556] mt-[16px]">Lorem ipsum dolor sit
+                                amet, consectetur
+                                adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio
+                                mattis.
+                                Class
+                                aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
+                                himenaeos.
+                                Curabitur tempus urna at turpis condimentum lobortis.
+                            </p>
+                        </div>
+                        <Link href="#">
+                            <button
+                                className="flex items-center justify-center p-[10px] bg-[#0D71BA] rounded-full cursor-pointer hover:bg-[#B6D4EA] hover:shadow-[0_4px_15px_rgba(124,176,218,0.6)] group transition-all duration-300">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z"
+                                        className="fill-[#F4D315] group-hover:fill-[#07436F] transition-all duration-200"/>
+                                </svg>
+                            </button>
+                        </Link>
+                    </div>
+                </div>
+
+                <div
+                    className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-t border-[#393B3C] hover:border-none">
                     <div className="container mx-auto flex gap-[16px] items-center 2xl:px-[0] sm:px-[48px]">
                         <div className="">
                             <div className="flex gap-[8px]">
@@ -99,38 +143,8 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-t border-[#393B3C] hover:border-none">
-                    <div className="container mx-auto flex gap-[16px] items-center 2xl:px-[0] sm:px-[48px]">
-                        <div className="">
-                            <div className="flex gap-[8px]">
-                                <span className="text-[20px] font-semibold text-[#000305] mt-[27px]">(01)</span>
-                                <h3 className="text-[36px] font-semibold text-[#2B3136] group-hover/item:scale-110 transition-all duration-300">Technology</h3>
-                            </div>
-                            <p className="font-[400] text-[16px] text-[#535556] mt-[16px]">Lorem ipsum dolor sit
-                                amet, consectetur
-                                adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio
-                                mattis.
-                                Class
-                                aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                himenaeos.
-                                Curabitur tempus urna at turpis condimentum lobortis.
-                            </p>
-                        </div>
-                        <Link href="#">
-                            <button
-                                className="flex items-center justify-center p-[10px] bg-[#0D71BA] rounded-full cursor-pointer hover:bg-[#B6D4EA] hover:shadow-[0_4px_15px_rgba(124,176,218,0.6)] group transition-all duration-300">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z"
-                                        className="fill-[#F4D315] group-hover:fill-[#07436F] transition-all duration-200"/>
-                                </svg>
-                            </button>
-                        </Link>
-                    </div>
-                </div>
-
-                <div className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-t border-[#393B3C] hover:border-none">
+                <div
+                    className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-t border-[#393B3C] hover:border-none">
                     <div className="container mx-auto flex gap-[16px] items-center 2xl:px-[0] sm:px-[48px]">
                         <div className="">
                             <div className="flex gap-[8px]">
@@ -163,21 +177,22 @@ export default function Home() {
             </div>
         </section>
 
-        <section className="container mx-auto my-[110px]">
+        <section className="mx-auto container my-[110px]">
             <div className="2xl:px-[0] sm:px-[48px]">
                 <h2 className="flex flex-col w-[380px] text-[100px] font-[600] leading-[88px]">
                     <span className="text-[#000305] font-semibold ">Our</span>
                     <span className="self-end font-[650] text-[100px] italic text-[#0D71BA]">Work</span>
                 </h2>
                 <div className="my-[40px]">
-                    <div className="flex gap-[16px] items-center justify-center group">
+                    <div className="flex gap-[16px] items-center group">
                         <div>
                             <div className="relative w-fit">
                                 <Image
                                     className="w-full max-w-[748px] xl:max-w-[748px] 2xl:max-w-[900px]"
                                     src="/Frame 14.png"
                                     alt="Our Work" width={900} height={420}/>
-                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
+                                <div
+                                    className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
                                     <Link href="#">
                                         <button
                                             className="px-[40PX] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[#6DA9D5]">
@@ -267,7 +282,8 @@ export default function Home() {
                                     className="w-full max-w-[748px] xl:max-w-[748px] 2xl:max-w-[900px]"
                                     src="/Frame 14.png"
                                     alt="Our Work" width={900} height={420}/>
-                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
+                                <div
+                                    className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
                                     <Link href="#">
                                         <button
                                             className="px-[40PX] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[#6DA9D5]">
@@ -352,7 +368,8 @@ export default function Home() {
                 <div className="mt-[34px] flex items-center justify-center gap-[7px]">
                     <p className="text-[#535556] text-[16px] font-[500]">Smart design. Sharp code. Real results.</p>
                     <Link href="#">
-                        <button className="flex items-center gap-[7px] font-bold text-[20px] text-[#0D71BA] border-b-[2px] border-[#0D71BA] py-[13px] px-[4px] cursor-pointer">
+                        <button
+                            className="flex items-center gap-[7px] font-bold text-[20px] text-[#0D71BA] border-b-[2px] border-[#0D71BA] py-[13px] px-[4px] cursor-pointer">
                             View All Projects
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -366,32 +383,66 @@ export default function Home() {
             </div>
         </section>
 
-        <section className="container mx-auto my-[110px]">
-            <div className="2xl:px-[0] sm:px-[48px]">
-                <h2 className="flex flex-col w-[380px] text-[108px] font-[600] leading-[88px]">
-                    <span className="text-[#000305] font-semibold text-[100px]">Our</span>
-                    <span className="self-end font-[650] text-[100px] italic text-[#0D71BA]">Story</span>
-                </h2>
+        <section className="my-[110px]">
+            <div className="mx-auto container">
+                <div className="2xl:px-[0] sm:px-[48px]">
+                    <h2 className="flex flex-col w-[380px] text-[108px] font-[600] leading-[88px]">
+                        <span className="text-[#000305] font-semibold text-[100px]">Our</span>
+                        <span className="self-end font-[650] text-[100px] italic text-[#0D71BA]">Story</span>
+                    </h2>
 
-                <div className="flex justify-around items-center">
-                    <div className="w-[429px]">
-                        <h3 className="flex flex-col text-[64px] font-semibold leading-[76.8px] uppercase">
-                            <span className="">One Problem.</span>
-                            <span className="">One Vision.</span>
-                            <span className="">One Bold Fix.</span>
-                        </h3>
-                        <p className="text-[#393B3C] text-[24px] font-[500] leading-[28.8px] mt-[24px]">
-                            How a restless crew in Egypt decided to end scattered growth once and for all.
-                        </p>
+                    <div className="flex justify-between items-center">
+                        <div className="w-[429px]">
+                            <h3 className="flex flex-col text-[64px] font-semibold leading-[76.8px] uppercase">
+                                <span className="">One Problem.</span>
+                                <span className="">One Vision.</span>
+                                <span className="">One Bold Fix.</span>
+                            </h3>
+                            <p className="text-[#393B3C] text-[24px] font-[500] leading-[28.8px] mt-[24px]">
+                                How a restless crew in Egypt decided to end scattered growth once and for all.
+                            </p>
+                        </div>
+
+                        <Image
+                            className="w-full max-w-[380px] xl:max-w-[380px] h-[440px] rounded-[16px] rotate-[-10deg]"
+                            src="/maegan-martin-6nsGg3Iw37c-unsplash 1.png"
+                            alt="Our Work" width={380} height={440}/>
                     </div>
-
-                    <Image className="w-full max-w-[380px] xl:max-w-[380px] h-[440px] rounded-[16px] rotate-[-10deg]"
-                           src="/maegan-martin-6nsGg3Iw37c-unsplash 1.png"
-                           alt="Our Work" width={380} height={440}/>
                 </div>
             </div>
+            <div className="w-full bg-[#FDCECE] mt-[36px]">
+                <div className="flex justify-between">
+                    <div className="w-[720px] py-[32px] 2xl:px-[96] sm:px-[48px]">
+                        <span className="flex items-center gap-[8px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                     <path fill-rule="evenodd" clip-rule="evenodd"
+                                           d="M11.9979 4.39996L3.07791 19.854L20.9209 19.853L11.9979 4.39996ZM2.73191 21.054C2.55637 21.054 2.38393 21.0077 2.23192 20.92C2.0799 20.8322 1.95367 20.706 1.8659 20.5539C1.77814 20.4019 1.73193 20.2295 1.73193 20.0539C1.73193 19.8784 1.77814 19.706 1.86591 19.554L11.1319 3.49996C11.2197 3.34795 11.3459 3.22172 11.4979 3.13396C11.6499 3.0462 11.8224 3 11.9979 3C12.1734 3 12.3459 3.0462 12.4979 3.13396C12.6499 3.22172 12.7761 3.34795 12.8639 3.49996L22.1339 19.553C22.2217 19.705 22.2679 19.8774 22.2679 20.0529C22.2679 20.2285 22.2217 20.4009 22.1339 20.5529C22.0462 20.705 21.9199 20.8312 21.7679 20.919C21.6159 21.0067 21.4434 21.053 21.2679 21.053L2.73191 21.054ZM11.3719 9.95396H12.6269L12.5299 14.676H11.4699L11.3729 9.95396H11.3719ZM11.9979 17.098C11.9057 17.0995 11.814 17.0828 11.7283 17.0486C11.6426 17.0145 11.5646 16.9637 11.4987 16.8991C11.4328 16.8345 11.3804 16.7575 11.3446 16.6725C11.3087 16.5875 11.2902 16.4962 11.2899 16.404C11.2899 16.019 11.6019 15.716 11.9979 15.716C12.3979 15.716 12.7099 16.019 12.7099 16.404C12.7095 16.4965 12.6907 16.5881 12.6546 16.6733C12.6184 16.7585 12.5657 16.8356 12.4994 16.9002C12.4331 16.9648 12.3547 17.0156 12.2686 17.0495C12.1824 17.0835 12.0904 17.0999 11.9979 17.098Z"
+                                           fill="#000305"/>
+                            </svg>
+                            Problem
+                        </span>
 
+                        <div className="mt-[20px]">
+                            <h3 className="text-[#000305] text-[44px] font-semibold leading-[48px]">Scattered
+                                Execution</h3>
+                            <ul className="text-[#393B3C] text-[20px] font-medium leading-[26px] mt-[24px]">
+                                <li>Brands juggled +5 vendors.</li>
+                                <li>Confused strategies.</li>
+                                <li>Missed deadlines.</li>
+                                <li>Scattered results.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <Image
+                        className="w-[560px]"
+                        src="/Frame 42.png"
+                        alt="Our Work" width={380} height={440}/>
+                </div>
+            </div>
         </section>
+
+
     </>
 
         ;
