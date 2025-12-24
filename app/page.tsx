@@ -41,7 +41,7 @@ export default function Home() {
                         </h1>
                         <div className="flex flex-col items-end gap-[339px]">
                             <p className="w-[180px] text-[20px] leading-6 font-semibold text-[#535556]">From idea to
-                                "OMG that's awesome!"</p>
+                                &#34;OMG that&#39;s awesome!&#34;</p>
                             <p className="w-[240px] text-[20px] leading-6 font-semibold text-[#0D71BA]">Full service
                                 digital agency, crafting tech and design solutions based in Egypt</p>
                         </div>
@@ -68,7 +68,7 @@ export default function Home() {
         </section>
 
         <section className="flex flex-col justify-start dark:bg-black mt-[110px]">
-            <div className="max-w-screen-xl px-6 xl:px-12 2xl:max-w-screen-2xl 2xl:px-16">
+            <div className="max-w-screen-xl px-6 xl:px-12 2xl:max-w-screen-2xl 2xl:px-16 mx-auto">
                 <div className="2xl:px-[0] sm:px-[48px]">
                     <div className="flex items-center gap-[107px]">
                         <h2 className="text-[80px] font-[650] text-[#0d71ba] italic">Build.</h2>
@@ -184,19 +184,18 @@ export default function Home() {
                     <span className="self-end font-[650] text-[100px] italic text-[#0D71BA]">Work</span>
                 </h2>
                 <div className="my-[40px]">
-                    <div className="flex gap-[16px] items-center group">
+                    <div className="flex gap-[16px] items-center">
                         <div>
-                            <div className="relative w-fit">
+                            <div className="relative  group">
                                 <Image
-                                    className="w-full max-w-[748px] xl:max-w-[748px] 2xl:max-w-[900px]"
-                                    src="/Frame 14.png"
+                                    className="w-full max-w-[748px] group xl:max-w-[748px] 2xl:max-w-[900px]"
+                                    src="/Frame 14.webp"
                                     alt="Our Work" width={900} height={420}/>
                                 <div
-                                    className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
+                                    className="absolute inset-0 rounded-[16px] bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300  flex justify-center items-center">
                                     <Link href="#">
                                         <button
-                                            className="px-[40PX] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[#6DA9D5]">
-                                            View project
+                                            className="px-[40px] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[[#6](#6)DA9D5]">                                            View project
                                         </button>
                                     </Link>
                                 </div>
@@ -275,15 +274,15 @@ export default function Home() {
                 </div>
 
                 <div className="my-[40px]">
-                    <div className="flex gap-[16px] items-center justify-center group">
+                    <div className="flex gap-[16px] items-center justify-center">
                         <div className="order-2">
-                            <div className="relative">
+                            <div className="relative group">
                                 <Image
-                                    className="w-full max-w-[748px] xl:max-w-[748px] 2xl:max-w-[900px]"
-                                    src="/Frame 14.png"
+                                    className="w-full max-w-[748px] group xl:max-w-[748px] 2xl:max-w-[900px]"
+                                    src="/Frame 14.webp"
                                     alt="Our Work" width={900} height={420}/>
                                 <div
-                                    className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200 flex justify-center items-center">
+                                    className="absolute inset-0 rounded-[16px] bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300  flex justify-center items-center">
                                     <Link href="#">
                                         <button
                                             className="px-[40PX] h-[48px] border border-[#FFFFFF] cursor-pointer text-[#fff] font-medium rounded-3xl transition hover:bg-gradient-to-r from-[#F8E472] to-[#6DA9D5]">
@@ -382,64 +381,170 @@ export default function Home() {
                 </div>
             </div>
         </section>
-
-        <section className="my-[110px]">
-            <div className="mx-auto container">
-                <div className="2xl:px-[0] sm:px-[48px]">
-                    <h2 className="flex flex-col w-[380px] text-[108px] font-[600] leading-[88px]">
-                        <span className="text-[#000305] font-semibold text-[100px]">Our</span>
-                        <span className="self-end font-[650] text-[100px] italic text-[#0D71BA]">Story</span>
-                    </h2>
-
-                    <div className="flex justify-between items-center">
-                        <div className="w-[429px]">
-                            <h3 className="flex flex-col text-[64px] font-semibold leading-[76.8px] uppercase">
-                                <span className="">One Problem.</span>
-                                <span className="">One Vision.</span>
-                                <span className="">One Bold Fix.</span>
-                            </h3>
-                            <p className="text-[#393B3C] text-[24px] font-[500] leading-[28.8px] mt-[24px]">
-                                How a restless crew in Egypt decided to end scattered growth once and for all.
-                            </p>
-                        </div>
-
-                        <Image
-                            className="w-full max-w-[380px] xl:max-w-[380px] h-[440px] rounded-[16px] rotate-[-10deg]"
-                            src="/maegan-martin-6nsGg3Iw37c-unsplash 1.png"
-                            alt="Our Work" width={380} height={440}/>
-                    </div>
-                </div>
-            </div>
-            <div className="w-full bg-[#FDCECE] mt-[36px]">
-                <div className="flex justify-between">
-                    <div className="w-[720px] py-[32px] 2xl:px-[96] sm:px-[48px]">
-                        <span className="flex items-center gap-[8px]">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                     <path fill-rule="evenodd" clip-rule="evenodd"
-                                           d="M11.9979 4.39996L3.07791 19.854L20.9209 19.853L11.9979 4.39996ZM2.73191 21.054C2.55637 21.054 2.38393 21.0077 2.23192 20.92C2.0799 20.8322 1.95367 20.706 1.8659 20.5539C1.77814 20.4019 1.73193 20.2295 1.73193 20.0539C1.73193 19.8784 1.77814 19.706 1.86591 19.554L11.1319 3.49996C11.2197 3.34795 11.3459 3.22172 11.4979 3.13396C11.6499 3.0462 11.8224 3 11.9979 3C12.1734 3 12.3459 3.0462 12.4979 3.13396C12.6499 3.22172 12.7761 3.34795 12.8639 3.49996L22.1339 19.553C22.2217 19.705 22.2679 19.8774 22.2679 20.0529C22.2679 20.2285 22.2217 20.4009 22.1339 20.5529C22.0462 20.705 21.9199 20.8312 21.7679 20.919C21.6159 21.0067 21.4434 21.053 21.2679 21.053L2.73191 21.054ZM11.3719 9.95396H12.6269L12.5299 14.676H11.4699L11.3729 9.95396H11.3719ZM11.9979 17.098C11.9057 17.0995 11.814 17.0828 11.7283 17.0486C11.6426 17.0145 11.5646 16.9637 11.4987 16.8991C11.4328 16.8345 11.3804 16.7575 11.3446 16.6725C11.3087 16.5875 11.2902 16.4962 11.2899 16.404C11.2899 16.019 11.6019 15.716 11.9979 15.716C12.3979 15.716 12.7099 16.019 12.7099 16.404C12.7095 16.4965 12.6907 16.5881 12.6546 16.6733C12.6184 16.7585 12.5657 16.8356 12.4994 16.9002C12.4331 16.9648 12.3547 17.0156 12.2686 17.0495C12.1824 17.0835 12.0904 17.0999 11.9979 17.098Z"
-                                           fill="#000305"/>
-                            </svg>
-                            Problem
-                        </span>
-
-                        <div className="mt-[20px]">
-                            <h3 className="text-[#000305] text-[44px] font-semibold leading-[48px]">Scattered
-                                Execution</h3>
-                            <ul className="text-[#393B3C] text-[20px] font-medium leading-[26px] mt-[24px]">
-                                <li>Brands juggled +5 vendors.</li>
-                                <li>Confused strategies.</li>
-                                <li>Missed deadlines.</li>
-                                <li>Scattered results.</li>
-                            </ul>
-                        </div>
+        {/*our story section*/}
+        <section className="my-[110px] flex flex-col items-center">
+            <div className="container mx-auto">
+                <h2 className="flex flex-col w-[380px] text-[100px] leading-[88px] 2xl:px-[0] sm:px-[48px]">
+                    <span className="text-[#000305] font-semibold">Our</span>
+                    <span className="text-[#0D71BA] self-end italic font-[650]">Story</span>
+                </h2>
+                <div className="flex justify-between items-center gap-[16px] mt-[28px] 2xl:px-[0] sm:px-[48px]">
+                    <div className="flex flex-col w-[429px] gap-[24px]">
+                        <h3 className="flex flex-col gap-[12px] text-[#000] uppercase text-[64px] font-semibold leading-[76.8px]">
+                            <span>One Problem.</span>
+                            <span>One Vision.</span>
+                            <span>One Bold Fix.</span>
+                        </h3>
+                        <p className="text-[24px] text-[#535556] font-medium leading-[28.8px]">How a restless crew in Egypt decided to end scattered growth once and for all.</p>
                     </div>
                     <Image
-                        className="w-[560px]"
-                        src="/Frame 42.png"
+                        className="w-full max-w-[380px] me-8 mb-[26px] xl:max-w-[380px] h-[440px] rounded-[16px] rotate-[-10deg]"
+                        src="/maegan-martin1.webp"
                         alt="Our Work" width={380} height={440}/>
                 </div>
             </div>
+            <div className="relative w-full min-h-[288px] group/problem bg-[#FDCECE] mt-[26px]">
+                <div className="absolute inset-0 py-8 bg-[#FDCECE] w-full h-[287.88px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-[0] sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                    <div className="flex flex-col justify-between gap-[16px]">
+                        <div className="flex items-center gap-[16px] mb-3">
+                            <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9979 4.39996L3.07791 19.854L20.9209 19.853L11.9979 4.39996ZM2.73191 21.054C2.55637 21.054 2.38393 21.0077 2.23192 20.92C2.0799 20.8322 1.95367 20.706 1.8659 20.5539C1.77814 20.4019 1.73193 20.2295 1.73193 20.0539C1.73193 19.8784 1.77814 19.706 1.86591 19.554L11.1319 3.49996C11.2197 3.34795 11.3459 3.22172 11.4979 3.13396C11.6499 3.0462 11.8224 3 11.9979 3C12.1734 3 12.3459 3.0462 12.4979 3.13396C12.6499 3.22172 12.7761 3.34795 12.8639 3.49996L22.1339 19.553C22.2217 19.705 22.2679 19.8774 22.2679 20.0529C22.2679 20.2285 22.2217 20.4009 22.1339 20.5529C22.0462 20.705 21.9199 20.8312 21.7679 20.919C21.6159 21.0067 21.4434 21.053 21.2679 21.053L2.73191 21.054ZM11.3719 9.95396H12.6269L12.5299 14.676H11.4699L11.3729 9.95396H11.3719ZM11.9979 17.098C11.9057 17.0995 11.814 17.0828 11.7283 17.0486C11.6426 17.0145 11.5646 16.9637 11.4987 16.8991C11.4328 16.8345 11.3804 16.7575 11.3446 16.6725C11.3087 16.5875 11.2902 16.4962 11.2899 16.404C11.2899 16.019 11.6019 15.716 11.9979 15.716C12.3979 15.716 12.7099 16.019 12.7099 16.404C12.7095 16.4965 12.6907 16.5881 12.6546 16.6733C12.6184 16.7585 12.5657 16.8356 12.4994 16.9002C12.4331 16.9648 12.3547 17.0156 12.2686 17.0495C12.1824 17.0835 12.0904 17.0999 11.9979 17.098Z" fill="#000305"/>
+                            </svg>
+                            <h3 className="text-[#000305] text-[40px] font-bold leading-[48px]">Problem – The Breaking Point</h3>
+                        </div>
+                        <h4 className="flex flex-col text-[#393B3C] text-[28px] font-semibold leading-[36.4px]">
+                            <span>Great brands were stuck.</span>
+                            <span>Too many vendors. No alignment.</span>
+                            <span>Ideas got lost. Execution slowed down.</span>
+                            <span>We knew there had to be a better way.</span>
+                        </h4>
+                    </div>
+                </div>
+                <div className="container inset-0 mx-auto flex justify-between group-hover/problem:absolute top-0 transition-all duration-700 group-hover/problem:opacity-0  ease-[cubic-bezier(0.22,1,0.36,1)]">
+                    <div className="flex flex-col gap-[24px] 2xl:px-[0] sm:px-[48px]">
+                        <div className="flex justify-start items-center gap-[8px] mt-[24px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11.9979 4.39996L3.07791 19.854L20.9209 19.853L11.9979 4.39996ZM2.73191 21.054C2.55637 21.054 2.38393 21.0077 2.23192 20.92C2.0799 20.8322 1.95367 20.706 1.8659 20.5539C1.77814 20.4019 1.73193 20.2295 1.73193 20.0539C1.73193 19.8784 1.77814 19.706 1.86591 19.554L11.1319 3.49996C11.2197 3.34795 11.3459 3.22172 11.4979 3.13396C11.6499 3.0462 11.8224 3 11.9979 3C12.1734 3 12.3459 3.0462 12.4979 3.13396C12.6499 3.22172 12.7761 3.34795 12.8639 3.49996L22.1339 19.553C22.2217 19.705 22.2679 19.8774 22.2679 20.0529C22.2679 20.2285 22.2217 20.4009 22.1339 20.5529C22.0462 20.705 21.9199 20.8312 21.7679 20.919C21.6159 21.0067 21.4434 21.053 21.2679 21.053L2.73191 21.054ZM11.3719 9.95396H12.6269L12.5299 14.676H11.4699L11.3729 9.95396H11.3719ZM11.9979 17.098C11.9057 17.0995 11.814 17.0828 11.7283 17.0486C11.6426 17.0145 11.5646 16.9637 11.4987 16.8991C11.4328 16.8345 11.3804 16.7575 11.3446 16.6725C11.3087 16.5875 11.2902 16.4962 11.2899 16.404C11.2899 16.019 11.6019 15.716 11.9979 15.716C12.3979 15.716 12.7099 16.019 12.7099 16.404C12.7095 16.4965 12.6907 16.5881 12.6546 16.6733C12.6184 16.7585 12.5657 16.8356 12.4994 16.9002C12.4331 16.9648 12.3547 17.0156 12.2686 17.0495C12.1824 17.0835 12.0904 17.0999 11.9979 17.098Z" fill="#000305"/>
+                            </svg>
+                            <h3 className="text-[#000305] text-[18px] font-semibold">The Problem</h3>
+                        </div>
+                        <h3 className="flex flex-col gap-[12px]  text-[#000305] capitalize text-[44px] font-semibold leading-[48px]">
+                            Scattered Execution
+                        </h3>
+
+                        <p className="flex flex-col text-[#393B3C] font-medium text-[20px] leading-[24px]">
+                            <span>Brands juggled +5 vendors.</span>
+                            <span>Confused strategies.</span>
+                            <span>Missed deadlines.</span>
+                            <span>Scattered results.</span>
+                        </p>
+                    </div>
+                    <Image
+                        className=""
+                        src="/Frame 42.webp"
+                        alt="Our Work" width={560} height={440}/>
+                </div>
+            </div>
+            <div className="relative flex justify-center 2xl:gap-74 w-full bg-[#FCF6D0] min-h-[288px] group/problem">
+
+                <div className="container inset-0 mx-auto flex justify-between group-hover/problem:absolute top-0 transition-all duration-700 group-hover/problem:opacity-0  ease-[cubic-bezier(0.22,1,0.36,1)]">
+                    <Image
+                        className=""
+                        src="/Frame 43.webp"
+                        alt="Our Work" width={560} height={440}/>
+                    <div className="flex flex-col justify-between gap-[20px] 2xl:px-[0] sm:px-[48px]">
+                        <div className="flex justify-start items-center gap-[8px] mt-[24px]">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.6183 16.0098C15.7219 16.0162 15.8697 16.0325 16.0255 16.0957C16.4997 16.2882 16.797 16.7414 16.8195 17.2305C16.8268 17.3903 16.7976 17.5308 16.7716 17.6318C16.7472 17.7271 16.712 17.838 16.6769 17.9482C16.5548 18.333 16.4273 18.7326 16.2677 18.9961C16.0248 19.3969 15.6769 19.7185 15.2658 19.9268L15.1779 20.3721C15.0869 20.8315 15.0042 21.2469 14.8068 21.5957C14.5042 22.1303 14.0078 22.5431 13.4054 22.7422C13.0103 22.8727 12.4611 22.8719 11.9982 22.8711C11.5354 22.8719 10.9861 22.8726 10.591 22.7422C9.98845 22.5432 9.49124 22.1304 9.18861 21.5957C8.9913 21.2469 8.90947 20.8314 8.8185 20.3721L8.72865 19.9248C8.3193 19.7165 7.9727 19.3956 7.73061 18.9961C7.57106 18.7326 7.44451 18.3329 7.3224 17.9482C7.2873 17.8379 7.25216 17.7272 7.22768 17.6318C7.20172 17.5307 7.17153 17.3904 7.17885 17.2305C7.20133 16.7415 7.49873 16.2882 7.97279 16.0957C8.12847 16.0325 8.27643 16.0162 8.38002 16.0098C8.47704 16.0038 8.59143 16.0039 8.70131 16.0039H15.298C15.4077 16.0039 15.5214 16.0038 15.6183 16.0098ZM10.6779 20.1885C10.7617 20.5937 10.7884 20.684 10.8224 20.7441C10.9101 20.8991 11.0465 21.0054 11.1954 21.0547C11.2554 21.0745 11.3521 21.0869 11.9982 21.0869C12.6435 21.0869 12.74 21.0745 12.7999 21.0547C12.9489 21.0055 13.0852 20.899 13.173 20.7441C13.207 20.6841 13.2337 20.5936 13.3175 20.1885H10.6779Z" fill="#000305"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.625C8.9916 6.625 6.5 9.14999 6.5 12.3309C6.5 13.186 6.68072 13.994 7.00304 14.7185C7.22753 15.2231 7.00045 15.8142 6.49585 16.0387C5.99124 16.2632 5.4002 16.0361 5.17571 15.5315C4.74122 14.5548 4.5 13.4701 4.5 12.3309C4.5 8.10466 7.8287 4.625 12 4.625C16.1713 4.625 19.5 8.10466 19.5 12.3309C19.5 13.4701 19.2588 14.5548 18.8243 15.5315C18.5998 16.0361 18.0088 16.2632 17.5042 16.0387C16.9996 15.8142 16.7725 15.2231 16.997 14.7185C17.3193 13.994 17.5 13.186 17.5 12.3309C17.5 9.14999 15.0084 6.625 12 6.625Z" fill="#000305"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.125C12.5523 1.125 13 1.57272 13 2.125V3.125C13 3.67728 12.5523 4.125 12 4.125C11.4477 4.125 11 3.67728 11 3.125V2.125C11 1.57272 11.4477 1.125 12 1.125ZM19.7774 4.34685C20.1679 4.73737 20.1679 5.37054 19.7774 5.76106L19.0703 6.46817C18.6798 6.85869 18.0466 6.85869 17.6561 6.46817C17.2656 6.07764 17.2656 5.44448 17.6561 5.05395L18.3632 4.34685C18.7537 3.95632 19.3869 3.95632 19.7774 4.34685ZM4.22251 4.34726C4.61303 3.95674 5.24619 3.95674 5.63672 4.34726L6.34383 5.05437C6.73435 5.44489 6.73435 6.07806 6.34383 6.46858C5.9533 6.85911 5.32014 6.85911 4.92961 6.46858L4.22251 5.76147C3.83198 5.37095 3.83198 4.73779 4.22251 4.34726ZM1 12.125C1 11.5727 1.44772 11.125 2 11.125H3C3.55228 11.125 4 11.5727 4 12.125C4 12.6773 3.55228 13.125 3 13.125H2C1.44772 13.125 1 12.6773 1 12.125ZM20 12.125C20 11.5727 20.4477 11.125 21 11.125H22C22.5523 11.125 23 11.5727 23 12.125C23 12.6773 22.5523 13.125 22 13.125H21C20.4477 13.125 20 12.6773 20 12.125Z" fill="#000305"/>
+                            </svg>
+                            <h3 className="text-[#000305] text-[18px] font-semibold">Idea</h3>
+                        </div>
+                        <div className="flex flex-col gap-[24px] mb-9">
+                            <h3 className="flex flex-col gap-[12px] text-[#000305] capitalize text-[44px] font-semibold leading-[48px]">
+                                We fused creativity with Technology
+                            </h3>
+                            <p className="flex flex-col text-[#393B3C] font-medium text-[20px] leading-[24px]">
+                                <span>One Team, One Flow, </span>
+                                <span>One Purpose.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="absolute inset-0 py-8 bg-[#FCF6D0] w-full h-[287.88px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-[0] sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                    <div className="flex flex-col justify-between gap-[16px]">
+                        <div className="flex items-center gap-[16px] mb-3">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15.6183 16.0098C15.7219 16.0162 15.8697 16.0325 16.0255 16.0957C16.4997 16.2882 16.797 16.7414 16.8195 17.2305C16.8268 17.3903 16.7976 17.5308 16.7716 17.6318C16.7472 17.7271 16.712 17.838 16.6769 17.9482C16.5548 18.333 16.4273 18.7326 16.2677 18.9961C16.0248 19.3969 15.6769 19.7185 15.2658 19.9268L15.1779 20.3721C15.0869 20.8315 15.0042 21.2469 14.8068 21.5957C14.5042 22.1303 14.0078 22.5431 13.4054 22.7422C13.0103 22.8727 12.4611 22.8719 11.9982 22.8711C11.5354 22.8719 10.9861 22.8726 10.591 22.7422C9.98845 22.5432 9.49124 22.1304 9.18861 21.5957C8.9913 21.2469 8.90947 20.8314 8.8185 20.3721L8.72865 19.9248C8.3193 19.7165 7.9727 19.3956 7.73061 18.9961C7.57106 18.7326 7.44451 18.3329 7.3224 17.9482C7.2873 17.8379 7.25216 17.7272 7.22768 17.6318C7.20172 17.5307 7.17153 17.3904 7.17885 17.2305C7.20133 16.7415 7.49873 16.2882 7.97279 16.0957C8.12847 16.0325 8.27643 16.0162 8.38002 16.0098C8.47704 16.0038 8.59143 16.0039 8.70131 16.0039H15.298C15.4077 16.0039 15.5214 16.0038 15.6183 16.0098ZM10.6779 20.1885C10.7617 20.5937 10.7884 20.684 10.8224 20.7441C10.9101 20.8991 11.0465 21.0054 11.1954 21.0547C11.2554 21.0745 11.3521 21.0869 11.9982 21.0869C12.6435 21.0869 12.74 21.0745 12.7999 21.0547C12.9489 21.0055 13.0852 20.899 13.173 20.7441C13.207 20.6841 13.2337 20.5936 13.3175 20.1885H10.6779Z" fill="#000305"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.625C8.9916 6.625 6.5 9.14999 6.5 12.3309C6.5 13.186 6.68072 13.994 7.00304 14.7185C7.22753 15.2231 7.00045 15.8142 6.49585 16.0387C5.99124 16.2632 5.4002 16.0361 5.17571 15.5315C4.74122 14.5548 4.5 13.4701 4.5 12.3309C4.5 8.10466 7.8287 4.625 12 4.625C16.1713 4.625 19.5 8.10466 19.5 12.3309C19.5 13.4701 19.2588 14.5548 18.8243 15.5315C18.5998 16.0361 18.0088 16.2632 17.5042 16.0387C16.9996 15.8142 16.7725 15.2231 16.997 14.7185C17.3193 13.994 17.5 13.186 17.5 12.3309C17.5 9.14999 15.0084 6.625 12 6.625Z" fill="#000305"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 1.125C12.5523 1.125 13 1.57272 13 2.125V3.125C13 3.67728 12.5523 4.125 12 4.125C11.4477 4.125 11 3.67728 11 3.125V2.125C11 1.57272 11.4477 1.125 12 1.125ZM19.7774 4.34685C20.1679 4.73737 20.1679 5.37054 19.7774 5.76106L19.0703 6.46817C18.6798 6.85869 18.0466 6.85869 17.6561 6.46817C17.2656 6.07764 17.2656 5.44448 17.6561 5.05395L18.3632 4.34685C18.7537 3.95632 19.3869 3.95632 19.7774 4.34685ZM4.22251 4.34726C4.61303 3.95674 5.24619 3.95674 5.63672 4.34726L6.34383 5.05437C6.73435 5.44489 6.73435 6.07806 6.34383 6.46858C5.9533 6.85911 5.32014 6.85911 4.92961 6.46858L4.22251 5.76147C3.83198 5.37095 3.83198 4.73779 4.22251 4.34726ZM1 12.125C1 11.5727 1.44772 11.125 2 11.125H3C3.55228 11.125 4 11.5727 4 12.125C4 12.6773 3.55228 13.125 3 13.125H2C1.44772 13.125 1 12.6773 1 12.125ZM20 12.125C20 11.5727 20.4477 11.125 21 11.125H22C22.5523 11.125 23 11.5727 23 12.125C23 12.6773 22.5523 13.125 22 13.125H21C20.4477 13.125 20 12.6773 20 12.125Z" fill="#000305"/>
+                            </svg>
+                            <h3 className="text-[#000305] text-[40px] font-bold leading-[48px]">Idea — The Bold Move</h3>
+                        </div>
+                        <h4 className="flex flex-col text-[#393B3C] text-[28px] font-semibold leading-[36.4px]">
+                            <span>We didn&#39;t want to be another agency.</span>
+                            <span>We fused two worlds — design + tech — into one team, under one roof.</span>
+                            <span>The goal? Kill the chaos and build smarter, faster, better.</span>
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+
+            <div className="relative bg-[#E3EEF7] min-h-[288px] group/problem w-full">
+                <div className="absolute inset-0 py-8 bg-[#E3EEF7] w-full h-[288px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-[0] sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                    <div className="flex flex-col justify-between gap-[16px]">
+                        <div className="flex items-center gap-[16px] mb-3">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 13C10 12.4477 10.4477 12 11 12H16C16.5523 12 17 12.4477 17 13C17 13.5523 16.5523 14 16 14H11C10.4477 14 10 13.5523 10 13ZM7 13C7 12.4477 7.44772 12 8 12H8.00898C8.56127 12 9.00898 12.4477 9.00898 13C9.00898 13.5523 8.56127 14 8.00898 14H8C7.44772 14 7 13.5523 7 13ZM7 17C7 16.4477 7.44772 16 8 16H13C13.5523 16 14 16.4477 14 17C14 17.5523 13.5523 18 13 18H8C7.44772 18 7 17.5523 7 17ZM14.991 17C14.991 16.4477 15.4387 16 15.991 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H15.991C15.4387 18 14.991 17.5523 14.991 17Z" fill="#000305"/>
+                                <path d="M7 2C7 1.44772 6.55228 1 6 1C5.44772 1 5 1.44772 5 2V2.44885C5.38032 2.32821 5.78554 2.24208 6.21533 2.17961C6.46328 2.14357 6.72472 2.11476 7 2.09173V2Z" fill="#000305"/>
+                                <path d="M19 2.44885C18.6197 2.32821 18.2145 2.24208 17.7847 2.17961C17.5367 2.14357 17.2753 2.11476 17 2.09173V2C17 1.44772 17.4477 1 18 1C18.5523 1 19 1.44772 19 2V2.44885Z" fill="#000305"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.0288 2H10.9712C9.02294 1.99997 7.45141 1.99994 6.21533 2.17961C4.92535 2.3671 3.8568 2.76781 3.01802 3.6746C2.18949 4.57031 1.83279 5.69272 1.66416 7.04866C1.49997 8.36894 1.49998 10.0541 1.5 12.1739V12.8261C1.49998 14.9459 1.49997 16.6311 1.66416 17.9513C1.83279 19.3073 2.18949 20.4297 3.01802 21.3254C3.8568 22.2322 4.92535 22.6329 6.21533 22.8204C7.45142 23.0001 9.02293 23 10.9712 23H13.0288C14.9771 23 16.5486 23.0001 17.7847 22.8204C19.0747 22.6329 20.1432 22.2322 20.982 21.3254C21.8105 20.4297 22.1672 19.3073 22.3358 17.9513C22.5 16.6311 22.5 14.9459 22.5 12.8261V12.1739C22.5 10.0541 22.5 8.36895 22.3358 7.04866C22.1672 5.69272 21.8105 4.57031 20.982 3.6746C20.1432 2.76781 19.0747 2.3671 17.7847 2.17961C16.5486 1.99994 14.9771 1.99997 13.0288 2ZM4.49783 9C4.03921 9 3.8099 9 3.66385 9.14417C3.51781 9.28833 3.51487 9.51472 3.509 9.96751C3.50027 10.6407 3.5 11.3942 3.5 12.2432V12.7568C3.5 14.9616 3.50182 16.5221 3.64887 17.7045C3.79327 18.8656 4.06263 19.5094 4.48622 19.9673C4.89956 20.4142 5.4647 20.6903 6.503 20.8412C7.57858 20.9975 9.00425 21 11.05 21H12.95C14.9957 21 16.4214 20.9975 17.497 20.8412C18.5353 20.6903 19.1004 20.4142 19.5138 19.9673C19.9374 19.5094 20.2067 18.8656 20.3511 17.7045C20.4982 16.5221 20.5 14.9616 20.5 12.7568V12.2432C20.5 11.3942 20.4997 10.6407 20.491 9.96751C20.4851 9.51472 20.4822 9.28833 20.3362 9.14417C20.1901 9 19.9608 9 19.5022 9H4.49783Z" fill="#000305"/>
+                            </svg>
+                            <h3 className="text-[#000305] text-[40px] font-bold leading-[48px]">Today — The CodeToon Way</h3>
+                        </div>
+                        <h4 className="flex flex-col text-[#393B3C] text-[28px] font-semibold leading-[36.4px]">
+                            <span>One team. One strategy. Real results.</span>
+                            <span>From pixel-perfect branding to powerful products — we launch what others can only plan.</span>
+                            <span>And our clients? They&#39;re growing faster than ever.</span>
+                        </h4>
+                    </div>
+                </div>
+                <div className="container inset-0 mx-auto h-[288px] flex justify-between group-hover/problem:absolute top-0 transition-all duration-700 group-hover/problem:opacity-0 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                    <div className="flex justify-between">
+                        <div className="flex flex-col pt-[17px] gap-[12px] 2xl:px-[0] sm:px-[48px]">
+                            <div className="flex justify-start items-center gap-[12px] mt-[24px]">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M10 13C10 12.4477 10.4477 12 11 12H16C16.5523 12 17 12.4477 17 13C17 13.5523 16.5523 14 16 14H11C10.4477 14 10 13.5523 10 13ZM7 13C7 12.4477 7.44772 12 8 12H8.00898C8.56127 12 9.00898 12.4477 9.00898 13C9.00898 13.5523 8.56127 14 8.00898 14H8C7.44772 14 7 13.5523 7 13ZM7 17C7 16.4477 7.44772 16 8 16H13C13.5523 16 14 16.4477 14 17C14 17.5523 13.5523 18 13 18H8C7.44772 18 7 17.5523 7 17ZM14.991 17C14.991 16.4477 15.4387 16 15.991 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H15.991C15.4387 18 14.991 17.5523 14.991 17Z" fill="#000305"/>
+                                    <path d="M7 2C7 1.44772 6.55228 1 6 1C5.44772 1 5 1.44772 5 2V2.44885C5.38032 2.32821 5.78554 2.24208 6.21533 2.17961C6.46328 2.14357 6.72472 2.11476 7 2.09173V2Z" fill="#000305"/>
+                                    <path d="M19 2.44885C18.6197 2.32821 18.2145 2.24208 17.7847 2.17961C17.5367 2.14357 17.2753 2.11476 17 2.09173V2C17 1.44772 17.4477 1 18 1C18.5523 1 19 1.44772 19 2V2.44885Z" fill="#000305"/>
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M13.0288 2H10.9712C9.02294 1.99997 7.45141 1.99994 6.21533 2.17961C4.92535 2.3671 3.8568 2.76781 3.01802 3.6746C2.18949 4.57031 1.83279 5.69272 1.66416 7.04866C1.49997 8.36894 1.49998 10.0541 1.5 12.1739V12.8261C1.49998 14.9459 1.49997 16.6311 1.66416 17.9513C1.83279 19.3073 2.18949 20.4297 3.01802 21.3254C3.8568 22.2322 4.92535 22.6329 6.21533 22.8204C7.45142 23.0001 9.02293 23 10.9712 23H13.0288C14.9771 23 16.5486 23.0001 17.7847 22.8204C19.0747 22.6329 20.1432 22.2322 20.982 21.3254C21.8105 20.4297 22.1672 19.3073 22.3358 17.9513C22.5 16.6311 22.5 14.9459 22.5 12.8261V12.1739C22.5 10.0541 22.5 8.36895 22.3358 7.04866C22.1672 5.69272 21.8105 4.57031 20.982 3.6746C20.1432 2.76781 19.0747 2.3671 17.7847 2.17961C16.5486 1.99994 14.9771 1.99997 13.0288 2ZM4.49783 9C4.03921 9 3.8099 9 3.66385 9.14417C3.51781 9.28833 3.51487 9.51472 3.509 9.96751C3.50027 10.6407 3.5 11.3942 3.5 12.2432V12.7568C3.5 14.9616 3.50182 16.5221 3.64887 17.7045C3.79327 18.8656 4.06263 19.5094 4.48622 19.9673C4.89956 20.4142 5.4647 20.6903 6.503 20.8412C7.57858 20.9975 9.00425 21 11.05 21H12.95C14.9957 21 16.4214 20.9975 17.497 20.8412C18.5353 20.6903 19.1004 20.4142 19.5138 19.9673C19.9374 19.5094 20.2067 18.8656 20.3511 17.7045C20.4982 16.5221 20.5 14.9616 20.5 12.7568V12.2432C20.5 11.3942 20.4997 10.6407 20.491 9.96751C20.4851 9.51472 20.4822 9.28833 20.3362 9.14417C20.1901 9 19.9608 9 19.5022 9H4.49783Z" fill="#000305"/>
+                                </svg>
+                                <h3 className="text-[#000305] text-[18px] font-semibold">Today</h3>
+                            </div>
+                            <div>
+                                <h3 className="flex flex-col text-[#000305] font-semibold capitalize text-[72px] leading-[79.2px]">
+                                    <span>One Team.</span>
+                                    <span>One Strategy.</span>
+                                </h3>
+                                <h4 className="text-[#393B3C] text-[20px] font-medium leading-[26px] mb-12">Real Results.</h4>
+                            </div>
+                        </div>
+                        <div className="flex flex-col justify-end gap-[12px] me-12 mb-10 ">
+                            <p className="w-[584px] text-[#000305] font-semibold leading-[19.2px]">“Our ROI jumped 50% after just one quarter. We finally found a team that gets both the creative and the technical.”</p>
+                            <div className="flex items-center gap-[12px]">
+                                <Image
+                                    className="rounded-full "
+                                    src="/Ellipse 1591.webp"
+                                    alt="Our Work" width={45} height={45}/>
+                                <p className="text-[#393B3C] text-[16px] font-medium leading-[0.32px]">Ahmed S., Marketing Director at ABC</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div></div>
         </section>
 
 
