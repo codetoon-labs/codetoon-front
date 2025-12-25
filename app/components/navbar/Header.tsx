@@ -67,7 +67,7 @@ export default function Header() {
         flex items-center justify-between
         px-[20px] py-[12px]
         bg-[rgba(236,242,248,0.2)] backdrop-blur-[20px]
-        border border-[#e6e7e8] rounded-full
+        border border-[#E6E7E8] rounded-full
         box-border
         fixed top-16 z-10 left-1/2 -translate-x-1/2
       ">
