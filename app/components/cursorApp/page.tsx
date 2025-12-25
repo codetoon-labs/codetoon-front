@@ -66,6 +66,7 @@ export default function App() {
                 width: 200,
                 height: 200,
                 opacity: opacity,
+                zIndex: 2,
             }}
         />
     );
