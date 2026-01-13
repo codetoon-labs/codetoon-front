@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from 'next/image'
 import hero from '../public/bg-hero.svg'
 
-export  function Background() {
+function Background() {
     return (
         <Image
             alt="Mountains"
