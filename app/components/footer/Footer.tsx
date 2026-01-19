@@ -202,7 +202,7 @@ export default function Footer() {
           </div>
 
           {/* Contact Section */}
-          <div className="w-[407px] flex flex-col basis-128 gap-[48px]">
+          <div className="w-[407px] flex flex-col basis-lg gap-[48px]">
             <div className="flex flex-col gap-[12px]">
               <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 Contact us
@@ -210,14 +210,14 @@ export default function Footer() {
               <div className="flex flex-col gap-[9px]">
                 {/* Address */}
                 <div className="flex gap-[10px] items-center">
-                  <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba] flex-shrink-0" />
+                  <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba]"/>
                   <Link href="#" className="font-medium text-[16px] leading-[17.6px] text-gray-700">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </Link>
                 </div>
                 {/* Phone */}
                 <div className="flex gap-[10px] items-center">
-                  <PhoneIcon className="w-[24px] h-[24px] text-[#0d71ba] flex-shrink-0" />
+                  <PhoneIcon className="w-[24px] h-[24px] text-[#0d71ba]" />
                   <Link href="#" className="font-medium text-[16px] leading-[17.6px] text-gray-700">
                     0123456789
                   </Link>
@@ -229,7 +229,7 @@ export default function Footer() {
 
         {/* Bottom Footer */}
        <div className="flex justify-center">
-           <div className="flex flex-col gap-[36px] justify-around items-center mb-9 border-t-1 mt-6 pt-26 border-gray-300/50 w-[1700px]">
+           <div className="flex flex-col gap-[36px] justify-around items-center mb-9 border-t mt-6 pt-26 border-gray-300/50 w-[1700px]">
                {/* Social Media */}
                <div className="flex gap-[16px]">
                    <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
