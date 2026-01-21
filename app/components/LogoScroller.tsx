@@ -2,71 +2,93 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useQuery } from '@apollo/client/react';
+import { GET_CUSTOMERS } from '@/lib/graphql/queries';
 
-interface Logo {
-    src: string;
-    alt: string;
-    width: number;
-    height: number;
+interface Customer {
+    id: string;
+    name: string;
+    image: {
+        full_url: string;
+    };
 }
 
-const logos: Logo[] = [
-    { src: '/logo.svg', alt: 'Client Logo 1', width: 120, height: 40 },
-    { src: '/logo.svg', alt: 'Client Logo 2', width: 120, height: 40 },
-    { src: '/logo.svg', alt: 'Client Logo 3', width: 120, height: 40 },
-    { src: '/logo.svg', alt: 'Client Logo 4', width: 120, height: 40 },
-    { src: '/logo.svg', alt: 'Client Logo 5', width: 120, height: 40 },
-    { src: '/logo.svg', alt: 'Client Logo 6', width: 120, height: 40 },
-    { src: '/logo.svg', alt: 'Client Logo 7', width: 120, height: 40 },
-    { src: '/logo.svg', alt: 'Client Logo 8', width: 120, height: 40 },
-];
+interface GetCustomersData {
+    allCustomers: Customer[];
+}
 
 export default function LogoScroller() {
+    const { loading, error, data } = useQuery<GetCustomersData>(GET_CUSTOMERS);
+
+    // Debug logging
+    console.log('LogoScroller - Loading:', loading);
+    console.log('LogoScroller - Error:', error);
+    console.log('LogoScroller - Data:', data);
+
+    // Show loading state
+    if (loading) {
+        return (
+            <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center justify-center z-10">
+                <div className="animate-pulse text-gray-400">Loading customers...</div>
+            </div>
+        );
+    }
+
+    // Show error state
+    if (error) {
+        console.error('GraphQL Error:', error);
+        return (
+            <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center justify-center z-10">
+                <div className="text-red-500 text-center px-4">
+                    <p className="font-bold">Error loading customers</p>
+                    <p className="text-sm mt-2">{error.message}</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Get customers from data
+    const customers = data?.allCustomers || [];
+
+    // If no customers, show empty state
+    if (customers.length === 0) {
+        return (
+            <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center justify-center z-10">
+                <div className="text-gray-400">No customers to display</div>
+            </div>
+        );
+    }
+
     return (
         <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center z-10">
             <div className="logo-scroll-container ">
                 <div className="logo-scroll-track py-10">
                     {/* First set of logos */}
-                    {logos.map((logo, index) => (
+                    {customers.map((customer) => (
                         <div
-                            key={`logo-1-${index}`}
+                            key={`logo-1-${customer.id}`}
                             className="logo-item flex items-center justify-center px-8"
                         >
                             <Image
-                                src={logo.src}
-                                alt={logo.alt}
-                                width={logo.width}
-                                height={logo.height}
+                                src={customer.image.full_url}
+                                alt={customer.name}
+                                width={120}
+                                height={40}
                                 className="opacity-60 hover:opacity-100 hover:scale-110 transition-all duration-300"
                             />
                         </div>
                     ))}
                     {/* Duplicate set for seamless loop */}
-                    {logos.map((logo, index) => (
+                    {customers.map((customer) => (
                         <div
-                            key={`logo-2-${index}`}
+                            key={`logo-2-${customer.id}`}
                             className="logo-item flex items-center justify-center px-8"
                         >
                             <Image
-                                src={logo.src}
-                                alt={logo.alt}
-                                width={logo.width}
-                                height={logo.height}
-                                className="opacity-60 hover:opacity-100 hover:scale-110 transition-all duration-300"
-                            />
-                        </div>
-                    ))}
-                    {/* Duplicate set for seamless loop */}
-                    {logos.map((logo, index) => (
-                        <div
-                            key={`logo-2-${index}`}
-                            className="logo-item flex items-center justify-center px-8"
-                        >
-                            <Image
-                                src={logo.src}
-                                alt={logo.alt}
-                                width={logo.width}
-                                height={logo.height}
+                                src={customer.image.full_url}
+                                alt={customer.name}
+                                width={120}
+                                height={40}
                                 className="opacity-60 hover:opacity-100 hover:scale-110 transition-all duration-300"
                             />
                         </div>
@@ -84,7 +106,7 @@ export default function LogoScroller() {
         .logo-scroll-track {
           display: flex;
           width: max-content;
-          animation: scroll 15s linear infinite;
+          animation: scroll 45s linear infinite;
         }
 
         .logo-item {
