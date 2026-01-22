@@ -10,7 +10,7 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "CodeToon",
+  title: "Codetoon",
   description: "Full service digital agency, crafting tech and design solutions based in Egypt",
 };
 

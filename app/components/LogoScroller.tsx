@@ -20,16 +20,11 @@ interface GetCustomersData {
 export default function LogoScroller() {
     const { loading, error, data } = useQuery<GetCustomersData>(GET_CUSTOMERS);
 
-    // Debug logging
-    console.log('LogoScroller - Loading:', loading);
-    console.log('LogoScroller - Error:', error);
-    console.log('LogoScroller - Data:', data);
-
     // Show loading state
     if (loading) {
         return (
             <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center justify-center z-10">
-                <div className="animate-pulse text-gray-400">Loading customers...</div>
+                <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
             </div>
         );
     }

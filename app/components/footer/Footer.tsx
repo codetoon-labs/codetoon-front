@@ -249,7 +249,7 @@ export default function Footer() {
                    <div className="flex gap-[4px] items-center">
                        <CopyrightIcon className="w-[25px] h-[25px]" />
                        <p className="text-[16px] leading-normal text-gray-700">
-                           Copyright {new Date().getFullYear()} - CodeToon
+                           Copyright {new Date().getFullYear()} - Codetoon
                        </p>
                    </div>
                </div>
