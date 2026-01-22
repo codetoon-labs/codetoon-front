@@ -6,9 +6,9 @@ import LogoScroller from './components/LogoScroller';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: "CodeToon | transform your ideas into reality",
+    title: "Codetoon | transform your ideas into reality",
     description: "Full service digital agency, crafting tech and design solutions based in Egypt",
-    keywords: ["CodeToon", "digital agency", "tech solutions", "design solutions", "Egypt"],
+    keywords: ["Codetoon", "digital agency", "tech solutions", "design solutions", "Egypt"],
     openGraph:{
         title: "transform your ideas into reality",
         description: "Full service digital agency, crafting tech and design solutions based in Egypt",
