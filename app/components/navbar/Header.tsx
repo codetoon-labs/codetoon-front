@@ -34,7 +34,7 @@ function CodetoonLogo() {
 
     <div className="relative w-[172px] h-[50px] overflow-hidden">
       <div className="absolute inset-0 flex items-center">
-        <Link href="/public" className="font-bold text-[24px] text-[#0d71ba]">
+        <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
             <Image
                 className=""
                 src="/logo.svg"

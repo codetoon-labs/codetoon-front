@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Cairo } from "next/font/google";
 import "./globals.css";
 import { LayoutContent } from "./LayoutContent";
+import ScrollManager from "@/app/components/RefreshScrollRestoration";
 
 const cairo = Cairo({
   subsets: ["latin"],
@@ -23,6 +24,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${cairo.variable} font-sans antialiased`}>
+        <ScrollManager/>
         <LayoutContent>{children}</LayoutContent>
       </body>
     </html>
