@@ -10,16 +10,26 @@ export const metadata: Metadata = {
     description: "Full service digital agency, crafting tech and design solutions based in Egypt",
     keywords: ["Codetoon", "digital agency", "tech solutions", "design solutions", "Egypt"],
     openGraph:{
-        title: "transform your ideas into reality",
+        title: "Codetoon - Digital Agency in Egypt | Transform Your Ideas into Reality",
         description: "Full service digital agency, crafting tech and design solutions based in Egypt",
-        siteName: "codetoon.net"
+        url: "https://codetoon.net",
+        siteName: "Codetoon",
+        images: [
+            {
+                url: "https://codetoon.net/codetoon-og.png",
+                width: 1200,
+                height: 630,
+                alt: "Codetoon - Transform your ideas into reality"
+            }
+        ],
+        type: "website"
     },
     twitter:{
-        card: "summary",
-        title: "transform your ideas into reality",
+        card: "summary_large_image",
+        title: "Codetoon - transform your ideas into reality",
         description: "Full service digital agency, crafting tech and design solutions based in Egypt",
         creator: "@Codetooneg",
-        images: ["https://codetoon.net/logo.svg"],
+        images: ["https://codetoon.net/codetoon-og.png"],
     },
     robots: {
         index: true,

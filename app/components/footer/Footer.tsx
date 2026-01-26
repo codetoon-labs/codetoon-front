@@ -111,7 +111,7 @@ function CodetoonLogo({ className }: { className?: string }) {
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div className="absolute inset-0 flex items-center">
-          <Link href="/public" className="font-bold text-[24px] text-[#0d71ba]">
+          <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
               <Image
                   className=""
                   src="/logo.svg"
