@@ -1,0 +1,7 @@
+# robots.txt for Codetoon
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Allow: /
+
+Sitemap: https://www.codetoon.net/sitemap.xml
