@@ -193,7 +193,7 @@ export default function Footer() {
               {workLinks.map((link, index) => (
                 <Link
                   key={index}
-                  href="/public"
+                  href="/"
                   className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
                 >
                   {link}
@@ -233,13 +233,16 @@ export default function Footer() {
            <div className="flex flex-col gap-[36px] justify-around items-center mb-9 border-t mt-6 pt-26 border-gray-300/50 w-[1700px]">
                {/* Social Media */}
                <div className="flex gap-[16px]">
-                   <a href="https://www.facebook.com/codetoon.net" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
+                   <a  aria-label="facebook"
+                       href="https://www.facebook.com/codetoon.net" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                        <FacebookIcon className="w-[35px] h-[35px]" />
                    </a>
-                   <a href="https://x.com/codetooneg" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
+                   <a  aria-label="twitter"
+                       href="https://x.com/codetooneg" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                        <TwitterIcon className="w-[35px] h-[35px]" />
                    </a>
-                   <a href="https://www.linkedin.com/company/codetoon" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
+                   <a  aria-label="linkedin"
+                       href="https://www.linkedin.com/company/codetoon" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                        <LinkedInIcon className="w-[35px] h-[35px]" />
                    </a>
                </div>
