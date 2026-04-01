@@ -53,6 +53,7 @@ export default function App() {
 
     return (
         <div
+            data-cursor-follower
             style={{
                 position: "fixed",
                 background:

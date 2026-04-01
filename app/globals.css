@@ -120,15 +120,24 @@
     @apply bg-background text-foreground;
     font-family: var(--font-cairo), sans-serif;
     background-color: #f5fbfe;
+    overflow-x: hidden;
   }
 }
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+}
+
+/* Hide desktop cursor follower on touch/mobile devices */
+@media (pointer: coarse), (max-width: 1023px) {
+    [data-cursor-follower] {
+        display: none !important;
     }
 }
 

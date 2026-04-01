@@ -55,8 +55,6 @@ function FacebookIcon({ className }: IconProps) {
   );
 }
 
-
-
 function LinkedInIcon({ className }: IconProps) {
   return (
     <svg
@@ -103,7 +101,6 @@ function CopyrightIcon({ className }: IconProps) {
               </clipPath>
           </defs>
       </svg>
-
   );
 }
 
@@ -140,86 +137,93 @@ export default function Footer() {
     'Lorem'
   ];
 
-
-
-
-
   return (
     <footer className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-gray-300/50 shadow-lg">
       <div className="flex flex-col">
         {/* Main Footer Content */}
-        <div id="main-footer-content" className="flex items-start justify-around pb-[48px] px-12  mb-[16px]">
-            {/* Logo and Tagline */}
-          <div className="gap-[24px] justify-center items-center px-8 me-40">
-            <CodetoonLogo className="w-[270px] h-[80px]" />
+        <div
+          id="main-footer-content"
+          className="
+            flex flex-col lg:flex-row  lg:items-start lg:justify-around
+            pb-[48px] px-6 lg:px-12
+            mb-[16px] gap-8 lg:gap-8
+          "
+        >
+          {/* Logo */}
+          <div className="flex justify-center lg:justify-start lg:gap-[24px]  lg:items-center xl:px-8 lg:px-0 lg:me-10">
+            <CodetoonLogo className="w-[200px] h-[60px] lg:w-[270px] lg:h-[80px]" />
           </div>
-          {/* Services Section */}
-          <div className="w-[109px] flex flex-col basis-64  gap-[12px]">
-            <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-              Services
-            </h3>
-            <div className="flex flex-col gap-[12px]">
-              {servicesLinks.map((link) => (
-                <Link
-                  key={link}
-                  href="#"
-                  className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
-                >
-                  {link}
-                </Link>
-              ))}
+
+          {/* Links row on mobile: Services + About + Work side by side */}
+          <div className="flex flex-row flex-wrap justify-center gap-12 lg:contents">
+            {/* Services Section */}
+            <div className="flex flex-col lg:w-[109px] lg:basis-64 gap-[12px]">
+              <h3 className="font-bold text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+                Services
+              </h3>
+              <div className="flex flex-col gap-[12px]">
+                {servicesLinks.map((link) => (
+                  <Link
+                    key={link}
+                    href="#"
+                    className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700"
+                  >
+                    {link}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* About Us Section */}
-          <div className="w-[135px] flex flex-col basis-64 gap-[12px]">
-            <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-              About us
-            </h3>
-            <Link
-              href="#"
-              className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
-            >
-              Our Story
-            </Link>
-          </div>
+            {/* About Us Section */}
+            <div className="flex flex-col lg:w-[135px] lg:basis-64 gap-[12px]">
+              <h3 className="font-bold text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+                About us
+              </h3>
+              <Link
+                href="#"
+                className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700"
+              >
+                Our Story
+              </Link>
+            </div>
 
-          {/* Our Work Section */}
-          <div className="w-[135px] flex flex-col basis-64 gap-[12px]">
-            <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-              Our Work
-            </h3>
-            <div className="flex flex-col gap-[12px]">
-              {workLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  href="/"
-                  className="font-medium text-[20px] w-fit leading-[22px] text-gray-700"
-                >
-                  {link}
-                </Link>
-              ))}
+            {/* Our Work Section */}
+            <div className="flex flex-col lg:w-[135px] lg:basis-64 gap-[12px]">
+              <h3 className="font-bold text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+                Our Work
+              </h3>
+              <div className="flex flex-col gap-[12px]">
+                {workLinks.map((link, index) => (
+                  <Link
+                    key={index}
+                    href="/"
+                    className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700"
+                  >
+                    {link}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Contact Section */}
-          <div className="w-[407px] flex flex-col basis-lg gap-[48px]">
+          <div className="flex flex-col ju lg:w-[407px] lg:basis-lg gap-[48px]">
             <div className="flex flex-col gap-[12px]">
-              <h3 className="font-bold text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+              <h3 className="font-bold text-center lg:text-start text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 Contact us
               </h3>
-              <div className="flex flex-col gap-[9px]">
+              <div className="flex flex-col items-center lg:items-start px-[13px] lg:px-0 gap-[9px]">
                 {/* Address */}
-                <div className="flex gap-[10px] items-center">
-                  <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba]"/>
-                  <Link href="#" className="font-medium text-[16px] leading-[17.6px] text-gray-700">
+                <div className="flex gap-[10px] items-start">
+                  <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba] shrink-0 mt-0.5"/>
+                  <Link href="#" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                   </Link>
                 </div>
                 {/* Phone */}
                 <div className="flex gap-[10px] items-center">
-                  <PhoneIcon className="w-[24px] h-[24px] text-[#0d71ba]" />
-                  <Link href="#" className="font-medium text-[16px] leading-[17.6px] text-gray-700">
+                  <PhoneIcon className="w-[24px] h-[24px] text-[#0d71ba] shrink-0" />
+                  <Link href="#" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700">
                     0123456789
                   </Link>
                 </div>
@@ -229,35 +233,35 @@ export default function Footer() {
         </div>
 
         {/* Bottom Footer */}
-       <div className="flex justify-center">
-           <div className="flex flex-col gap-[36px] justify-around items-center mb-9 border-t mt-6 pt-26 border-gray-300/50 w-[1700px]">
-               {/* Social Media */}
-               <div className="flex gap-[16px]">
-                   <a  aria-label="facebook"
-                       href="https://www.facebook.com/codetoon.net" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
-                       <FacebookIcon className="w-[35px] h-[35px]" />
-                   </a>
-                   <a  aria-label="twitter"
-                       href="https://x.com/codetooneg" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
-                       <TwitterIcon className="w-[35px] h-[35px]" />
-                   </a>
-                   <a  aria-label="linkedin"
-                       href="https://www.linkedin.com/company/codetoon" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
-                       <LinkedInIcon className="w-[35px] h-[35px]" />
-                   </a>
-               </div>
+        <div className="flex justify-center px-4">
+          <div className="flex flex-col gap-[24px] lg:gap-[36px] justify-around items-center mb-9 border-t mt-6 pt-8 lg:pt-26 border-gray-300/50 w-full max-w-[1700px]">
+            {/* Social Media */}
+            <div className="flex gap-[16px]">
+              <a aria-label="facebook"
+                href="https://www.facebook.com/codetoon.net" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
+                <FacebookIcon className="w-[32px] h-[32px] lg:w-[35px] lg:h-[35px]" />
+              </a>
+              <a aria-label="twitter"
+                href="https://x.com/codetooneg" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
+                <TwitterIcon className="w-[32px] h-[32px] lg:w-[35px] lg:h-[35px]" />
+              </a>
+              <a aria-label="linkedin"
+                href="https://www.linkedin.com/company/codetoon" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
+                <LinkedInIcon className="w-[32px] h-[32px] lg:w-[35px] lg:h-[35px]" />
+              </a>
+            </div>
 
-               {/* Copyright and Links */}
-               <div className="flex items-center justify-center w-[1184px] h-[16px]">
-                   <div className="flex gap-[4px] items-center">
-                       <CopyrightIcon className="w-[25px] h-[25px]" />
-                       <p className="text-[16px] leading-normal text-gray-700">
-                           Copyright {new Date().getFullYear()} - Codetoon
-                       </p>
-                   </div>
-               </div>
-           </div>
-       </div>
+            {/* Copyright */}
+            <div className="flex items-center justify-center w-full">
+              <div className="flex gap-[4px] items-center">
+                <CopyrightIcon className="w-[20px] h-[20px] lg:w-[25px] lg:h-[25px]" />
+                <p className="text-[14px] lg:text-[16px] leading-normal text-gray-700">
+                  Copyright {new Date().getFullYear()} - Codetoon
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );

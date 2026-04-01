@@ -27,3 +27,29 @@ export const GET_TESTIMONIALS = gql`
         }
     }
 `;
+
+export const GET_PROJECTS = gql`
+    query GetProjects {
+        projects {
+            data {
+                id
+                title
+                main_image {
+                    full_url
+                }
+                country {
+                    id
+                    name
+                    image {
+                        full_url
+                    }
+                }
+                services{
+                    id
+                    title
+                    description
+                }
+            }
+        }
+    }
+`;
