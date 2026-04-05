@@ -53,3 +53,23 @@ export const GET_PROJECTS = gql`
         }
     }
 `;
+
+export const GET_CATEGORIES = gql`
+    query GetAllCategories {
+        allCategories {
+            id
+            title
+            slug
+            description
+            main_image{
+                id
+                full_url
+            }
+            services{
+                id
+                title
+                description
+            }
+        }
+    }
+`;
