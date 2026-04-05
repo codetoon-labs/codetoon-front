@@ -34,6 +34,7 @@ export const GET_PROJECTS = gql`
             data {
                 id
                 title
+                description
                 main_image {
                     full_url
                 }
