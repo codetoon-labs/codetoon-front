@@ -7,6 +7,7 @@ import Link from 'next/link';
 import React from 'react';
 
 interface Project {
+    description: string;
     id: string | number;
     title: string;
     main_image: {
@@ -64,17 +65,18 @@ export default function Project() {
                                         className="relative w-full object-cover h-[380px] lg:h-auto max-w-[748px] group xl:max-w-[748px] 2xl:max-w-[900px]"
                                         src={project.main_image?.full_url || '/frame 14.webp'}
                                         alt={project.title || "Our Work"} width={752} height={380} />
+                                    <div className='absolute inset-0 bg-black/25'></div>
                                     <Link className='lg:hidden' href={`/projects/${project.id}`}>
                                         <button className="absolute bottom-5 left-5 z-10 flex justify-center w-fit items-center text-[#ffffff] text-[18px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[15px] px-[16px] py-[8px]">
                                             view project
                                         </button>
                                     </Link>
                                     <div className="absolute top-5 right-5 flex gap-2">
-                                        <span className="z-10 flex justify-center w-fit items-center text-[#ffffff] text-[16px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[8px] px-[16px] py-[8px]">
+                                        <span className="z-10 flex justify-center w-fit items-center text-[#ffffff] text-[16px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[8px] shadow-md px-[16px] py-[8px]">
                                             2025
                                         </span>
                                         {project.country && (
-                                            <span className="z-10 flex gap-2 justify-center w-fit items-center text-[#ffffff] text-[16px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[8px] px-[16px] py-[8px]">
+                                            <span className="z-10 flex gap-2 justify-center w-fit items-center text-[#ffffff] text-[16px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[8px] shadow-md px-[16px] py-[8px]">
                                                 {project.country.image?.full_url && (
                                                     <Image 
                                                         src={project.country.image.full_url} 
@@ -84,12 +86,13 @@ export default function Project() {
                                                         className="rounded-sm object-cover w-[28px] h-[20px]" 
                                                     />
                                                 )}
+                                            
                                                 {project.country.name}
                                             </span>
                                         )}
                                     </div>
                                     <div
-                                        className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center items-center">
+                                        className="absolute inset-0 hidden bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 lg:flex justify-center items-center">
                                         <Link href={`/projects/${project.id}`}>
                                             <button
                                                 className="px-[40px] h-[48px] border border-[#FFFFFF] cursor-pointer text-white font-medium rounded-3xl transition-all duration-300 hover:bg-white/20 hover:scale-105">
@@ -106,7 +109,7 @@ export default function Project() {
                                 <div className="flex flex-col gap-[16px]">
                                     <h3 className="text-[22px] font-medium leading-[28.2px] ps-[16px] text-[#0D71BA] z-10">{project.title}</h3>
                                     <p className="text-[16px] text-[#0D71BA] font-normal ps-[16px] leading-[25px] max-w-full lg:max-w-[376px] xl:max-w-[376px] 2xl:max-w-[420px] z-10">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur tempus urna at turpis condimentum lobortis. Ut commodo efficitur neque.
+                                        {project.description}
                                     </p>
                                 </div>
                                 <div className="flex flex-wrap gap-[11px] mt-[16px] ps-[16px] z-10">
