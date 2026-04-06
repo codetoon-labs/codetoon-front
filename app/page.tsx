@@ -81,7 +81,7 @@ export default function Home() {
                     <div className="flex flex-col lg:flex-row justify-between lg:xl:w-full gap-[26px] 2xl:px-0 lg:sm:px-[10px] w-full items-center">
                         <p className="hidden lg:block w-[278px] self-start font-semibold text-[20px] leading-6 text-start text-[#535556]">Delivering
                             the WOW factor—through code, design, and strategy.</p>
-                        <h1 className="flex flex-col w-[624px] scale-60 lg:scale-100 text-[108px] lg:text-[80px] font-semibold leading-[77px] uppercase">
+                        <h1 className="flex flex-col w-[624px] scale-55 lg:scale-100 text-[108px] lg:text-[80px] font-semibold leading-[77px] uppercase">
                             <span className="self-start mb-7">Change</span>
                             <span
                                 className="self-end mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</span>
@@ -115,7 +115,7 @@ export default function Home() {
         <section className="flex flex-col justify-start dark:bg-black mt-0 lg:mt-[110px]">
             <div className="max-w-7xl px-4 sm:px-6 xl:px-12 2xl:max-w-screen-2xl 2xl:px-16 mx-auto">
                 <div className="2xl:px-0 lg:sm:px-[48px]">
-                    <div className="flex flex-wrap items-center gap-[24px] sm:gap-[60px] lg:gap-[107px]">
+                    <div className="flex flex-wrap items-center scale-90 lg:scale-100 gap-[24px] sm:gap-[60px] lg:gap-[107px]">
                         <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-[#0d71ba] italic z-10">Build.</h2>
                         <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-black z-10">Brand.</h2>
                         <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-black z-10">Boost.</h2>
@@ -295,8 +295,8 @@ export default function Home() {
                 </div>
             </div>
             <div className="relative px-6 lg:px-0 w-full min-h-[288px] group/problem bg-[#FDCECE] mt-[26px] z-10 story-panel-outer">
-                <div className="absolute inset-0 py-8 bg-[#FDCECE] w-full h-[287.88px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded">
-                    <div className="flex flex-col justify-between gap-[16px] px-5 lg:px-0">
+                <div className="absolute inset-0 py-8 bg-[#FDCECE] w-full h-[288px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded">
+                    <div className="flex flex-col justify-between gap-[16px] px-5 2xl:px-9 lg:px-0">
                         <div className="flex items-center gap-[16px] mb-3">
                             <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M11.9979 4.39996L3.07791 19.854L20.9209 19.853L11.9979 4.39996ZM2.73191 21.054C2.55637 21.054 2.38393 21.0077 2.23192 20.92C2.0799 20.8322 1.95367 20.706 1.8659 20.5539C1.77814 20.4019 1.73193 20.2295 1.73193 20.0539C1.73193 19.8784 1.77814 19.706 1.86591 19.554L11.1319 3.49996C11.2197 3.34795 11.3459 3.22172 11.4979 3.13396C11.6499 3.0462 11.8224 3 11.9979 3C12.1734 3 12.3459 3.0462 12.4979 3.13396C12.6499 3.22172 12.7761 3.34795 12.8639 3.49996L22.1339 19.553C22.2217 19.705 22.2679 19.8774 22.2679 20.0529C22.2679 20.2285 22.2217 20.4009 22.1339 20.5529C22.0462 20.705 21.9199 20.8312 21.7679 20.919C21.6159 21.0067 21.4434 21.053 21.2679 21.053L2.73191 21.054ZM11.3719 9.95396H12.6269L12.5299 14.676H11.4699L11.3729 9.95396H11.3719ZM11.9979 17.098C11.9057 17.0995 11.814 17.0828 11.7283 17.0486C11.6426 17.0145 11.5646 16.9637 11.4987 16.8991C11.4328 16.8345 11.3804 16.7575 11.3446 16.6725C11.3087 16.5875 11.2902 16.4962 11.2899 16.404C11.2899 16.019 11.6019 15.716 11.9979 15.716C12.3979 15.716 12.7099 16.019 12.7099 16.404C12.7095 16.4965 12.6907 16.5881 12.6546 16.6733C12.6184 16.7585 12.5657 16.8356 12.4994 16.9002C12.4331 16.9648 12.3547 17.0156 12.2686 17.0495C12.1824 17.0835 12.0904 17.0999 11.9979 17.098Z" fill="#000305" />
@@ -365,7 +365,7 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="absolute inset-0 py-8 bg-[#FCF6D0] w-full h-[287.88px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded-d2">
-                    <div className="flex flex-col justify-between gap-[16px] px-5 lg:px-0">
+                    <div className="flex flex-col justify-between gap-[16px] px-5 2xl:px-9 lg:px-0">
                         <div className="flex items-center gap-[16px] mb-3">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M15.6183 16.0098C15.7219 16.0162 15.8697 16.0325 16.0255 16.0957C16.4997 16.2882 16.797 16.7414 16.8195 17.2305C16.8268 17.3903 16.7976 17.5308 16.7716 17.6318C16.7472 17.7271 16.712 17.838 16.6769 17.9482C16.5548 18.333 16.4273 18.7326 16.2677 18.9961C16.0248 19.3969 15.6769 19.7185 15.2658 19.9268L15.1779 20.3721C15.0869 20.8315 15.0042 21.2469 14.8068 21.5957C14.5042 22.1303 14.0078 22.5431 13.4054 22.7422C13.0103 22.8727 12.4611 22.8719 11.9982 22.8711C11.5354 22.8719 10.9861 22.8726 10.591 22.7422C9.98845 22.5432 9.49124 22.1304 9.18861 21.5957C8.9913 21.2469 8.90947 20.8314 8.8185 20.3721L8.72865 19.9248C8.3193 19.7165 7.9727 19.3956 7.73061 18.9961C7.57106 18.7326 7.44451 18.3329 7.3224 17.9482C7.2873 17.8379 7.25216 17.7272 7.22768 17.6318C7.20172 17.5307 7.17153 17.3904 7.17885 17.2305C7.20133 16.7415 7.49873 16.2882 7.97279 16.0957C8.12847 16.0325 8.27643 16.0162 8.38002 16.0098C8.47704 16.0038 8.59143 16.0039 8.70131 16.0039H15.298C15.4077 16.0039 15.5214 16.0038 15.6183 16.0098ZM10.6779 20.1885C10.7617 20.5937 10.7884 20.684 10.8224 20.7441C10.9101 20.8991 11.0465 21.0054 11.1954 21.0547C11.2554 21.0745 11.3521 21.0869 11.9982 21.0869C12.6435 21.0869 12.74 21.0745 12.7999 21.0547C12.9489 21.0055 13.0852 20.899 13.173 20.7441C13.207 20.6841 13.2337 20.5936 13.3175 20.1885H10.6779Z" fill="#000305" />
@@ -386,7 +386,7 @@ export default function Home() {
 
             <div className="relative px-6 lg:px-0 bg-[#E3EEF7] min-h-[288px] group/problem w-full z-10 story-panel-outer">
                 <div className="absolute inset-0 py-8 bg-[#E3EEF7] w-full h-[288px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded-d3">
-                    <div className="flex flex-col justify-between gap-[16px] px-5 lg:px-0">
+                    <div className="flex flex-col justify-between gap-[16px] px-5 2xl:px-9 lg:px-0">
                         <div className="flex items-center gap-[16px] mb-3">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M10 13C10 12.4477 10.4477 12 11 12H16C16.5523 12 17 12.4477 17 13C17 13.5523 16.5523 14 16 14H11C10.4477 14 10 13.5523 10 13ZM7 13C7 12.4477 7.44772 12 8 12H8.00898C8.56127 12 9.00898 12.4477 9.00898 13C9.00898 13.5523 8.56127 14 8.00898 14H8C7.44772 14 7 13.5523 7 13ZM7 17C7 16.4477 7.44772 16 8 16H13C13.5523 16 14 16.4477 14 17C14 17.5523 13.5523 18 13 18H8C7.44772 18 7 17.5523 7 17ZM14.991 17C14.991 16.4477 15.4387 16 15.991 16H16C16.5523 16 17 16.4477 17 17C17 17.5523 16.5523 18 16 18H15.991C15.4387 18 14.991 17.5523 14.991 17Z" fill="#000305" />
