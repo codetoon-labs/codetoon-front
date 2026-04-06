@@ -77,7 +77,7 @@ export default function Services() {
                     </div>
                 )}
                 {!loading && !error && data?.allCategories && (
-                    <div className="flex flex-col gap-[100px]">
+                    <div className="flex flex-col gap-[50px]">
                         {data.allCategories.map((category: Services, idx: number) => {
                             const isEven = idx % 2 === 0;
                             const theme = [
@@ -87,8 +87,8 @@ export default function Services() {
                             ][idx % 3];
 
                             return (
-                                <div key={category.id} className={`flex flex-col lg:flex-row items-center gap-[40px] lg:gap-[80px] group/${category.slug || 'service'} mb-10`}>
-                                    <div className={`flex-1 w-full order-2 ${isEven ? 'lg:order-1' : 'lg:order-2'} z-10`}>
+                                <div key={category.id} className={`flex flex-col-reverse xl:flex-row justify-between items-center gap-10 lg:gap-50 px-14 group/${category.slug || 'service'} mb-10`}>
+                                    <div className={`flex flex-col w-full order-2 ${isEven ? 'xl:order-1' : 'xl:order-2'} z-10`}>
                                         <div className="flex gap-[8px] items-baseline mb-[16px]">
                                             <span className={`text-[20px] font-bold ${theme.numberText}`}>({String(idx + 1).padStart(2, '0')})</span>
                                             <h2 className="text-[40px] lg:text-[56px] font-semibold text-[#2B3136] leading-[1.1]">{category.title}</h2>
@@ -109,24 +109,24 @@ export default function Services() {
                                             </ul>
                                         )}
                                     </div>
-                                    <div className={`flex lg:flex-1 justify-center w-full order-1 ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-                                        <div className="relative w-[320px] h-[320px] lg:w-[800px] lg:h-[450px] md:w-[600px] md:h-[350px] z-10">
-
-                                            {/* main */}
-                                            <div className="w-full h-full overflow-hidden rounded-[50px]">
-                                                <Image src={category.main_image?.full_url || "/service-img.webp"} className="w-full h-full object-cover" width={680} height={520} alt={category.title || ''}/>
+                                    <div className={`flex flex-col justify-center items-center  ${isEven ? 'xl:order-2' : 'xl:order-1'}`}>
+                                        <div className="z-10 ">
+                                            <div className="w-[300px] md:w-[584px] ">
+                                                <svg className="h-full" viewBox="0 0 586 442" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <defs>
+                                                        <clipPath id={`clip-${category.id || idx}`}>
+                                                            <rect x="289.5" y="2.5" width="290.02" height="181" rx="37.5" />
+                                                            <rect x="0.5" y="293.832" width="212.841" height="147.2" rx="32.5" />
+                                                            <path d="M255.733 1C271.197 1 283.733 13.536 283.733 29V144.385C283.733 170.342 304.776 191.385 330.733 191.385H553C570.673 191.385 585 205.712 585 223.385V408.999C585 426.672 570.673 440.999 553 440.999H252C234.327 440.999 220 426.672 220 408.999V330.733C220 304.776 198.957 283.733 173 283.733H29C13.536 283.733 1 271.197 1 255.733V29C1.00002 13.536 13.536 1 29 1H255.733Z" />
+                                                        </clipPath>
+                                                    </defs>
+                                                    <g clipPath={`url(#clip-${category.id || idx})`}>
+                                                        <foreignObject x="0" y="0" width="586" height="442">
+                                                            <Image src={category.main_image?.full_url || "/service-img.webp"} className="w-full h-full object-cover block" width={586} height={442} alt={category.title || ''}/>
+                                                        </foreignObject>
+                                                    </g>
+                                                </svg>
                                             </div>
-
-                                            {/* top right */}
-                                            <div className="absolute top-0 right-0 w-[45%] h-[45%] overflow-hidden rounded-[40px] border-[6px] border-[#f5fbfe]">
-                                                <Image src={category.main_image?.full_url || "/service-img.webp"} className="w-full h-full object-top-right scale-233 translate-y-[122px] translate-x-[-218px]" width={680} height={520} alt={category.title || ''}/>
-                                            </div>
-
-                                            {/* bottom left */}
-                                            <div className="absolute bottom-0 left-0 w-[40%] h-[40%] overflow-hidden rounded-[40px] border-[6px] border-[#f5fbfe]">
-                                                <Image src={category.main_image?.full_url || "/service-img.webp"} className="w-full h-full object-bottom-left scale-280 translate-x-[235px] translate-y-[-150px] " width={680} height={520} alt={category.title || ''}/>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
