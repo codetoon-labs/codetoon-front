@@ -445,7 +445,8 @@ export default function Home() {
                 </div>
                 <Link href="#" className="z-20 flex justify-center items-center">
                     <button
-                        className="flex items-center gap-[7px] font-bold text-[20px] text-[#0D71BA] border-b-2 border-[#0D71BA] py-[13px] px-[4px] cursor-pointer z-20">
+                        className="flex items-center gap-2 font-bold text-[20px] text-[#0D71BA] border-b-2 border-[#0D71BA] 
+                                py-5 px-5 cursor-pointer z-20 min-h-[48px] min-w-[48px]">
                         Discover the better way
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">

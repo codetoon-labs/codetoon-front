@@ -62,6 +62,7 @@ export const GET_CATEGORIES = gql`
             title
             slug
             description
+            overview
             main_image{
                 id
                 full_url
@@ -73,4 +74,44 @@ export const GET_CATEGORIES = gql`
             }
         }
     }
+`;
+
+export const GET_CATEGORY_BY_SLUG = gql`
+    query GetCategory($slug: String!) {
+        category(slug: $slug) {
+            id
+            title
+            slug
+            description
+            overview
+            main_image {
+                full_url
+            }
+            services {
+                id
+                title
+                description
+                deliverables
+                tags
+            }
+        }
+    }
+`;
+
+export const GET_SERVICE_BY_SLUG = gql`
+query GetService($slug: String!) {
+  service(slug: $slug) {
+    id
+    title
+    slug
+    description
+    deliverables
+    tags
+    category {
+      id
+      title
+    }
+  }
+}
+
 `;
