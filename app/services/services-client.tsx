@@ -68,7 +68,7 @@ export default function Services() {
             <section className="container mx-auto px-4 sm:px-9 py-[80px] lg:pb-[140px] mt-0 lg:mt-10 lg:pt-[40px] font-sans">
                 {loading && (
                     <div className="flex justify-center py-20">
-                        <div className="w-10 h-10 border-4 border-[#0D71BA] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
                     </div>
                 )}
                 {error && (
@@ -81,55 +81,64 @@ export default function Services() {
                         {data.allCategories.map((category: Services, idx: number) => {
                             const isEven = idx % 2 === 0;
                             const theme = [
-                                { numberText: 'text-[#0D71BA]', stroke: '#0D71BA' },
-                                { numberText: 'text-[#c5ba53] drop-shadow-sm', stroke: '#b69c0d' },
-                                { numberText: 'text-[#d13a3a]', stroke: '#d13a3a' }
+                                { numberText: 'text-[#0D5182]', stroke: '#0D5182' },
+                                { numberText: 'text-[#0D5182] drop-shadow-sm', stroke: '#0D5182' },
+                                { numberText: 'text-[#0D5182]', stroke: '#0D5182' }
                             ][idx % 3];
 
                             return (
-                                <div key={category.id} className={`flex flex-col-reverse xl:flex-row justify-between items-center gap-10 lg:gap-50 px-14 group/${category.slug || 'service'} mb-10`}>
-                                    <div className={`flex flex-col w-full order-2 ${isEven ? 'xl:order-1' : 'xl:order-2'} z-10`}>
-                                        <div className="flex gap-[8px] items-baseline mb-[16px]">
-                                            <span className={`text-[20px] font-bold ${theme.numberText}`}>({String(idx + 1).padStart(2, '0')})</span>
-                                            <h2 className="text-[40px] lg:text-[56px] font-semibold text-[#2B3136] leading-[1.1]">{category.title}</h2>
-                                        </div>
-                                        <p className="text-[18px] lg:text-[20px] text-[#535556] mb-[32px] leading-[1.6]">
-                                            {category.description}
-                                        </p>
-                                        {category.services && category.services.length > 0 && (
-                                            <ul className="flex flex-col gap-[16px]">
-                                                {category.services.map((item) => (
-                                                    <li key={item.id} className="flex items-center gap-[12px]">
-                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M20 6L9 17L4 12" stroke={theme.stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                                                        </svg>
-                                                        <span className="text-[18px] font-semibold text-[#000305]">{item.title}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        )}
-                                    </div>
-                                    <div className={`flex flex-col justify-center items-center  ${isEven ? 'xl:order-2' : 'xl:order-1'}`}>
-                                        <div className="z-10 ">
-                                            <div className="w-[300px] md:w-[584px] ">
-                                                <svg className="h-full" viewBox="0 0 586 442" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <defs>
-                                                        <clipPath id={`clip-${category.id || idx}`}>
-                                                            <rect x="289.5" y="2.5" width="290.02" height="181" rx="37.5" />
-                                                            <rect x="0.5" y="293.832" width="212.841" height="147.2" rx="32.5" />
-                                                            <path d="M255.733 1C271.197 1 283.733 13.536 283.733 29V144.385C283.733 170.342 304.776 191.385 330.733 191.385H553C570.673 191.385 585 205.712 585 223.385V408.999C585 426.672 570.673 440.999 553 440.999H252C234.327 440.999 220 426.672 220 408.999V330.733C220 304.776 198.957 283.733 173 283.733H29C13.536 283.733 1 271.197 1 255.733V29C1.00002 13.536 13.536 1 29 1H255.733Z" />
-                                                        </clipPath>
-                                                    </defs>
-                                                    <g clipPath={`url(#clip-${category.id || idx})`}>
-                                                        <foreignObject x="0" y="0" width="586" height="442">
-                                                            <Image src={category.main_image?.full_url || "/service-img.webp"} className="w-full h-full object-cover block" width={586} height={442} alt={category.title || ''}/>
-                                                        </foreignObject>
-                                                    </g>
+                                <Link key={category.id} href={`/service/${category.slug || ''}`} className="block group">
+                                    <div className={`flex flex-col-reverse xl:flex-row justify-between items-center gap-10 lg:gap-50 px-14 mb-10 transition-transform duration-300 group-hover:bg-slate-50/50 rounded-2xl py-6 -mx-6`}>
+                                        <div className={`flex flex-col w-full order-2 ${isEven ? 'xl:order-1' : 'xl:order-2'} z-10`}>
+                                            <div className="flex gap-[8px] items-baseline mb-[16px]">
+                                                <span className={`text-[20px] font-bold ${theme.numberText}`}>({String(idx + 1).padStart(2, '0')})</span>
+                                                <h2 className="text-[40px] lg:text-[56px] font-semibold text-[#2B3136] leading-[1.1] transition-colors duration-300 group-hover:text-[#0D71BA]">{category.title}</h2>
+                                            </div>
+                                            <p className="text-[18px] lg:text-[20px] text-[#535556] mb-[32px] leading-[1.6]">
+                                                {category.description}
+                                            </p>
+                                            {category.services && category.services.length > 0 && (
+                                                <ul className="flex flex-col gap-[16px] mb-8">
+                                                    {category.services.map((item) => (
+                                                        <li key={item.id} className="flex items-center gap-[12px]">
+                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M20 6L9 17L4 12" stroke={theme.stroke} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            </svg>
+                                                            <span className="text-[18px] font-semibold text-[#000305] group-hover:text-[#2B3136]">{item.title}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                            
+                                            <div className="mt-4 flex items-center font-bold text-[18px] text-[#0D71BA]">
+                                                <span>Explore Service</span>
+                                                <svg className="ml-2 transition-transform duration-300 group-hover:translate-x-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                                                 </svg>
                                             </div>
                                         </div>
+                                        <div className={`flex flex-col justify-center items-center ${isEven ? 'xl:order-2' : 'xl:order-1'}`}>
+                                            <div className="z-10 group-hover:scale-[1.02] transition-transform duration-500">
+                                                <div className="w-[300px] md:w-[584px]">
+                                                    <svg className="h-full drop-shadow-xl" viewBox="0 0 586 442" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <defs>
+                                                            <clipPath id={`clip-${category.id || idx}`}>
+                                                                <rect x="289.5" y="2.5" width="290.02" height="181" rx="37.5" />
+                                                                <rect x="0.5" y="293.832" width="212.841" height="147.2" rx="32.5" />
+                                                                <path d="M255.733 1C271.197 1 283.733 13.536 283.733 29V144.385C283.733 170.342 304.776 191.385 330.733 191.385H553C570.673 191.385 585 205.712 585 223.385V408.999C585 426.672 570.673 440.999 553 440.999H252C234.327 440.999 220 426.672 220 408.999V330.733C220 304.776 198.957 283.733 173 283.733H29C13.536 283.733 1 271.197 1 255.733V29C1.00002 13.536 13.536 1 29 1H255.733Z" />
+                                                            </clipPath>
+                                                        </defs>
+                                                        <g clipPath={`url(#clip-${category.id || idx})`}>
+                                                            <foreignObject x="0" y="0" width="586" height="442">
+                                                                <Image src={category.main_image?.full_url || "/service-img.webp"} className="w-full h-full object-cover block" width={586} height={442} alt={category.title || ''}/>
+                                                            </foreignObject>
+                                                        </g>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </Link>
                             );
                         })}
                     </div>
@@ -137,24 +146,27 @@ export default function Services() {
             </section>
 
             {/* CTA Section */}
-            <section className="bg-[#0D71BA] py-[80px] lg:py-[120px] relative overflow-hidden z-10">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-black/10 rounded-full blur-2xl -translate-x-1/2 translate-y-1/2"></div>
-
+            <section className="bg-[#E6F0F8] py-[80px] lg:py-[120px] relative overflow-hidden z-10">
+                {/*background*/}
+                <Image src="/bg-hero.svg" alt="codetoon-background" fill style={{
+                transform: 'scale(0.8)',
+                marginTop: '25px',
+                opacity: 0.7,
+                zIndex: 1,
+            }}
+            className='lg:translate-y-0' />
+             
                 <div className="container mx-auto px-4 sm:px-9 flex flex-col items-center text-center gap-[30px] relative z-10">
-                    <h2 className="text-[40px] lg:text-[64px] font-bold text-[#FCF6D0] leading-[1.2]">
-                        Ready to Transform Your <span className="italic text-white">Business?</span>
+                    <h2 className="text-[40px] lg:text-[64px] font-semibold text-[#000305] leading-[1.2]">
+                        Design. Develop. Deliver.
                     </h2>
-                    <p className="text-[20px] font-medium text-white/90 max-w-[600px] mx-auto">
-                        Let's work together to build, brand, and boost your next big idea.
+                    <p className="text-[20px] font-semibold text-[#000305] max-w-[600px] mx-auto">
+                        Let’s Build Something Powerful Together
                     </p>
                     <Link href="/">
-                        <button className="mt-4 cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
-                            Start a Project
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
-                            </svg>
+                        <button className="mt-4 cursor-pointer bg-[#0D71BA] hover:bg-[#FCF6D0] hover:text-[#000305] hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#FCF6D0] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
+                            Book a Free Consultation
+                            
                         </button>
                     </Link>
                 </div>
