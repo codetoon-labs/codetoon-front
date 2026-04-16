@@ -40,9 +40,9 @@ function DrawerNavItem({ label, href = "#", isActive = false, onClick }: NavItem
         w-full flex items-center px-4 py-4
         text-[22px] leading-[28.8px] text-black
         border-b border-gray-100
-        transition-all duration-200 cursor-pointer
-        ${!isActive ? 'font-medium hover:text-[#0B65A7] hover:bg-blue-50' : ''}
-        ${isActive ? 'font-bold text-[#0d71ba] bg-blue-50' : ''}
+        transition-all duration-200 cursor-pointer capitalize
+       ${!isActive ? 'font-medium hover:text-[#0B65A7] hover:border-[#0d71ba]' : ''}
+         ${isActive ? 'font-bold bg-clip-text bg-text-gradient bg-linear-to-r from-[#FAEDA1] via-[#0B65A7] to-[#0B65A7] text-transparent border-[#0d71ba]!' : ''}
       `}
     >
       {label}
@@ -75,10 +75,10 @@ export default function Header() {
 
   const navItems = [
     { label: 'Home', href: '/' },
-    { label: 'About Us', href: '/about-us' },
     { label: 'services', href: '/services' },
     { label: 'Projects', href: '/projects' },
-    { label: 'Products', href: '/products' },
+    // { label: 'Products', href: '/products' },
+    // { label: 'About Us', href: '/about-us' }
   ];
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -111,7 +111,7 @@ export default function Header() {
         <CodetoonLogo />
 
         {/* Desktop Navigation Items */}
-        <div className="hidden lg:flex items-center gap-[16px]">
+        <div className="hidden capitalize lg:flex items-center gap-[16px]">
           {navItems.map((item) => (
             <NavItem
               key={item.label}
@@ -127,7 +127,7 @@ export default function Header() {
           flex items-center justify-center gap-[10px] 
           h-[48px] px-[20px] py-[10px]
           bg-[#0d71ba] border border-[#e6f0f8] rounded-[40px]
-          font-bold text-[14px] text-[#f4d315]
+          font-bold text-[16px] text-[#FCF6D0]
           transition-colors duration-200
           hover:bg-[#0a5a95]
         ">
@@ -146,14 +146,14 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       <div className={`
-        fixed top-0 right-0 h-full w-[280px] bg-white z-101 lg:hidden
+        fixed top-0 left-0 h-full w-[280px] bg-white z-101 lg:hidden
         flex flex-col shadow-2xl
         transition-transform duration-300 ease-in-out
-        ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}
+        ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Drawer Header */}
         <div className="flex items-center justify-between px-5 py-5 border-b border-gray-100">
-          <span className="font-bold text-[18px] text-[#0d71ba]">Menu</span>
+          <CodetoonLogo />
           <button
             onClick={closeMenu}
             className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
@@ -167,7 +167,7 @@ export default function Header() {
         </div>
 
         {/* Drawer Nav Links */}
-        <nav className="flex flex-col flex-1 pt-2">
+        <nav className="flex flex-col flex-1 pt-2 ">
           {navItems.map((item) => (
             <DrawerNavItem
               key={item.label}
@@ -178,20 +178,6 @@ export default function Header() {
             />
           ))}
         </nav>
-
-        {/* Drawer Contact Button */}
-        <div className="px-5 py-6 border-t border-gray-100">
-          <button className="
-            w-full flex items-center justify-center gap-[10px]
-            h-[48px] px-[20px] py-[10px]
-            bg-[#0d71ba] border border-[#e6f0f8] rounded-[40px]
-            font-bold text-[20px] text-[#f4d315]
-            transition-colors duration-200
-            hover:bg-[#0a5a95]
-          ">
-            Contact us
-          </button>
-        </div>
       </div>
     </header>
   );

@@ -159,7 +159,7 @@ export default function ServiceClient({ slug }: { slug: string }) {
                                             transition={{ duration: 0.6 }}
                                             className="text-[24px] font-semibold text-[#000305] leading-[1.2] mb-4"
                                         >
-                                            Tech Stack
+                                            Tags
                                         </motion.h3>
 
                                         {service.tags && service.tags.length > 0 ? (
@@ -181,7 +181,7 @@ export default function ServiceClient({ slug }: { slug: string }) {
                                                 ))}
                                             </motion.div>
                                         ) : (
-                                            <p className="text-[#535556]">Details on the technologies used will be added shortly.</p>
+                                            <p className="text-[#535556]">Details on the tags used will be added shortly.</p>
                                         )}
                                     </div>
                                 </div>
@@ -228,13 +228,13 @@ export default function ServiceClient({ slug }: { slug: string }) {
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.5 }}
                     viewport={{ once: true }}
-                    className="mt-16"
+                    className="mt-16 z-10"
                 >
-                    <Link href="/services" className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group">
-                        <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Link href="/services" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group z-10">
+                        <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1 z-10" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                         </svg>
-                        Browsing all Services
+                        <span className="z-10">Browsing all Services</span>
                     </Link>
                 </motion.div>
             </section>
