@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client/react';
 import { GET_CATEGORIES } from '@/lib/graphql/queries';
+import { motion } from 'framer-motion';
 
 interface Services {
     id: string;
@@ -19,6 +20,8 @@ interface Services {
         description: string;
     }[];
 }
+
+
 
 export default function Services() {
     const { data, loading, error } = useQuery<{ allCategories: Services[] }>(GET_CATEGORIES);
@@ -43,7 +46,12 @@ export default function Services() {
                         </radialGradient>
                     </defs>
                 </svg>
-                <div className="container mx-auto px-4 sm:px-9 relative z-10">
+                <motion.div 
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, ease: 'easeOut' }}
+                    className="container mx-auto px-4 sm:px-9 relative z-10"
+                >
                     <div className="flex flex-col items-center text-center gap-7">
                         <h1 className="flex flex-col relative right-5 lg:right-0 lg:w-[682px] scale-100 text-[50px] lg:text-[92px] font-semibold leading-[1.1] uppercase">
                             <span className="p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">Tech</span>
@@ -61,7 +69,7 @@ export default function Services() {
                             From pixel-perfect branding to powerful digital products—we turn complex problems into elegant solutions.
                         </p>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Services Listing */}
@@ -88,7 +96,13 @@ export default function Services() {
 
                             return (
                                 <Link key={category.id} href={`/service/${category.slug || ''}`} className="block group">
-                                    <div className={`flex flex-col-reverse xl:flex-row justify-between items-center gap-10 lg:gap-50 px-14 mb-10 transition-transform duration-300 group-hover:bg-slate-50/50 rounded-2xl py-6 -mx-6`}>
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, margin: '-60px' }}
+                                        transition={{ duration: 0.7, delay: idx * 0.1, ease: 'easeOut' }}
+                                        className={`flex flex-col-reverse xl:flex-row justify-between items-center gap-10 lg:gap-50 px-14 mb-10 transition-transform duration-300 group-hover:bg-slate-50/50 rounded-2xl py-6 -mx-6`}
+                                    >
                                         <div className={`flex flex-col w-full order-2 ${isEven ? 'xl:order-1' : 'xl:order-2'} z-10`}>
                                             <div className="flex gap-[8px] items-baseline mb-[16px]">
                                                 <span className={`text-[20px] font-bold ${theme.numberText}`}>({String(idx + 1).padStart(2, '0')})</span>
@@ -118,8 +132,8 @@ export default function Services() {
                                             </div>
                                         </div>
                                         <div className={`flex flex-col justify-center items-center ${isEven ? 'xl:order-2' : 'xl:order-1'}`}>
-                                            <div className="z-10 group-hover:scale-[1.02] transition-transform duration-500">
-                                                <div className="w-[300px] md:w-[584px]">
+                                            <div className="z-10">
+                                                <div className="w-[300px] md:w-[690px]">
                                                     <svg className="h-full drop-shadow-xl" viewBox="0 0 586 442" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <defs>
                                                             <clipPath id={`clip-${category.id || idx}`}>
@@ -130,14 +144,14 @@ export default function Services() {
                                                         </defs>
                                                         <g clipPath={`url(#clip-${category.id || idx})`}>
                                                             <foreignObject x="0" y="0" width="586" height="442">
-                                                                <Image src={category.main_image?.full_url || "/service-img.webp"} className="w-full h-full object-cover block" width={586} height={442} alt={category.title || ''}/>
+                                                                <Image src={category.main_image?.full_url || "/"} className="w-full h-full  object-cover block" width={750} height={442} alt={category.title || ''}/>
                                                             </foreignObject>
                                                         </g>
                                                     </svg>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 </Link>
                             );
                         })}
@@ -146,7 +160,13 @@ export default function Services() {
             </section>
 
             {/* CTA Section */}
-            <section className="bg-[#E6F0F8] py-[80px] lg:py-[120px] relative overflow-hidden z-10">
+            <motion.section 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.1 }}
+                className="bg-[#E6F0F8] py-[80px] lg:py-[120px] relative overflow-hidden z-10"
+            >
                 {/*background*/}
                 <Image src="/bg-hero.svg" alt="codetoon-background" fill style={{
                 transform: 'scale(0.8)',
@@ -170,7 +190,7 @@ export default function Services() {
                         </button>
                     </Link>
                 </div>
-            </section>
+            </motion.section>
         </>
     );
 }

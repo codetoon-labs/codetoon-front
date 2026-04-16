@@ -32,6 +32,10 @@ export const GET_PROJECTS = gql`
     query GetProjects {
         projects {
             data {
+                categories {
+                    title
+                    type
+                }   
                 id
                 title
                 description
@@ -55,6 +59,9 @@ export const GET_PROJECTS = gql`
     }
 `;
 
+
+
+
 export const GET_CATEGORIES = gql`
     query GetAllCategories {
         allCategories {
@@ -63,6 +70,7 @@ export const GET_CATEGORIES = gql`
             slug
             description
             overview
+            type
             main_image{
                 id
                 full_url
@@ -107,7 +115,7 @@ query GetService($slug: String!) {
     description
     deliverables
     tags
-    category {
+    categories {
       id
       title
     }

@@ -131,10 +131,10 @@ export default function Footer() {
   ];
 
   const workLinks = [
-    'Lorem',
-    'Lorem',
-    'Lorem',
-    'Lorem'
+    'Buongo',
+    'EBP Real Estate Website',
+    'EBP Real Estate Mobile App',
+
   ];
 
   return (
@@ -158,15 +158,15 @@ export default function Footer() {
           <div className="flex flex-row flex-wrap justify-center gap-12 lg:contents">
             {/* Services Section */}
             <div className="flex flex-col lg:w-[109px] lg:basis-64 gap-[12px]">
-              <h3 className="font-bold text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+              <Link href="/services" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 Services
-              </h3>
+              </Link>
               <div className="flex flex-col gap-[12px]">
                 {servicesLinks.map((link) => (
                   <Link
                     key={link}
-                    href="#"
-                    className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700"
+                    href={`/service/${link.toLowerCase()}`}
+                    className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
                   >
                     {link}
                   </Link>
@@ -176,12 +176,12 @@ export default function Footer() {
 
             {/* About Us Section */}
             <div className="flex flex-col lg:w-[135px] lg:basis-64 gap-[12px]">
-              <h3 className="font-bold text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+              <Link href="/about-us" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 About us
-              </h3>
+              </Link>
               <Link
-                href="#"
-                className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700"
+                href="/about-us"
+                className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
               >
                 Our Story
               </Link>
@@ -189,15 +189,15 @@ export default function Footer() {
 
             {/* Our Work Section */}
             <div className="flex flex-col lg:w-[135px] lg:basis-64 gap-[12px]">
-              <h3 className="font-bold text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+              <Link href="/projects" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 Our Work
-              </h3>
+              </Link>
               <div className="flex flex-col gap-[12px]">
                 {workLinks.map((link, index) => (
                   <Link
                     key={index}
-                    href="/"
-                    className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700"
+                    href="/projects"
+                    className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
                   >
                     {link}
                   </Link>
@@ -209,22 +209,22 @@ export default function Footer() {
           {/* Contact Section */}
           <div className="flex flex-col ju lg:w-[407px] lg:basis-lg gap-[48px]">
             <div className="flex flex-col gap-[12px]">
-              <h3 className="font-bold text-center lg:text-start text-[20px] lg:text-[24px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+              <h3 className="font-bold text-center lg:text-start text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 Contact us
               </h3>
               <div className="flex flex-col items-center lg:items-start px-[13px] lg:px-0 gap-[9px]">
                 {/* Address */}
                 <div className="flex gap-[10px] items-start">
                   <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba] shrink-0 mt-0.5"/>
-                  <Link href="#" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  <Link href="#" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300">
+                    316 Ninety Road Sector 2 Office No.3 Third Floor ,5th Settlement, | New Cairo, Cairo Egypt
                   </Link>
                 </div>
                 {/* Phone */}
                 <div className="flex gap-[10px] items-center">
                   <PhoneIcon className="w-[24px] h-[24px] text-[#0d71ba] shrink-0" />
-                  <Link href="#" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700">
-                    0123456789
+                  <Link href="tel:+201156167758" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300">
+                    01156167758
                   </Link>
                 </div>
               </div>
