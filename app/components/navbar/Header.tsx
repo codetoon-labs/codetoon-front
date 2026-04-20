@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from 'next/navigation';
+import { useModal } from '../../context/ModalContext';
 
 interface NavItemProps {
   label: string;
@@ -73,6 +74,8 @@ export default function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const { openContactModal } = useModal();
+
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'services', href: '/services' },
@@ -123,13 +126,15 @@ export default function Header() {
         </div>
 
         {/* Desktop Contact Button */}
-        <button className="
+        <button 
+          onClick={openContactModal}
+          className="
           flex items-center justify-center gap-[10px] 
           h-[48px] px-[20px] py-[10px]
           bg-[#0d71ba] border border-[#e6f0f8] rounded-[40px]
           font-bold text-[16px] text-[#FCF6D0]
-          transition-colors duration-200
-          hover:bg-[#0a5a95]
+          transition-colors duration-300
+          hover:bg-[#0a5a95] cursor-pointer
         ">
           Contact us
         </button>

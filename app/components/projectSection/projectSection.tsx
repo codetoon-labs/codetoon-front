@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 interface Project {
     description: string;
     id: string | number;
+    slug: string;
     title: string;
     main_image: {
         full_url: string;
@@ -30,6 +31,8 @@ interface Project {
         title: string;
         description: string;
     }[];
+    short_title: string;
+    short_description: string;
 }
 
 interface GetProjectsData {
@@ -86,7 +89,7 @@ export default function ProjectSection({ activeFilter = "All Projects" }: { acti
                                             src={project.main_image?.full_url || '/frame 14.webp'}
                                             alt={project.title || "Our Work"} width={752} height={380} />
                                         <div className='absolute inset-0 bg-black/25'></div>
-                                        <Link className='lg:hidden' href={`/projects/${project.id}`}>
+                                        <Link className='lg:hidden' href={`/project/${project.slug}`}>
                                             <button className="absolute bottom-5 left-5 z-10 flex justify-center w-fit items-center text-[#ffffff] text-[18px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[15px] px-[16px] py-[8px]">
                                                 view project
                                             </button>
@@ -113,7 +116,7 @@ export default function ProjectSection({ activeFilter = "All Projects" }: { acti
                                         </div>
                                         <div
                                             className="absolute inset-0 hidden bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 lg:flex justify-center items-center">
-                                            <Link href={`/projects/${project.id}`}>
+                                            <Link href={`/project/${project.slug}`}>
                                                 <button
                                                     className="px-[40px] h-[48px] border border-[#FFFFFF] cursor-pointer text-white font-medium rounded-3xl transition-all duration-300 hover:bg-white/20 hover:scale-105">
                                                     View project
@@ -127,9 +130,9 @@ export default function ProjectSection({ activeFilter = "All Projects" }: { acti
                             const projectDetailsSection = (
                                 <div className="flex flex-col gap-[30px] lg:gap-[80px]">
                                     <div className="flex flex-col gap-[16px]">
-                                        <h3 className="text-[22px] font-medium leading-[28.2px] ps-[16px] text-[#0D71BA] z-10">{project.title}</h3>
+                                        <h3 className="text-[22px] font-medium leading-[28.2px] ps-[16px] text-[#0D71BA] z-10">{project.short_title}</h3>
                                         <p className="text-[16px] text-[#0D71BA] font-normal ps-[16px] leading-[25px] max-w-full lg:max-w-[376px] xl:max-w-[376px] 2xl:max-w-[420px] z-10">
-                                            {project.description}
+                                            {project.short_description}
                                         </p>
                                     </div>
                                     <div className="flex flex-wrap gap-[11px] mt-[16px] ps-[16px] z-10">
@@ -177,22 +180,6 @@ export default function ProjectSection({ activeFilter = "All Projects" }: { acti
                             </motion.div>
                         )}
                     </AnimatePresence>
-                </div>
-
-                <div className="mt-[34px] flex flex-col lg:flex-row items-center justify-center gap-[7px]">
-                    <p className="text-[#535556] text-[16px] font-medium z-10">Smart design. Sharp code. Real results.</p>
-                    <Link href="#" className="z-20">
-                        <button
-                            className="flex items-center gap-[7px] font-bold text-[20px] text-[#0D71BA] border-b-2 border-[#0D71BA] py-[13px] px-[4px] cursor-pointer z-20">
-                            View All Projects
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M14.5267 18L13.1187 16.5858L16.6882 13.0006L3.5 13.0006L3.5 11.0006L16.6886 11.0006L13.1186 7.41422L14.5266 6L20.5 12.0003L14.5267 18Z"
-                                    fill="#0D71BA" />
-                            </svg>
-                        </button>
-                    </Link>
                 </div>
             </div>
     );

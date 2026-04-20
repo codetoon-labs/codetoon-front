@@ -35,25 +35,48 @@ export const GET_PROJECTS = gql`
                 categories {
                     title
                     type
-                }   
-                id
-                title
-                description
-                main_image {
-                    full_url
+                } 
+              	gallery{
+                  full_url
                 }
-                country {
+              
+              	objectives{
+                  title
+                  description
+                }
+                phases{
+                  title
+                  description
+                }
+              	counters{
+                  title
+                  count
+                }
+              	country {
                     id
                     name
                     image {
                         full_url
                     }
                 }
-                services{
+              	services{
                     id
                     title
                     description
                 }
+              	main_image {
+                    full_url
+                }
+              	sort_order
+               	tags
+                id
+                slug
+                title
+                description  
+              	short_title
+              	short_description
+              	visit_link
+              	in_homepage
             }
         }
     }
@@ -122,4 +145,14 @@ query GetService($slug: String!) {
   }
 }
 
+`;
+
+export const CREATE_LEAD = gql`
+    mutation CreateLead($name: String!, $phone_number: String!) {
+        createLead(name: $name, phone_number: $phone_number) {
+            id
+            name
+            phone_number
+        }
+    }
 `;

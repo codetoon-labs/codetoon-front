@@ -1,0 +1,7 @@
+mutation CreateLead($name: String!, $phone_number: String!) {
+  createLead(name: $name, phone_number: $phone_number) {
+        id
+        name
+        phone_number
+  }
+}
