@@ -51,6 +51,7 @@ export const GET_PROJECTS = gql`
               	counters{
                   title
                   count
+                  abbreviation
                 }
               	country {
                     id

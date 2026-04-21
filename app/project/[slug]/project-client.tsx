@@ -46,7 +46,8 @@ interface Project {
     }[];
     counters: {
         title: string;
-        count: string;
+        count: string | number;
+        abbreviation?: string;
     }[];
     visit_link: string;
     in_homepage: boolean;
@@ -62,13 +63,14 @@ interface GetProjectsData {
     };
 }
 
-function AnimatedStat({ valueStr }: { valueStr: string }) {
-    const match = valueStr.match(/^(\D*)(\d+)(\D*)$/);
-    if (!match) return <span>{valueStr}</span>;
+function AnimatedStat({ valueStr, staticPrefix = "", staticSuffix = "" }: { valueStr: string | number | null | undefined, staticPrefix?: string, staticSuffix?: string }) {
+    const strVal = valueStr != null ? String(valueStr) : '';
+    const match = strVal.match(/^(\D*)(\d+)(\D*)$/);
+    if (!match) return <span>{staticPrefix}{strVal}{staticSuffix}</span>;
 
-    const prefix = match[1];
+    const prefix = staticPrefix || match[1];
     const num = parseInt(match[2], 10);
-    const suffix = match[3];
+    const suffix = staticSuffix || match[3];
 
     const ref = useRef<HTMLSpanElement>(null);
     const inView = useInView(ref, { once: true });
@@ -98,7 +100,7 @@ function AnimatedStat({ valueStr }: { valueStr: string }) {
 }
 
 
- 
+
 // Removed hardcoded data arrays to use dynamic data from GET_PROJECTS query
 
 
@@ -120,7 +122,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 border-4 border-[#0D71BA] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
                     <p className="text-[#535556] font-medium animate-pulse">Loading project details...</p>
                 </div>
             </div>
@@ -135,8 +137,8 @@ export default function ProjectClient({ slug }: { slug: string }) {
                     <p className="text-[#535556]">
                         We couldn&rsquo;t find the project you&rsquo;re looking for. It may have been moved or the URL might be incorrect.
                     </p>
-                    <Link 
-                        href="/projects" 
+                    <Link
+                        href="/projects"
                         className="bg-[#0D71BA] text-white px-8 py-3 rounded-[8px] font-bold hover:bg-[#0B65A7] transition-colors"
                     >
                         Back to Projects
@@ -166,13 +168,13 @@ export default function ProjectClient({ slug }: { slug: string }) {
                             {project.short_description || "Creating a sleek new experience for global innovation."}
                         </p>
                     </div>
-                    <div className="relative w-full max-w-[480px] aspect-square rounded-[24px] overflow-hidden">
+                    <div className="relative w-full max-w-[750px] aspect-video rounded-[30px] shadow-2xl overflow-hidden">
                         <Image
                             src={project.main_image?.full_url || "/Frame 43.png"}
                             alt={`${displayTitle} project cover`}
                             fill
                             sizes="(max-width: 768px) 100vw, 480px"
-                            className="object-cover z-10"
+                            className="object-contain z-10"
                             priority
                         />
                     </div>
@@ -252,7 +254,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                                         key={idx}
                                         className="border-b border-dashed border-[#F7E05B] pt-[10px] pb-3 pe-1 capitalize text-[#000305] text-[15px] sm:text-[16px] leading-6 marker:text-[#000305] z-10"
                                     >
-                                        
+
                                         {item.description && (
                                             <p className="text-[16px] text-[#535556] mt-1 normal-case">{item.description}</p>
                                         )}
@@ -261,13 +263,13 @@ export default function ProjectClient({ slug }: { slug: string }) {
                             </ul>
                         </div>
                     )}
-                    
+
                     {project.phases && project.phases.length > 0 && (
                         <div className="flex flex-col gap-4 w-full lg:w-[584px] shrink-0">
                             <h3 className="text-[22px] sm:text-[26px] lg:text-[28px] font-bold text-[#000305] capitalize leading-[1.2]">
                                 How We Made It Happen
                             </h3>
-                            <div className="flex flex-col gap-6 mt-4">
+                            <div className="flex flex-col gap-6 mt-4 z-10">
                                 {project.phases.map((phase, idx) => (
                                     <div key={idx} className="flex gap-4 group">
                                         <div className="flex flex-col items-center">
@@ -304,20 +306,40 @@ export default function ProjectClient({ slug }: { slug: string }) {
                         transition={{ duration: 0.6 }}
                         className="container mx-auto px-4 sm:px-9 lg:px-12"
                     >
-                        <div className="flex flex-wrap gap-y-8 gap-x-6 sm:gap-x-9 items-center justify-center capitalize text-center">
-                            {project.counters.map((stat, idx) => (
-                                <div
-                                    key={stat.title}
-                                    className={`z-10 flex flex-col gap-3 items-center px-5 sm:pr-10 sm:px-0 ${idx < project.counters.length - 1 ? 'sm:border-r-2 sm:border-dashed sm:border-[#257FC0]' : ''}`}
-                                >
-                                    <p className="text-[#000305] text-[32px] sm:text-[36px] lg:text-[40px] font-semibold leading-[1.44]">
-                                        <AnimatedStat valueStr={stat.count} />
-                                    </p>
-                                    <p className="text-[#535556] text-[16px] sm:text-[20px] lg:text-[22px] font-medium leading-[1.3]">
-                                        {stat.title}
-                                    </p>
-                                </div>
-                            ))}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-y-10 items-center justify-center capitalize text-center">
+                            {project.counters.map((stat, idx) => {
+                                let staticPrefix = "";
+                                let staticSuffix = stat.abbreviation || "";
+
+                                // Logic to handle symbols like +% where number should be in the middle
+                                if (staticSuffix.includes('+')) {
+                                    staticPrefix = "+";
+                                    staticSuffix = staticSuffix.replace('+', '');
+                                }
+
+                                return (
+                                    <div
+                                        key={stat.title}
+                                        className={`relative z-10 flex flex-col gap-3 items-center px-5 py-10 sm:py-0 sm:px-8 lg:px-4 
+                                            /* Vertical separators for Tablet/Desktop */
+                                            border-[#257FC0] border-dashed border-r-0 sm:odd:border-r-2 xl:border-r-2 xl:last:border-r-0
+                                            /* Mobile bottom separator (centered and shortened) */
+                                            after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[250px] after:border-b-2 after:border-dashed after:border-[#257FC0] 
+                                            after:sm:hidden`}
+                                    >
+                                        <p className="text-[#000305] text-[32px] sm:text-[36px] lg:text-[40px] font-semibold leading-[1.44]">
+                                            <AnimatedStat
+                                                valueStr={stat.count}
+                                                staticPrefix={staticPrefix}
+                                                staticSuffix={staticSuffix}
+                                            />
+                                        </p>
+                                        <p className="text-[#535556] text-[16px] sm:text-[20px] lg:text-[22px] font-medium leading-[1.3]">
+                                            {stat.title}
+                                        </p>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </motion.div>
                 </section>
@@ -337,7 +359,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                             {project.gallery.map((img, idx) => (
                                 <div
                                     key={idx}
-                                    className="relative w-full h-[300px] sm:h-[360px] lg:h-[400px] rounded-[24px] overflow-hidden bg-[#E6F0F8]"
+                                    className="relative w-full h-[300px] sm:h-[360px] lg:h-[400px] rounded-[24px] overflow-hidden bg-[#E6F0F8] hover:scale-110 transition-transform duration-300 z-10"
                                 >
                                     <Image
                                         src={project.gallery[idx].full_url || ""}
