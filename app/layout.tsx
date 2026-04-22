@@ -17,7 +17,8 @@ export const metadata: Metadata = {
 };
 
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+
+const GTM_ID = "GTM-T4S9DF3V";
 const isProduction = process.env.NODE_ENV === "production";
 
 export default async function RootLayout({
