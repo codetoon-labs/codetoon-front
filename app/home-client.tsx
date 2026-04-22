@@ -4,12 +4,20 @@ import Link from "next/link";
 import Image from 'next/image'
 import hero from '../public/bg-hero.svg'
 import LogoScroller from './components/LogoScroller/LogoScroller';
-
 import TestimonialsSlider from "@/app/components/TestimonialsSlider/TestimonialsSlider";
 import Project from './components/projectSection/projectSection';
-
-
+import { useModal } from '@/app/context/ModalContext';
 import { motion } from 'framer-motion';
+import { useQuery } from '@apollo/client/react';
+import { GET_CATEGORIES } from '@/lib/graphql/queries';
+
+interface Category {
+    id: string;
+    title: string;
+    slug: string;
+    description: string;
+    overview: string;
+}
 
 
 function Background() {
@@ -23,17 +31,17 @@ function Background() {
             sizes="100vw"
             style={{
                 transform: 'scale(1)',
-                marginTop: '25px',
                 opacity: 0.7,
                 zIndex: 1,
             }}
-            className='lg:object-none translate-y-[-140px] lg:translate-y-0'
+            className='lg:object-none translate-y-[-140px] mt-10 lg:translate-y-0 sm:scale-70 lg:scale-100'
         />
     )
 }
 
 export default function HomeClient() {
-
+    const { openContactModal } = useModal();
+    const { data, loading, error } = useQuery<{ allCategories: Category[] }>(GET_CATEGORIES);
 
     return <div className="overflow-hidden">
         {/*hero section*/}
@@ -55,7 +63,7 @@ export default function HomeClient() {
                     }}
                     className="flex flex-col items-center z-9 text-center relative top-0 lg:top-[100px] gap-7"
                 >
-                    <div className="flex flex-col lg:flex-row justify-between lg:xl:w-full gap-[26px] 2xl:px-0 lg:sm:px-[10px] w-full items-center">
+                    <div className="flex flex-col lg:flex-row justify-between lg:xl:w-full mt-0 gap-0 2xl:px-0 lg:sm:px-[10px] w-full items-center">
                         <motion.p 
                             variants={{
                                 hidden: { opacity: 0, x: -20 },
@@ -64,7 +72,7 @@ export default function HomeClient() {
                             className="hidden lg:block w-[278px] self-start font-semibold text-[20px] leading-6 text-start text-[#535556]">Delivering
                             the WOW factor—through code, design, and strategy.</motion.p>
                         
-                        <h1 className="flex flex-col w-[624px] scale-55 lg:scale-100 text-[108px] lg:text-[80px] font-semibold leading-[77px] uppercase">
+                        <h1 className="flex flex-col w-[624px] sm:mt-0 px-5 sm:px-0 scale-55 sm:scale-75 lg:scale-100 text-[108px] lg:text-[80px] font-semibold leading-[77px] uppercase">
                             <motion.span 
                                 variants={{
                                     hidden: { opacity: 0, y: 20 },
@@ -90,6 +98,13 @@ export default function HomeClient() {
                                 }}
                                 className="self-center relative right-10 mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">we can</motion.span>
                         </h1>
+                                    <motion.p 
+                                           variants={{
+                                               hidden: { opacity: 0, x: 20 },
+                                               visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+                                           }}
+                                           className="lg:hidden w-[240px] sm:w-[350px] text-[20px] leading-6 font-semibold text-[#0D71BA]">Full service
+                                           digital agency, crafting tech and design solutions based in Egypt</motion.p>
 
                         <div className="hidden lg:flex flex-col items-end gap-[339px]">
                             <motion.p 
@@ -114,8 +129,13 @@ export default function HomeClient() {
                             visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
                         }}
                     >
-                        <Link href='/'>
+                        
                             <button
+                                type='button'
+                                onClick={()=> openContactModal({
+                                    source: 'hero',
+                                    element:'let_build_together_button'
+                                })}
                                 className="cursor-pointer bg-[#0d71ba] px-5 py-2 rounded-[8px] font-bold text-[18px] flex items-center justify-center gap-[10px] text-[#FCF6D0]">
                                 Let&#39;s Build Together
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -123,7 +143,6 @@ export default function HomeClient() {
                                     <path d="M17.2444 5.28982C17.5251 5.37173 17.9065 5.51534 18.1956 5.80444C18.4847 6.09355 18.6284 6.47497 18.7103 6.75566C18.8008 7.06599 18.8606 7.41701 18.9018 7.77008C18.9846 8.4788 19.0051 9.31068 18.9991 10.0842C18.993 10.8637 18.9594 11.6122 18.9277 12.1639C18.9118 12.4403 18.8962 12.6688 18.8846 12.8288C18.8788 12.908 18.8686 13.0376 18.8651 13.0822L18.865 13.0834C18.8186 13.6338 18.3348 14.0429 17.7845 13.9965C17.2342 13.9501 16.8257 13.4664 16.872 12.9161C16.8751 12.8765 16.8844 12.7595 16.8899 12.6838C16.9009 12.5323 16.9157 12.314 16.931 12.0489C16.9616 11.5176 16.9934 10.8042 16.9991 10.0685C17.0049 9.32682 16.984 8.59001 16.9153 8.002C16.8808 7.7067 16.8116 7.39695 16.7645 7.23556C16.6031 7.18846 16.2934 7.11924 15.9981 7.08476C15.41 7.01611 14.6732 6.99512 13.9315 7.00092C13.1958 7.00668 12.4825 7.03846 11.9511 7.06904C11.686 7.0843 11.4677 7.09917 11.3163 7.11017C11.2406 7.11567 11.124 7.12485 11.0844 7.12797C10.5341 7.17431 10.05 6.76584 10.0036 6.21554C9.9572 5.6652 10.3657 5.18146 10.9161 5.13507L10.9183 5.13489C10.9639 5.1313 11.0926 5.12115 11.1713 5.11543C11.3313 5.1038 11.5598 5.08825 11.8362 5.07234C12.3878 5.0406 13.1363 5.00709 13.9159 5.00099C14.6894 4.99493 15.5213 5.01551 16.23 5.09826C16.5831 5.13948 16.9341 5.19925 17.2444 5.28982Z" fill="#FCF6D0" />
                                 </svg>
                             </button>
-                        </Link>
                     </motion.div>
                 </motion.div>
             </div>
@@ -134,121 +153,65 @@ export default function HomeClient() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="flex flex-col justify-start dark:bg-black mt-0 lg:mt-[110px]"
+            className="flex flex-col justify-start dark:bg-black mt-0 lg:mt-[10px]"
         >
-            <div className="max-w-7xl px-4 sm:px-6 xl:px-12 2xl:max-w-screen-2xl 2xl:px-16 mx-auto">
-                <div className="2xl:px-0 lg:sm:px-[48px]">
-                    <div className="flex flex-wrap items-center scale-90 lg:scale-100 gap-[24px] sm:gap-[60px] lg:gap-[107px]">
+            <div className="max-w-7xl px-0 sm:px-6 xl:px-12 2xl:max-w-screen-2xl 2xl:px-16 mx-auto">
+                <div className="2xl:px-0 lg:sm:px-[48px] z-20">
+                    <div className="flex flex-wrap items-center scale-90 lg:scale-100 gap-[15px] sm:gap-[60px] lg:gap-[107px]">
                         <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-[#0d71ba] italic z-10">Build.</h2>
-                        <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-black z-10">Brand.</h2>
-                        <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-black z-10">Boost.</h2>
+                        <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-[#000305] z-10">Brand.</h2>
+                        <h2 className="text-[40px] sm:text-[56px] lg:text-[80px] font-semibold text-[#000305] z-10">Boost.</h2>
                     </div>
-
                 </div>
             </div>
-            <div className="my-[24px] z-10">
-                <div className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-b border-[#9EA1A2]">
-                    <div
-                        className="container mx-auto px-5 flex gap-[16px] items-center 2xl:px-9 sm:px-[48px]">
-                        <div className="">
-                            <div className="flex gap-[8px]">
-                                <span className="text-[20px] font-semibold text-[#000305] mt-[27px]">(01)</span>
-                                <h3 className="text-[36px] font-semibold text-[#2B3136] group-hover/item:scale-110 origin-left transition-all duration-300">Technology</h3>
-                            </div>
-                            <p className="font-normal text-[16px] text-[#535556] mt-[16px]">Lorem ipsum dolor sit
-                                amet, consectetur
-                                adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio
-                                mattis.
-                                Class
-                                aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                himenaeos.
-                                Curabitur tempus urna at turpis condimentum lobortis.
-                            </p>
-                        </div>
-                        <Link href="/services">
-                            <button
-                                aria-label="Read more"
-                                className="flex items-center justify-center p-[10px] bg-[#0D71BA] rounded-full cursor-pointer hover:bg-[#B6D4EA] hover:shadow-[0_4px_15px_rgba(124,176,218,0.6)] group transition-all duration-300">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z"
-                                        className="fill-[#F4D315] group-hover:fill-[#07436F] transition-all duration-200" />
-                                </svg>
-                            </button>
-                        </Link>
+            <div className="my-[24px] z-10 min-h-[400px]">
+                {loading ? (
+                    <div className="flex justify-center py-20">
+                        <div className="w-8 h-8 border-4 border-[#0D71BA] border-t-transparent rounded-full animate-spin"></div>
                     </div>
-                </div>
-
-                <div
-                    className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-b border-[#9EA1A2]">
-                    <div className="container mx-auto flex px-5 gap-[16px] items-center 2xl:px-9 sm:px-[48px]">
-                        <div className="">
-                            <div className="flex gap-[8px]">
-                                <span className="text-[20px] font-semibold text-[#000305] mt-[27px]">(01)</span>
-                                <h3 className="text-[36px] font-semibold text-[#2B3136] group-hover/item:scale-110 origin-left transition-all duration-300">Marketing</h3>
+                ) : error ? (
+                   <div className="text-center py-10 text-[#535556]">Failed to load categories.</div>
+                ) : (
+                    data?.allCategories?.map((category, index) => (
+                        <motion.div
+                            key={category.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-b border-[#9EA1A2]"
+                        >
+                            <div className="container mx-auto px-5 flex gap-[16px] items-center 2xl:px-9 sm:px-[48px]">
+                                <div className="flex flex-col flex-1">
+                                    <div className="flex gap-[8px]">
+                                        <span className="text-[20px] font-semibold text-[#000305] mt-[27px]">
+                                           ({(index + 1).toString().padStart(2, '0')})
+                                        </span>
+                                        <h3 className="text-[36px] font-semibold text-[#2B3136] group-hover/item:scale-110 origin-left transition-all duration-300">
+                                            {category.title}
+                                        </h3>
+                                    </div>
+                                    <p className="font-normal text-[16px] text-[#535556] mt-[16px] ">
+                                        {category.overview}
+                                    </p>
+                                </div>
+                                <Link href={`/service/${category.slug}`}>
+                                    <button
+                                        aria-label="Read more"
+                                        className="flex items-center justify-center p-[10px] bg-[#0D71BA] rounded-full cursor-pointer hover:bg-[#B6D4EA] hover:shadow-[0_4px_15px_rgba(124,176,218,0.6)] group transition-all duration-300"
+                                    >
+                                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z"
+                                                className="fill-[#F4D315] group-hover:fill-[#07436F] transition-all duration-200"
+                                            />
+                                        </svg>
+                                    </button>
+                                </Link>
                             </div>
-                            <p className="font-normal text-[16px] text-[#535556] mt-[16px]">Lorem ipsum dolor sit
-                                amet, consectetur
-                                adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio
-                                mattis.
-                                Class
-                                aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                himenaeos.
-                                Curabitur tempus urna at turpis condimentum lobortis.
-                            </p>
-                        </div>
-                        <Link href="/services">
-                            <button
-                                aria-label="Read more"
-                                className="flex items-center justify-center p-[10px] bg-[#0D71BA] rounded-full cursor-pointer hover:bg-[#B6D4EA] hover:shadow-[0_4px_15px_rgba(124,176,218,0.6)] group transition-all duration-300">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z"
-                                        className="fill-[#F4D315] group-hover:fill-[#07436F] transition-all duration-200" />
-                                </svg>
-                            </button>
-                        </Link>
-                    </div>
-                </div>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="py-[28px] hover:bg-[#E3EEF7] transition-all duration-300 group/item w-full border-b border-[#9EA1A2]">
-                    <div className="container mx-auto flex px-5 gap-[16px] items-center 2xl:px-9 sm:px-[48px]">
-                        <div className="">
-                            <div className="flex gap-[8px]">
-                                <span className="text-[20px] font-semibold text-[#000305] mt-[27px]">(01)</span>
-                                <h3 className="text-[36px] font-semibold text-[#2B3136] group-hover/item:scale-110 origin-left transition-all duration-300">Design</h3>
-                            </div>
-                            <p className="font-normal text-[16px] text-[#535556] mt-[16px]">Lorem ipsum dolor sit
-                                amet, consectetur
-                                adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio
-                                mattis.
-                                Class
-                                aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos
-                                himenaeos.
-                                Curabitur tempus urna at turpis condimentum lobortis.
-                            </p>
-                        </div>
-                        <Link href="/services">
-                            <button
-                                aria-label="Read more"
-                                className="flex items-center justify-center p-[10px] bg-[#0D71BA] rounded-full cursor-pointer hover:bg-[#B6D4EA] hover:shadow-[0_4px_15px_rgba(124,176,218,0.6)] group transition-all duration-300">
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z"
-                                        className="fill-[#F4D315] group-hover:fill-[#07436F] transition-all duration-200" />
-                                </svg>
-                            </button>
-                        </Link>
-                    </div>
-                </motion.div>
+                        </motion.div>
+                    ))
+                )}
             </div>
         </motion.section>
         {/*our work*/}
@@ -266,6 +229,26 @@ export default function HomeClient() {
                 </h2>
             </div>
             <Project />
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+            className="mt-[34px] flex flex-col lg:flex-row items-center justify-center gap-[7px]">
+                    <p className="text-[#535556] text-[16px] font-medium z-10">Smart design. Sharp code. Real results.</p>
+                    <Link href="/projects" className="z-20">
+                        <button
+                            className="flex items-center gap-[7px] font-bold text-[20px] text-[#0D71BA] border-b-2 border-[#0D71BA] py-[13px] px-[4px] cursor-pointer z-20">
+                            View All Projects
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M14.5267 18L13.1187 16.5858L16.6882 13.0006L3.5 13.0006L3.5 11.0006L16.6886 11.0006L13.1186 7.41422L14.5266 6L20.5 12.0003L14.5267 18Z"
+                                    fill="#0D71BA" />
+                            </svg>
+                        </button>
+                    </Link>
+                </motion.div>
         </motion.section>
         <style>{`
           @media (max-width: 1023px) {
@@ -339,8 +322,8 @@ export default function HomeClient() {
                         alt="Our Work" width={380} height={440} />
                 </div>
             </div>
-            <div className="relative px-6 lg:px-0 w-full min-h-[288px] group/problem bg-[#FDCECE] mt-[26px] z-10 story-panel-outer">
-                <div className="absolute inset-0 py-8 bg-[#FDCECE] w-full h-[288px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded">
+            <div className="relative px-6 lg:px-0 w-full min-h-[320px] lg:min-h-[288px] group/problem bg-[#FDCECE] mt-[26px] z-10 story-panel-outer">
+                <div className="absolute inset-0 py-8 bg-[#FDCECE] w-full h-[288px] overflow-hidden opacity-0 lg:group-hover/problem:opacity-100 lg:group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded">
                     <div className="flex flex-col justify-between gap-[16px] px-5 2xl:px-9 lg:px-0">
                         <div className="flex items-center gap-[16px] mb-3">
                             <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -356,7 +339,7 @@ export default function HomeClient() {
                         </h4>
                     </div>
                 </div>
-                <div className="container inset-0 mx-auto flex justify-between group-hover/problem:absolute top-0 transition-all duration-700 group-hover/problem:opacity-0  ease-[cubic-bezier(0.22,1,0.36,1)] mobile-compact">
+                <div className="container inset-0 mx-auto flex justify-between lg:group-hover/problem:absolute top-0 transition-all duration-700 lg:group-hover/problem:opacity-0  ease-[cubic-bezier(0.22,1,0.36,1)] mobile-compact">
                     <div className="flex flex-col gap-[24px] 2xl:px-9 sm:px-[48px]">
                         <div className="flex justify-start items-center gap-[8px] mt-[24px]">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -384,9 +367,9 @@ export default function HomeClient() {
 
             <div className="relative px-6 lg:px-0 flex justify-center 2xl:gap-74 w-full bg-[#FCF6D0] min-h-[288px] group/problem z-10 story-panel-outer">
 
-                <div className="container inset-0 mx-auto flex justify-between 2xl:pe-9 group-hover/problem:absolute top-0 transition-all duration-700 group-hover/problem:opacity-0  ease-[cubic-bezier(0.22,1,0.36,1)] mobile-compact-d2">
+                <div className="container inset-0 mx-auto flex justify-between gap-10 2xl:pe-9 lg:group-hover/problem:absolute top-0 transition-all duration-700 lg:group-hover/problem:opacity-0  ease-[cubic-bezier(0.22,1,0.36,1)] mobile-compact-d2">
                     <Image
-                        className="hidden lg:block"
+                        className="hidden lg:block xl:ms-11"
                         src="/Frame 43.webp"
                         alt="Our Work" width={560} height={440} />
                     <div className="flex flex-col justify-between gap-[20px] 2xl:px-0 sm:px-[48px]">
@@ -409,7 +392,7 @@ export default function HomeClient() {
                         </div>
                     </div>
                 </div>
-                <div className="absolute inset-0 py-8 bg-[#FCF6D0] w-full h-[287.88px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded-d2">
+                <div className="absolute inset-0 py-8 bg-[#FCF6D0] w-full h-[287.88px] overflow-hidden opacity-0  lg:group-hover/problem:opacity-100 lg:group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded-d2">
                     <div className="flex flex-col justify-between gap-[16px] px-5 2xl:px-9 lg:px-0">
                         <div className="flex items-center gap-[16px] mb-3">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -430,7 +413,7 @@ export default function HomeClient() {
             </div>
 
             <div className="relative px-6 lg:px-0 bg-[#E3EEF7] min-h-[288px] group/problem w-full z-10 story-panel-outer">
-                <div className="absolute inset-0 py-8 bg-[#E3EEF7] w-full h-[288px] overflow-hidden opacity-0  group-hover/problem:opacity-100 group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded-d3">
+                <div className="absolute inset-0 py-8 bg-[#E3EEF7] w-full h-[288px] overflow-hidden opacity-0  lg:group-hover/problem:opacity-100 lg:group-hover/problem:block container mx-auto 2xl:px-0 sm:px-[48px] transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-expanded-d3">
                     <div className="flex flex-col justify-between gap-[16px] px-5 2xl:px-9 lg:px-0">
                         <div className="flex items-center gap-[16px] mb-3">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -448,7 +431,7 @@ export default function HomeClient() {
                         </h4>
                     </div>
                 </div>
-                <div className="container inset-0 mx-auto h-[350px] lg:h-[288px] flex justify-between group-hover/problem:absolute top-0 transition-all duration-700 group-hover/problem:opacity-0 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-compact-d3">
+                <div className="container inset-0 mx-auto h-[350px] lg:h-[288px] flex justify-between lg:group-hover/problem:absolute top-0 transition-all duration-700 lg:group-hover/problem:opacity-0 ease-[cubic-bezier(0.22,1,0.36,1)] mobile-compact-d3">
                     <div className="flex flex-col lg:flex-row justify-between">
                         <div className="flex flex-col pt-[17px] gap-[12px] 2xl:px-9 sm:px-[48px]">
                             <div className="flex justify-start items-center gap-[12px] mt-[24px]">
@@ -488,8 +471,9 @@ export default function HomeClient() {
                         That’s why we set out to build something different
                     </p>
                 </div>
-                <Link href="#" className="z-20 flex justify-center items-center">
+                <div className="z-20 flex justify-center items-center">
                     <button
+                        onClick={() => openContactModal()}
                         className="flex items-center gap-2 font-bold text-[20px] text-[#0D71BA] border-b-2 border-[#0D71BA] 
                                 py-5 px-5 cursor-pointer z-20 min-h-[48px] min-w-[48px]">
                         Discover the better way
@@ -500,7 +484,7 @@ export default function HomeClient() {
                                 fill="#0D71BA" />
                         </svg>
                     </button>
-                </Link>
+                </div>
             </div>
         </motion.section>
         {/*Coool clients section*/}

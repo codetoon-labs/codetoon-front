@@ -3,6 +3,21 @@
 import React from 'react';
 import Image from "next/image";
 import Link from "next/link";
+import { useQuery } from '@apollo/client/react';
+import { GET_PROJECTS } from '@/lib/graphql/queries';
+
+interface Project {
+  id: string | number;
+  slug: string;
+  title: string;
+  sort_order: number;
+}
+
+interface GetProjectsData {
+  projects: {
+    data: Project[];
+  };
+}
 
 interface IconProps {
   className?: string;
@@ -134,8 +149,28 @@ export default function Footer() {
     'Buongo',
     'EBP Real Estate Website',
     'EBP Real Estate Mobile App',
-
   ];
+
+  const { data, loading, error } = useQuery<GetProjectsData>(GET_PROJECTS);
+
+  const projects = React.useMemo(() => {
+    if (!data?.projects?.data) return [];
+
+    return [...data.projects.data]
+      .filter((p) => p.slug && p.title)
+      .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+      .slice(0, 4);
+  }, [data]);
+
+  const showFallback = error || (!loading && projects.length === 0);
+
+  const ProjectSkeleton = () => (
+    <div className="flex flex-col gap-[12px] animate-pulse">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="h-[22px] w-[120px] bg-gray-200 rounded"></div>
+      ))}
+    </div>
+  );
 
   return (
     <footer className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-gray-300/50 shadow-lg">
@@ -189,19 +224,33 @@ export default function Footer() {
 
             {/* Our Work Section */}
             <div className="flex flex-col lg:w-[135px] lg:basis-64 gap-[12px]">
-              <Link href="/projects" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+              <Link href="/projects" className="font-bold text-center text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
                 Our Work
               </Link>
               <div className="flex flex-col gap-[12px]">
-                {workLinks.map((link, index) => (
-                  <Link
-                    key={index}
-                    href="/projects"
-                    className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
-                  >
-                    {link}
-                  </Link>
-                ))}
+                {loading ? (
+                  <ProjectSkeleton />
+                ) : showFallback ? (
+                  workLinks.map((link, index) => (
+                    <Link
+                      key={index}
+                      href="/projects"
+                      className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
+                    >
+                      {link}
+                    </Link>
+                  ))
+                ) : (
+                  projects.map((project) => (
+                    <Link
+                      key={project.id}
+                      href={`/project/${project.slug}`}
+                      className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
+                    >
+                      {project.title}
+                    </Link>
+                  ))
+                )}
               </div>
             </div>
           </div>
