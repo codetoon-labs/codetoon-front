@@ -1,9 +1,10 @@
-function AboutUs() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-[#f5fbfe] font-sans dark:bg-black">
-      <h1 className="text-3xl font-bold">About Us</h1>
-    </div>
-  );
-}
+import AboutUsClient from './about-us-client';
 
-export default AboutUs;
+export const metadata = {
+  title: 'About Us | Codetoon',
+  description: 'Learn about Codetoon — who we are, how we work, and the team behind the magic.',
+};
+
+export default function AboutUsPage() {
+  return <AboutUsClient />;
+}
