@@ -365,6 +365,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                                         src={project.gallery[idx].full_url || ""}
                                         alt={`${displayTitle} gallery image ${idx + 1}`}
                                         fill
+                                        loading="lazy"
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 348px"
                                         className="object-cover z-10"
                                     />

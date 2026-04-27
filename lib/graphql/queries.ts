@@ -157,3 +157,17 @@ export const CREATE_LEAD = gql`
         }
     }
 `;
+
+export const GET_TEAMS = gql`
+    query GetTeams {
+  teams {
+    name
+    id
+    created_at
+    title
+    image {
+      full_url
+    }
+  }
+}
+`;

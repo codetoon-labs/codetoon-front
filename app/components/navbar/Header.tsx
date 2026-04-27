@@ -81,7 +81,7 @@ export default function Header() {
     { label: 'services', href: '/services' },
     { label: 'Projects', href: '/projects' },
     // { label: 'Products', href: '/products' },
-    // { label: 'About Us', href: '/about-us' }
+    { label: 'About Us', href: '/about-us' }
   ];
 
   const closeMenu = () => setIsMenuOpen(false);

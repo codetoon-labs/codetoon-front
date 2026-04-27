@@ -144,7 +144,7 @@ export default function Services() {
                                                         </defs>
                                                         <g clipPath={`url(#clip-${category.id || idx})`}>
                                                             <foreignObject x="0" y="0" width="586" height="442">
-                                                                <Image src={category.main_image?.full_url || "/"} className="w-full h-full  object-cover block" width={750} height={442} alt={category.title || ''}/>
+                                                                <Image src={category.main_image?.full_url || "/"} loading='lazy' className="w-full h-full object-cover block" width={750} height={442} alt={category.title || ''}/>
                                                             </foreignObject>
                                                         </g>
                                                     </svg>
