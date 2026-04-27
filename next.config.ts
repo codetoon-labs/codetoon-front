@@ -1,6 +1,19 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  async headers() {
+    return [
+      {
+        source: "/",
+        headers: [
+          {
+            key: "Link",
+            value: '</.well-known/api-catalog>; rel="api-catalog"',
+          },
+        ],
+      },
+    ];
+  },
   images: {
     unoptimized: true, // Required for Cloudflare Workers
   },
