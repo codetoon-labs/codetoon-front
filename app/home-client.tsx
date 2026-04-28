@@ -2,7 +2,6 @@
 import React from 'react';
 import Link from "next/link";
 import Image from 'next/image'
-import hero from '../public/bg-hero.svg'
 import LogoScroller from './components/LogoScroller/LogoScroller';
 import TestimonialsSlider from "@/app/components/TestimonialsSlider/TestimonialsSlider";
 import Project from './components/projectSection/projectSection';
@@ -10,6 +9,7 @@ import { useModal } from '@/app/context/ModalContext';
 import { motion } from 'framer-motion';
 import { useQuery } from '@apollo/client/react';
 import { GET_CATEGORIES } from '@/lib/graphql/queries';
+import HeroBackground from './components/HeroBackground/HeroBackground';
 
 interface Category {
     id: string;
@@ -19,19 +19,6 @@ interface Category {
     overview: string;
 }
 
-function Background() {
-    return (
-        <Image
-            alt="Codetoon"
-            src={hero}
-            quality={70}
-            fetchPriority='high'
-            fill
-            sizes="100vw"
-            className='lg:object-none translate-y-[-140px] mt-10 lg:translate-y-0 sm:scale-70 lg:scale-100'
-        />
-    )
-}
 
 export default function HomeClient() {
     const { openContactModal } = useModal();
@@ -40,58 +27,8 @@ export default function HomeClient() {
     return <div className="overflow-hidden">
         {/*hero section*/}
         <section className="relative flex lg:min-h-screen min-h-[780px] items-center justify-center font-sans dark:bg-black">
-            {/* <Background /> */}
-            <svg className='absolute md:scale-65  lg:top-[75px] top-[-70px] left-0 w-full h-full z-0'
-                 xmlns="http://www.w3.org/2000/svg" width="603" height="585" viewBox="0 0 603 585" fill="none">
-                <g filter="url(#filter0_nf_361_6875)">
-                    <path d="M15.32 209.65L15 186.58C15 150.19 20.85 123.75 32.55 107.29C46.42 87.79 70.69 78.04 105.34 78.04H225.9C247.8 78.04 263.17 75.33 272.04 69.92C276.59 67.11 280.29 63.75 283.09 59.85C287.64 53.56 290.46 46.64 291.54 39.05L294.79 15H307.79L311.04 39.05C312.14 46.64 314.94 53.56 319.49 59.85C325.56 68.09 334.99 73.5 347.76 76.1C354.26 77.4 363.91 78.05 376.68 78.05H497.24C531.91 78.05 556.18 87.8 570.03 107.3C581.73 123.76 587.58 150.19 587.58 186.59C587.58 190.28 587.48 197.96 587.26 209.66H573.38C571.98 170.94 548.66 150.28 518.87 145.42C515.2 144.98 514.11 144.64 500.5 144.99H387.09C358.94 144.99 338.85 139.74 326.82 129.23C314.8 118.72 306.3 101.66 301.3 78.05C296.33 101.66 287.98 118.56 276.28 128.74C263.93 139.58 243.68 144.99 215.51 144.99H102.1C88.45 144.99 86.29 145.2 82.59 145.64C52.55 149.65 28.52 175.86 29.12 209.66H15.33L15.32 209.65Z" fill="url(#paint0_radial_361_6875)" fillOpacity="0.5"/>
-                    <path d="M577.26 411.47V417.09C554.77 453.13 529.43 482.76 482.38 514.94C435.34 547.12 370.5 569.91 301.27 569.91C269.05 569.91 238.78 564.66 213.47 558.46C188.16 552.26 162.48 541.08 136.43 524.93C110.35 508.78 87.49 490.47 67.8 469.98C48.13 449.5 33.86 431.41 24.98 415.74L25.63 410.47L38.28 397.83H42.82C67.7 422.41 187.95 474.89 305.75 474.89C423.55 474.89 543.64 414.33 562.24 398.18L567.11 397.83L577.26 411.48V411.47Z" fill="url(#paint1_radial_361_6875)" fillOpacity="0.5"/>
-                    <path d="M464.42 310.15C464.42 324.24 459.35 336.2 449.15 346.06C438.98 355.92 426.95 360.85 413.08 360.85C399.21 360.85 386.88 355.93 376.69 346.06C366.52 336.2 361.42 324.24 361.42 310.15C361.42 296.06 366.47 284.04 376.54 274.08C386.61 264.12 398.79 259.13 413.08 259.13C427.37 259.13 439.53 264.12 449.47 274.08C459.44 284.04 464.42 296.06 464.42 310.15Z" fill="url(#paint2_radial_361_6875)" fillOpacity="0.5"/>
-                    <path d="M138.72 261.35C171.66 280.16 207.16 293.28 242.16 299.01C240.04 306.02 240.02 330.71 253.69 348.11L243.61 356.29C232.11 350.81 215.86 341.65 194.85 328.82C173.84 315.99 157 304.53 144.34 294.44L133.71 266.81L138.71 261.36L138.72 261.35Z" fill="url(#paint3_radial_361_6875)" fillOpacity="0.5"/>
-                </g>
-                <defs>
-                    <filter id="filter0_nf_361_6875" x="0" y="0" width="602.58" height="584.91" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
-                    <feFlood floodOpacity="0" result="BackgroundImageFix"/>
-                    <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-                    <feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="3" result="noise" seed="8975"/>
-                    <feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise"/>
-                    <feComponentTransfer in="alphaNoise" result="coloredNoise1">
-                        <feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
-                    </feComponentTransfer>
-                    <feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped"/>
-                    <feComponentTransfer in="alphaNoise" result="coloredNoise2">
-                        <feFuncA type="discrete" tableValues="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 "/>
-                    </feComponentTransfer>
-                    <feComposite operator="in" in2="shape" in="coloredNoise2" result="noise2Clipped"/>
-                    <feFlood floodColor="rgba(0, 0, 0, 0.25)" result="color1Flood"/>
-                    <feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1"/>
-                    <feFlood floodColor="rgba(255, 255, 255, 0.25)" result="color2Flood"/>
-                    <feComposite operator="in" in2="noise2Clipped" in="color2Flood" result="color2"/>
-                    <feMerge result="effect1_noise_361_6875">
-                        <feMergeNode in="shape"/>
-                        <feMergeNode in="color1"/>
-                        <feMergeNode in="color2"/>
-                    </feMerge>
-                    <feGaussianBlur stdDeviation="7.5" result="effect2_foregroundBlur_361_6875"/>
-                    </filter>
-                    <radialGradient id="paint0_radial_361_6875" cx="0" cy="0" r="1" gradientTransform="matrix(-3.00007 116.64 -343.088 -1.08594 303.28 72.3129)" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#257FC0" stopOpacity="0.8"/>
-                    <stop offset="1" stopColor="#FBF1B8" stopOpacity="0.8"/>
-                    </radialGradient>
-                    <radialGradient id="paint1_radial_361_6875" cx="0" cy="0" r="1" gradientTransform="matrix(-2.89371 103.11 -330.924 -0.959974 303.04 448.495)" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#257FC0" stopOpacity="0.8"/>
-                    <stop offset="1" stopColor="#FBF1B8" stopOpacity="0.8"/>
-                    </radialGradient>
-                    <radialGradient id="paint2_radial_361_6875" cx="0" cy="0" r="1" gradientTransform="matrix(-0.539676 60.9502 -61.7172 -0.56746 413.278 289.079)" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#257FC0" stopOpacity="0.8"/>
-                    <stop offset="1" stopColor="#FBF1B8" stopOpacity="0.8"/>
-                    </radialGradient>
-                    <radialGradient id="paint3_radial_361_6875" cx="0" cy="0" r="1" gradientTransform="matrix(-0.628643 56.8877 -71.8916 -0.529637 194.117 289.302)" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#257FC0" stopOpacity="0.8"/>
-                    <stop offset="1" stopColor="#FBF1B8" stopOpacity="0.8"/>
-                    </radialGradient>
-                </defs>
-            </svg>
+            {/* Background */}
+            <HeroBackground />
             <div className="container mx-auto px-4 sm:px-9">
                 <motion.div 
                     initial="hidden"
@@ -113,11 +50,11 @@ export default function HomeClient() {
                                 hidden: { opacity: 0, x: -20 },
                                 visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } }
                             }}
-                            className="hidden lg:block w-[278px] self-start font-semibold text-[20px] leading-6 text-start text-[#535556]" aria-hidden="true">Delivering
+                            className="hidden lg:block w-[278px] self-start font-semibold text-[20px] leading-6 text-start text-[#535556]" >Delivering
                             the WOW factor—through code, design, and strategy.</motion.p>
                         
                         {/* LCP element: visible on first paint (opacity:1), animated via CSS transform only */}
-                        <h1 className="flex flex-col w-full sm:w-[65%] lg:w-[624px] sm:mt-0 px-5 sm:px-0 text-[55px] sm:text-[65px] lg:text-[80px] font-semibold leading-[39px] lg:leading-[77px] uppercase overflow-hidden">
+                        <h1 className="flex flex-col w-full sm:w-[65%] lg:w-[624px] sm:mt-0 px-5 sm:px-0 text-[55px] sm:text-[65px] lg:text-[80px] font-semibold leading-11 lg:leading-[77px] uppercase overflow-hidden">
                             <span className="hero-word hero-word-1 self-start mb-7">Change</span>
                             <span className="hero-word hero-word-2 self-end mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</span>
                             <span className="hero-word hero-word-3 self-start mb-7">cause</span>
