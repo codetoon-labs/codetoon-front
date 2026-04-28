@@ -248,8 +248,8 @@ function TeamCard({ name, role, image }: { name: string; role: string; image?: s
         )}
       </div>
       <div className="flex flex-col gap-0.5 px-1 z-10">
-        <p className="text-[#000305] text-[16px] sm:text-[20px] lg:text-[24px] font-semibold leading-[1.2]">{name}</p>
-        <p className="text-[#535556] text-[13px] sm:text-[15px] lg:text-[16px] font-normal leading-snug">{role}</p>
+        <p className="text-[#000305] text-[16px] sm:text-[20px] lg:text-[24px] font-semibold leading-[1.2] capitalize">{name}</p>
+        <p className="text-[#535556] text-[13px] sm:text-[15px] lg:text-[16px] font-normal leading-snug capitalize">{role}</p>
       </div>
     </div>
   );

@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
   serverExternalPackages: [],
   // Output configuration for OpenNext.js
   output: "standalone",
+  experimental: {
+    optimizeCss: true,
+  },
 };
 
 export default nextConfig;
