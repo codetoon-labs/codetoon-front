@@ -265,7 +265,7 @@ export default function Footer() {
                 {/* Address */}
                 <div className="flex gap-[10px] items-start">
                   <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba] shrink-0 mt-0.5"/>
-                  <Link href="#" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300">
+                  <Link href="https://maps.app.goo.gl/VcaAJGKX93yuiG4j9" target="_blank" rel="noopener noreferrer" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300">
                     316 Ninety Road Sector 2 Office No.3 Third Floor ,5th Settlement, | New Cairo, Cairo Egypt
                   </Link>
                 </div>

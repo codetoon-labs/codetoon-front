@@ -5,12 +5,22 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from 'next/navigation';
 import { useModal } from '../../context/ModalContext';
+import { 
+  LayoutGrid, 
+  AlignLeft, 
+  Monitor, 
+  User, 
+  ChevronRight, 
+  X,
+  Phone
+} from 'lucide-react';
 
 interface NavItemProps {
   label: string;
   href?: string;
   isActive?: boolean;
   onClick?: () => void;
+  icon?: React.ElementType;
 }
 
 function NavItem({ label, href = "#", isActive = false, onClick }: NavItemProps) {
@@ -32,21 +42,32 @@ function NavItem({ label, href = "#", isActive = false, onClick }: NavItemProps)
   );
 }
 
-function DrawerNavItem({ label, href = "#", isActive = false, onClick }: NavItemProps) {
+function DrawerNavItem({ label, href = "#", isActive = false, onClick, icon: Icon }: NavItemProps) {
   return (
     <Link
       href={href}
       onClick={onClick}
       className={`
-        w-full flex items-center px-4 py-4
-        text-[22px] leading-[28.8px] text-black
-        border-b border-gray-100
-        transition-all duration-200 cursor-pointer capitalize
-       ${!isActive ? 'font-medium hover:text-[#0B65A7] hover:border-[#0d71ba]' : ''}
-         ${isActive ? 'font-bold bg-clip-text bg-text-gradient bg-linear-to-r from-[#FAEDA1] via-[#0B65A7] to-[#0B65A7] text-transparent border-[#0d71ba]!' : ''}
+        w-full flex items-center justify-between px-4 py-3
+        transition-all duration-200 cursor-pointer group
+        ${isActive ? 'bg-[#0d71ba]/5 text-[#0d71ba]' : 'text-[#4A5568] hover:bg-gray-50'}
       `}
     >
-      {label}
+      <div className="flex items-center gap-4">
+        <div className={`
+          flex items-center justify-center w-10 h-10 rounded-xl
+          ${isActive ? 'bg-[#F0F9F9] shadow-sm' : 'bg-[#F7F8F9]'}
+        `}>
+          {Icon && <Icon size={20} className={isActive ? 'text-[#0d71ba]' : 'text-[#718096]'} />}
+        </div>
+        <span className={`text-[17px] font-medium ${isActive ? 'text-[#0d71ba]' : 'text-[#1A202C]'}`}>
+          {label}
+        </span>
+      </div>
+      <ChevronRight 
+        size={18} 
+        className={`transition-transform duration-200 ${isActive ? 'text-[#0d71ba]' : 'text-[#CBD5E0] group-hover:translate-x-1'}`} 
+      />
     </Link>
   );
 }
@@ -77,11 +98,10 @@ export default function Header() {
   const { openContactModal } = useModal();
 
   const navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'services', href: '/services' },
-    { label: 'Projects', href: '/projects' },
-    // { label: 'Products', href: '/products' },
-    { label: 'About Us', href: '/about-us' }
+    { label: 'Home', href: '/', icon: LayoutGrid },
+    { label: 'Services', href: '/services', icon: AlignLeft },
+    { label: 'Projects', href: '/projects', icon: Monitor },
+    { label: 'About Us', href: '/about-us', icon: User }
   ];
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -151,38 +171,62 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       <div className={`
-        fixed top-0 left-0 h-full w-[280px] bg-white z-101 lg:hidden
-        flex flex-col shadow-2xl
+        fixed top-0 left-0 h-full w-[300px] bg-white z-[101] lg:hidden
+        flex flex-col shadow-2xl rounded-r-[32px] overflow-hidden
         transition-transform duration-300 ease-in-out
         ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Drawer Header */}
-        <div className="flex items-center justify-between px-5 py-5 border-b border-gray-100">
+        <div className="flex flex-col px-6 pt-8 pb-6">
+          <div className="flex items-start justify-between mb-4">
           <CodetoonLogo />
-          <button
-            onClick={closeMenu}
-            className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
-            aria-label="Close menu"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+            <div className="flex items-center gap-3">
+            </div>
+            <button
+              onClick={closeMenu}
+              className="p-2 rounded-full bg-gray-50 text-gray-400 hover:bg-gray-100 transition-colors"
+            >
+              <X size={20} />
+            </button>
+          </div>
+          <p className="text-[#718096] text-[15px] leading-relaxed max-w-[200px]">
+            Change the world, 'cause we can.
+          </p>
         </div>
 
+        <div className="h-px bg-gray-100 mx-6 mb-4" />
+
         {/* Drawer Nav Links */}
-        <nav className="flex flex-col flex-1 pt-2 ">
+        <nav className="flex flex-col gap-1 px-0">
           {navItems.map((item) => (
             <DrawerNavItem
               key={item.label}
               label={item.label}
               href={item.href}
+              icon={item.icon}
               isActive={pathname === item.href}
               onClick={closeMenu}
             />
           ))}
         </nav>
+
+        {/* Drawer Footer */}
+        <div className="mt-auto p-6">
+          <div className="flex flex-col gap-2 bg-[#102A43] rounded-3xl p-6 relative overflow-hidden group">
+            {/* Subtle background decoration */}
+            <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-all duration-500" />
+            
+            <p className="text-[#8492A6] text-xs font-bold tracking-widest uppercase mb-3">
+              Get in touch
+            </p>
+            <a href="tel:+201156167758" onClick={closeMenu} className="text-white text-xl font-bold mb-2">
+              01156167758
+            </a>
+            <a href="https://maps.app.goo.gl/VcaAJGKX93yuiG4j9" target="_blank" rel="noopener noreferrer" className="text-[#00BAFF] text-sm font-medium">
+              316 Ninety Road Sector 2 Office No.3 Third Floor ,5th Settlement, | New Cairo, Cairo Egypt
+            </a>
+          </div>
+        </div>
       </div>
     </header>
   );

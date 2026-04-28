@@ -141,3 +141,31 @@ html {
     }
 }
 
+/* ─── Hero h1 entrance: CSS fade + slide-up (LCP-safe) ─────── */
+/* CSS animations start with the stylesheet — before JS loads.   */
+/* So even with opacity:0→1, the browser renders & animates it   */
+/* hundreds of ms before React hydration, keeping LCP fast.      */
+@keyframes hero-slide-up {
+    from {
+        transform: translateY(28px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.hero-word {
+    animation: hero-slide-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    will-change: transform, opacity;
+}
+.hero-word-1 { animation-delay: 0ms; }
+.hero-word-2 { animation-delay: 90ms; }
+.hero-word-3 { animation-delay: 180ms; }
+.hero-word-4 { animation-delay: 270ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-word { animation: none; }
+}
+

@@ -2,7 +2,6 @@
 import React from 'react';
 import Link from "next/link";
 import Image from 'next/image'
-import hero from '../public/bg-hero.svg'
 import LogoScroller from './components/LogoScroller/LogoScroller';
 import TestimonialsSlider from "@/app/components/TestimonialsSlider/TestimonialsSlider";
 import Project from './components/projectSection/projectSection';
@@ -10,6 +9,7 @@ import { useModal } from '@/app/context/ModalContext';
 import { motion } from 'framer-motion';
 import { useQuery } from '@apollo/client/react';
 import { GET_CATEGORIES } from '@/lib/graphql/queries';
+import HeroBackground from './components/HeroBackground/HeroBackground';
 
 interface Category {
     id: string;
@@ -20,44 +20,25 @@ interface Category {
 }
 
 
-function Background() {
-    return (
-        <Image
-            alt="Codetoon"
-            src={hero}
-            quality={100}
-            fetchPriority='high'
-            fill
-            sizes="100vw"
-            style={{
-                transform: 'scale(1)',
-                opacity: 0.7,
-                zIndex: 1,
-            }}
-            className='lg:object-none translate-y-[-140px] mt-10 lg:translate-y-0 sm:scale-70 lg:scale-100'
-        />
-    )
-}
-
 export default function HomeClient() {
     const { openContactModal } = useModal();
     const { data, loading, error } = useQuery<{ allCategories: Category[] }>(GET_CATEGORIES);
 
     return <div className="overflow-hidden">
         {/*hero section*/}
-        <section className="flex lg:min-h-screen min-h-[780px] items-center justify-center font-sans dark:bg-black">
-            <Background />
+        <section className="relative flex lg:min-h-screen min-h-[780px] items-center justify-center font-sans dark:bg-black">
+            {/* Background */}
+            <HeroBackground />
             <div className="container mx-auto px-4 sm:px-9">
                 <motion.div 
                     initial="hidden"
                     animate="visible"
                     variants={{
-                        hidden: { opacity: 0 },
+                        hidden: {},
                         visible: {
-                            opacity: 1,
                             transition: {
-                                staggerChildren: 0.15,
-                                delayChildren: 0.2
+                                staggerChildren: 0.12,
+                                delayChildren: 0
                             }
                         }
                     }}
@@ -69,34 +50,15 @@ export default function HomeClient() {
                                 hidden: { opacity: 0, x: -20 },
                                 visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: 'easeOut' } }
                             }}
-                            className="hidden lg:block w-[278px] self-start font-semibold text-[20px] leading-6 text-start text-[#535556]">Delivering
+                            className="hidden lg:block w-[278px] self-start font-semibold text-[20px] leading-6 text-start text-[#535556]" >Delivering
                             the WOW factor—through code, design, and strategy.</motion.p>
                         
-                        <h1 className="flex flex-col w-[624px] sm:mt-0 px-5 sm:px-0 scale-55 sm:scale-75 lg:scale-100 text-[108px] lg:text-[80px] font-semibold leading-[77px] uppercase">
-                            <motion.span 
-                                variants={{
-                                    hidden: { opacity: 0, y: 20 },
-                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-                                }}
-                                className="self-start mb-7">Change</motion.span>
-                            <motion.span
-                                variants={{
-                                    hidden: { opacity: 0, y: 20 },
-                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-                                }}
-                                className="self-end mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</motion.span>
-                            <motion.span 
-                                variants={{
-                                    hidden: { opacity: 0, y: 20 },
-                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-                                }}
-                                className="self-start mb-7">cause</motion.span>
-                            <motion.span
-                                variants={{
-                                    hidden: { opacity: 0, y: 20 },
-                                    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-                                }}
-                                className="self-center relative right-10 mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">we can</motion.span>
+                        {/* LCP element: visible on first paint (opacity:1), animated via CSS transform only */}
+                        <h1 className="flex flex-col w-full sm:w-[65%] lg:w-[624px] sm:mt-0 px-5 sm:px-0 text-[55px] sm:text-[65px] lg:text-[80px] font-semibold leading-11 lg:leading-[77px] uppercase overflow-hidden">
+                            <span className="hero-word hero-word-1 self-start mb-7">Change</span>
+                            <span className="hero-word hero-word-2 self-end mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">The world</span>
+                            <span className="hero-word hero-word-3 self-start mb-7">cause</span>
+                            <span className="hero-word hero-word-4 self-center relative right-10 mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">we can</span>
                         </h1>
                                     <motion.p 
                                            variants={{
