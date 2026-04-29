@@ -20,9 +20,11 @@ export default function ScrollManager() {
             return;
         }
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
+        requestAnimationFrame(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
         });
     }, [pathname]);
 
