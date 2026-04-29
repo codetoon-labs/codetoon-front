@@ -12,7 +12,7 @@ function HeroBackground() {
                     <filter id="filter0_nf_361_6875" x="0" y="0" width="602.58" height="584.91" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                     <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                     <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
-                    <feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="3" result="noise" seed="8975"/>
+                    <feTurbulence type="fractalNoise" baseFrequency="2 2" stitchTiles="stitch" numOctaves="1" result="noise" seed="8975"/>
                     <feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise"/>
                     <feComponentTransfer in="alphaNoise" result="coloredNoise1">
                         <feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>

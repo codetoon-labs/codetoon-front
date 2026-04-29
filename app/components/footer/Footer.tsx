@@ -173,7 +173,11 @@ export default function Footer() {
   );
 
   return (
-    <footer className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-gray-300/50 shadow-lg">
+    <footer 
+      onMouseEnter={() => document.body.classList.add('hide-cursor')}
+      onMouseLeave={() => document.body.classList.remove('hide-cursor')}
+      className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-gray-300/50 shadow-lg"
+    >
       <div className="flex flex-col">
         {/* Main Footer Content */}
         <div

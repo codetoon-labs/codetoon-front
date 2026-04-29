@@ -169,3 +169,13 @@ html {
     .hero-word { animation: none; }
 }
 
+/* Performance Optimization: Hide cursor follower via CSS to avoid layout thrashing */
+body.hide-cursor .cursor-follower-element {
+  opacity: 0 !important;
+  transition: opacity 0.3s ease;
+}
+
+.cursor-follower-element {
+  transition: opacity 0.3s ease;
+}
+

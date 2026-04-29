@@ -1,73 +1,47 @@
 'use client';
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function App() {
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [circlePos, setCirclePos] = useState({ x: 0, y: 0 });
-    const [opacity, setOpacity] = useState(1);
-    const animationFrameRef = useRef<number | null>(null);
+    const mouseX = useMotionValue(-100);
+    const mouseY = useMotionValue(-100);
+
+    // Smooth spring configuration
+    const springConfig = { damping: 15, stiffness: 500, mass: 0.5 };
+    const circleX = useSpring(mouseX, springConfig);
+    const circleY = useSpring(mouseY, springConfig);
 
     useEffect(() => {
         function handleMove(e: PointerEvent) {
-            setPosition({ x: e.clientX, y: e.clientY });
-
-            // Calculate opacity based on main footer content position
-            const footer = document.querySelector('footer');
-
-            if (footer) {
-                const footerRect = footer.getBoundingClientRect();
-                const cursorY = e.clientY;
-
-                // لو الماوس داخل الفوتر
-                if (cursorY >= footerRect.top && cursorY <= footerRect.bottom) {
-                    setOpacity(0);
-                } else {
-                    setOpacity(1);
-                }
-            }
+            mouseX.set(e.clientX);
+            mouseY.set(e.clientY);
         }
+
         window.addEventListener("pointermove", handleMove);
-        return () => window.removeEventListener("pointermove", handleMove);
-    }, []);
-
-    useEffect(() => {
-        function animate() {
-            setCirclePos((prev) => {
-                const dx = position.x - prev.x;
-                const dy = position.y - prev.y;
-                return {
-                    x: prev.x + dx * 0.99, // speed of cursor
-                    y: prev.y + dy * 0.99,
-                };
-            });
-            animationFrameRef.current = requestAnimationFrame(animate);
-        }
-
-        animationFrameRef.current = requestAnimationFrame(animate);
         return () => {
-            if (animationFrameRef.current !== null) {
-                cancelAnimationFrame(animationFrameRef.current);
-            }
+            window.removeEventListener("pointermove", handleMove);
         };
-    }, [position]);
+    }, [mouseX, mouseY]);
 
     return (
-        <div
+        <motion.div
             data-cursor-follower
+            className="cursor-follower-element"
             style={{
                 position: "fixed",
                 background:
                     "linear-gradient(211deg, rgba(251, 241, 184, 0.6) , rgba(158, 198, 227, 0.6) )",
                 borderRadius: "50%",
-                transform: `translate(${circlePos.x}px, ${circlePos.y}px)`,
+                x: circleX,
+                y: circleY,
+                translateX: "-50%",
+                translateY: "-50%",
                 pointerEvents: "none",
                 filter: "blur(50px)",
-                left: -100,
-                top: -100,
                 width: 200,
                 height: 200,
-                opacity: opacity,
                 zIndex: 2,
+                willChange: "transform",
             }}
         />
     );

@@ -1,8 +1,122 @@
-# robots.txt for Codetoon
-User-Agent: *
-Disallow: /admin/
-Disallow: /login/
+# =========================================
+# CODETOON.NET - ROBOTS.TXT (SEO + GEO 2026)
+# =========================================
+
+# -----------------------------
+# GLOBAL SEARCH ENGINE ACCESS
+# -----------------------------
+User-agent: *
 Allow: /
 
+# Block sensitive/private areas
+Disallow: /admin/
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /api/
+Disallow: /private/
+Disallow: /tmp/
+Disallow: /checkout/
+Disallow: /cart/
+
+# Block internal query/search params if any
+Disallow: /*?replytocom=
+Disallow: /*?preview=
+Disallow: /*?filter=
+Disallow: /*?sort=
+
+# Improve crawl efficiency
+Crawl-delay: 2
+
+
+# -----------------------------
+# GOOGLE SEARCH
+# -----------------------------
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: AdsBot-Google
+Allow: /
+
+
+# -----------------------------
+# BING / YAHOO / DUCKDUCKGO
+# -----------------------------
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+
+# -----------------------------
+# OPENAI / CHATGPT AI VISIBILITY
+# -----------------------------
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+
+# -----------------------------
+# ANTHROPIC / CLAUDE AI VISIBILITY
+# -----------------------------
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+
+# -----------------------------
+# GOOGLE GEMINI / AI OVERVIEWS
+# -----------------------------
+User-agent: Google-Extended
+Allow: /
+
+
+# -----------------------------
+# PERPLEXITY AI
+# -----------------------------
+User-agent: PerplexityBot
+Allow: /
+
+
+# -----------------------------
+# COMMON AI DATASET CRAWLERS
+# -----------------------------
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+
+# -----------------------------
+# SITEMAPS
+# -----------------------------
 Sitemap: https://www.codetoon.net/sitemap.xml
-Content-Signal: ai-train=no, search=yes, ai-input=no
