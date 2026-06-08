@@ -140,9 +140,10 @@ function CodetoonLogo({ className }: { className?: string }) {
 
 export default function Footer() {
   const servicesLinks = [
-    'Technology',
-    'Marketing',
-    'Design'
+    { name: 'AI & Automation', slug: 'ai-automation' },
+    { name: 'Technology', slug: 'technology' },
+    { name: 'Marketing', slug: 'marketing' },
+    { name: 'Design', slug: 'design' },
   ];
 
   const workLinks = [
@@ -178,7 +179,7 @@ export default function Footer() {
       onMouseLeave={() => document.body.classList.remove('hide-cursor')}
       className="bg-[#F3F8FC] pt-[48px] pb-[16px] border-t border-gray-300/50 shadow-lg"
     >
-      <div className="flex flex-col">
+      <div className="relative z-10 flex flex-col">
         {/* Main Footer Content */}
         <div
           id="main-footer-content"
@@ -203,11 +204,11 @@ export default function Footer() {
               <div className="flex flex-col gap-[12px]">
                 {servicesLinks.map((link) => (
                   <Link
-                    key={link}
-                    href={`/solution/${link.toLowerCase()}`}
+                    key={link.name}
+                    href={`/solution/${link.slug}`}
                     className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
                   >
-                    {link}
+                    {link.name}
                   </Link>
                 ))}
               </div>

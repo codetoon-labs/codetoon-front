@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { useQuery } from '@apollo/client/react';
 import { GET_CATEGORY_BY_SLUG } from '@/lib/graphql/queries';
 import { motion } from 'framer-motion';
+import { useModal } from '@/app/context/ModalContext';
 
 interface Service {
     id: string;
     title: string;
+    slug: string;
     description: string;
     deliverables: string[];
     tags: string[];
@@ -49,6 +51,7 @@ function getTheme(slug: string) {
 }
 
 export default function SolutionClient({ slug }: { slug: string }) {
+    const { openContactModal } = useModal();
     const { data, loading, error } = useQuery<{ category: Category }>(GET_CATEGORY_BY_SLUG, {
         variables: { slug }
     });
@@ -188,6 +191,18 @@ export default function SolutionClient({ slug }: { slug: string }) {
                                             <p className="text-[#535556]">Details on the tags used will be added shortly.</p>
                                         )}
                                     </div>
+
+                                    {/* CTA */}
+                                    <Link
+                                        href={`/service/${service.slug}`}
+                                        onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                        className="inline-flex items-center gap-3 mt-10 w-fit bg-[#0D71BA] text-[#FCF6D0] px-7 py-3.5 rounded-[8px] font-bold text-[18px] shadow-[0_8px_20px_rgba(13,113,186,0.25)] hover:scale-[1.02] hover:bg-[#0B65A7] transition-all duration-300 group"
+                                    >
+                                        Explore this Service
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform group-hover:translate-x-1">
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
+                                        </svg>
+                                    </Link>
                                 </div>
 
                                 {/* ── Right column ── */}
@@ -234,7 +249,7 @@ export default function SolutionClient({ slug }: { slug: string }) {
                     viewport={{ once: true }}
                     className="mt-16 z-10"
                 >
-                    <Link href="/solutions" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group z-10">
+                    <Link href="/solutions" onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group z-10">
                         <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1 z-10" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                         </svg>
@@ -255,14 +270,12 @@ export default function SolutionClient({ slug }: { slug: string }) {
                     <p className="text-[20px] font-medium text-white/90 max-w-[600px] mx-auto">
                         Let&apos;s work together to build, brand, and boost your next big idea.
                     </p>
-                    <Link href="/contact">
-                        <button className="mt-4 cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
-                            Start a Project
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
-                            </svg>
-                        </button>
-                    </Link>
+                    <button onClick={() => openContactModal()} className="mt-4 cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
+                        Start a Project
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
+                        </svg>
+                    </button>
                 </div>
             </section>
         </div>

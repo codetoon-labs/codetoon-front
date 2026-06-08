@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useQuery } from '@apollo/client/react';
 import { GET_CATEGORIES } from '@/lib/graphql/queries';
 import { motion } from 'framer-motion';
+import { useModal } from '@/app/context/ModalContext';
 
 interface CategorySolution {
     id: string;
@@ -24,6 +25,7 @@ interface CategorySolution {
 
 
 export default function SolutionClient() {
+    const { openContactModal } = useModal();
     const { data, loading, error } = useQuery<{ allCategories: CategorySolution[] }>(GET_CATEGORIES);
     return (
         <>
@@ -183,11 +185,9 @@ export default function SolutionClient() {
                     <p className="text-[20px] font-semibold text-[#000305] max-w-[600px] mx-auto">
                         Let’s Build Something Powerful Together
                     </p>
-                    <Link href="/">
-                        <button className="mt-4 cursor-pointer bg-[#0D71BA] hover:bg-[#FCF6D0] hover:text-[#000305] hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#FCF6D0] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
-                            Book a Free Consultation
-                        </button>
-                    </Link>
+                    <button onClick={() => openContactModal()} className="mt-4 cursor-pointer bg-[#0D71BA] hover:bg-[#FCF6D0] hover:text-[#000305] hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#FCF6D0] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
+                        Book a Free Consultation
+                    </button>
                 </div>
             </motion.section>
         </>
