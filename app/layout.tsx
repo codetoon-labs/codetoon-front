@@ -7,7 +7,7 @@ import Script from "next/script";
 
 const cairo = Cairo({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: [ "400", "500", "600"],
   variable: "--font-cairo",
   display: "swap",
 });

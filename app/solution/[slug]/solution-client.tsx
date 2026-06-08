@@ -36,15 +36,19 @@ const itemVariants = {
 // Derive accent colour from category slug
 function getTheme(slug: string) {
     if (slug.includes('design')) {
-        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20' ,describe:'Transform your ideas into impactful visual experiences with our creative design solutions.' };
+        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Transform your ideas into impactful visual experiences with our creative design solutions.' };
     }
     if (slug.includes('marketing')) {
-        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20' ,describe:'Results-driven digital marketing solutions to grow your brand, increase traffic, and boost conversions.' };
+        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Results-driven digital marketing solutions to grow your brand, increase traffic, and boost conversions.' };
     }
-    return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20' ,describe:'Scalable technology solutions for web, mobile, and custom software—built for performance, security, and growth.' };
+    if (slug.includes('ai-automation') || slug.includes('ai')) {
+        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Empower your business with cutting-edge AI & Automation solutions designed to optimize workflows, enhance efficiency, and drive intelligent growth.' };
+    }
+    return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Scalable technology solutions for web, mobile, and custom software—built for performance, security, and growth.' };
+
 }
 
-export default function ServiceClient({ slug }: { slug: string }) {
+export default function SolutionClient({ slug }: { slug: string }) {
     const { data, loading, error } = useQuery<{ category: Category }>(GET_CATEGORY_BY_SLUG, {
         variables: { slug }
     });
@@ -72,8 +76,8 @@ export default function ServiceClient({ slug }: { slug: string }) {
             <div className="flex flex-col justify-center items-center gap-5 min-h-[60vh] text-center px-4">
                 <h1 className="text-4xl font-bold text-[#2B3136]">Category Not Found</h1>
                 <p className="text-[#535556]">We couldn&apos;t locate the category you were looking for.</p>
-                <Link href="/services" className="text-[#0D71BA] font-semibold hover:underline">
-                    &larr; Back to Services
+                <Link href="/solutions" className="text-[#0D71BA] font-semibold hover:underline">
+                    &larr; Back to Solutions
                 </Link>
             </div>
         );
@@ -92,7 +96,7 @@ export default function ServiceClient({ slug }: { slug: string }) {
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                         className="flex flex-col items-center text-center gap-2 sm:mt-0 lg:mt-15"
                     >
-                        <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm z-10">Our Services</span>
+                        <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm z-10">Our Solutions</span>
                         <h1 className="text-[50px] z-10 lg:text-[90px] font-bold leading-none uppercase bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent tracking-tight">
                             {category.title}
                         </h1>
@@ -230,11 +234,11 @@ export default function ServiceClient({ slug }: { slug: string }) {
                     viewport={{ once: true }}
                     className="mt-16 z-10"
                 >
-                    <Link href="/services" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group z-10">
+                    <Link href="/solutions" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group z-10">
                         <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1 z-10" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                         </svg>
-                        <span className="z-10">Browsing all Services</span>
+                        <span className="z-10">Browsing all Solutions</span>
                     </Link>
                 </motion.div>
             </section>

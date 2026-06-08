@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/services`,
+      url: `${baseUrl}/solutions`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -59,14 +59,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
-    const serviceRoutes: MetadataRoute.Sitemap = (categoriesData?.allCategories || []).map((category: any) => ({
-      url: `${baseUrl}/service/${category.slug}`,
+    const solutionRoutes: MetadataRoute.Sitemap = (categoriesData?.allCategories || []).map((category: any) => ({
+      url: `${baseUrl}/solution/${category.slug}`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,
     }));
 
-    return [...staticRoutes, ...projectRoutes, ...serviceRoutes];
+    return [...staticRoutes, ...projectRoutes, ...solutionRoutes];
   } catch (error) {
     console.error('Error fetching dynamic routes for sitemap:', error);
     // Graceful fallback to static routes only if GraphQL API fails
