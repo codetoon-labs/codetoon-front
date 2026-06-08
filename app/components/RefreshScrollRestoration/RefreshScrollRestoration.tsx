@@ -13,20 +13,17 @@ export default function ScrollManager() {
         }
     }, []);
 
-    useEffect(() => {
-        if (firstLoad.current) {
-            firstLoad.current = false;
-            window.scrollTo({ top: 0 });
-            return;
-        }
+   useEffect(() => {
+    if (firstLoad.current) {
+        firstLoad.current = false;
+        window.scrollTo(0, 0);
+        return;
+    }
 
-        requestAnimationFrame(() => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-            });
-        });
-    }, [pathname]);
+    setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 0);
+}, [pathname]);
 
     return null;
 }

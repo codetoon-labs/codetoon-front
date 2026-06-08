@@ -197,14 +197,14 @@ export default function Footer() {
           <div className="flex flex-row flex-wrap justify-center gap-12 lg:contents">
             {/* Services Section */}
             <div className="flex flex-col lg:w-[109px] lg:basis-64 gap-[12px]">
-              <Link href="/services" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-                Services
+              <Link href="/solutions" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+                Solutions
               </Link>
               <div className="flex flex-col gap-[12px]">
                 {servicesLinks.map((link) => (
                   <Link
                     key={link}
-                    href={`/service/${link.toLowerCase()}`}
+                    href={`/solution/${link.toLowerCase()}`}
                     className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
                   >
                     {link}

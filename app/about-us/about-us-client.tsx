@@ -357,18 +357,18 @@ function ProcessSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col justify-around lg:flex-row gap-10 lg:gap-12 items-start z-10"
+          className="flex flex-col justify-around lg:flex-row gap-6 lg:gap-12 items-start z-10"
         >
           {/* Step numbers + content */}
           <div className="flex gap-5 sm:gap-6 w-full lg:w-[579px] relative  lg:pb-0">
             {/* Numbered column with dashed vertical line */}
             <div className="relative flex flex-col gap-0 items-center shrink-0 w-[45px] z-10">
-              <div className="absolute top-[45px] left-1/2 -translate-x-1/2 w-[2px] h-[calc(75%-22px)] border-l-2 border border-[#F7E05B]" />
+              <div className="absolute top-[25px] sm:top-[35px] lg:top-[45px] left-1/2 -translate-x-1/2 w-[2px] h-[72%] sm:h-[75%] lg:h-[calc(75%-22px)] border-l-2 border border-[#F7E05B]" />
               {processSteps.map((step, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveStep(idx)}
-                  className="relative z-10 italic h-[calc((489px-22px)/5)] flex items-start justify-center cursor-pointer"
+                  className="relative z-10 italic h-[55px] sm:h-[75px] lg:h-[calc((489px-22px)/5)] flex items-start justify-center cursor-pointer"
                 >
                   <motion.span
                     initial={false}
@@ -419,7 +419,7 @@ function ProcessSection() {
               </div>
             </motion.div>
 
-            {/* Previous Button */}
+            {/* Previous Button (Desktop) */}
             <motion.button
               onClick={handlePrev}
               aria-label="Previous step"
@@ -431,7 +431,7 @@ function ProcessSection() {
                 pointerEvents: activeStep === 0 ? 'none' : 'auto'
               }}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
-              className="absolute bottom-[90px] left-[65px] sm:left-[69px] w-14 h-14 bg-[#0d71ba] rounded-full flex items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md z-20"
+              className="hidden lg:flex absolute bottom-[90px] left-[65px] sm:left-[69px] w-14 h-14 bg-[#0d71ba] rounded-full items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md z-20"
             >
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="rotate-180">
                 <path d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z" fill="#F4D315"/>
@@ -445,8 +445,8 @@ function ProcessSection() {
               <span className="text-[#0d71ba] text-[14px] font-medium opacity-40">Process Visual</span>
             </div>
             
-            {/* Animated Navigation Controls */}
-            <div className="flex justify-end items-center relative h-14 w-full">
+            {/* Animated Navigation Controls (Desktop) */}
+            <div className="hidden lg:flex justify-end items-center relative h-14 w-full">
               {/* Next Button */}
               <motion.button
                 onClick={handleNext}
@@ -466,6 +466,43 @@ function ProcessSection() {
                 </svg>
               </motion.button>
             </div>
+          </div>
+
+          {/* Mobile Navigation Controls */}
+          <div className="flex lg:hidden justify-between items-center w-full mt-4 z-20">
+            {/* Prev Button */}
+            <motion.button
+              onClick={handlePrev}
+              aria-label="Previous step"
+              initial={false}
+              animate={{
+                opacity: activeStep === 0 ? 0 : 1,
+                x: activeStep === 0 ? -10 : 0,
+                pointerEvents: activeStep === 0 ? 'none' : 'auto'
+              }}
+              className="w-12 h-12 bg-[#0d71ba] rounded-full flex items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md"
+            >
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="rotate-180">
+                <path d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z" fill="#F4D315"/>
+              </svg>
+            </motion.button>
+
+            {/* Next Button */}
+            <motion.button
+              onClick={handleNext}
+              aria-label="Next step"
+              initial={false}
+              animate={{
+                opacity: activeStep === processSteps.length - 1 ? 0 : 1,
+                x: activeStep === processSteps.length - 1 ? 10 : 0,
+                pointerEvents: activeStep === processSteps.length - 1 ? 'none' : 'auto'
+              }}
+              className="w-12 h-12 bg-[#0d71ba] rounded-full flex items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md"
+            >
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                <path d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z" fill="#F4D315"/>
+              </svg>
+            </motion.button>
           </div>
         </motion.div>
       </div>

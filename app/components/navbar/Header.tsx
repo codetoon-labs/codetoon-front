@@ -99,7 +99,7 @@ export default function Header() {
 
   const navItems = [
     { label: 'Home', href: '/', icon: LayoutGrid },
-    { label: 'Services', href: '/services', icon: AlignLeft },
+    { label: 'Solutions', href: '/solutions', icon: AlignLeft },
     { label: 'Projects', href: '/projects', icon: Monitor },
     { label: 'About Us', href: '/about-us', icon: User }
   ];
@@ -171,7 +171,7 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       <div className={`
-        fixed top-0 left-0 h-full w-[300px] bg-white z-[101] lg:hidden
+        fixed top-0 left-0 h-full w-[300px] bg-white z-101 lg:hidden
         flex flex-col shadow-2xl rounded-r-[32px] overflow-hidden
         transition-transform duration-300 ease-in-out
         ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -183,10 +183,12 @@ export default function Header() {
             <div className="flex items-center gap-3">
             </div>
             <button
+              type="button"
+              aria-label="Close menu"
               onClick={closeMenu}
               className="p-2 rounded-full bg-gray-50 text-gray-400 hover:bg-gray-100 transition-colors"
             >
-              <X size={20} />
+              <X size={20} aria-label='Close menu' aria-hidden="true" focusable="false" />
             </button>
           </div>
           <p className="text-[#718096] text-[15px] leading-relaxed max-w-[200px]">

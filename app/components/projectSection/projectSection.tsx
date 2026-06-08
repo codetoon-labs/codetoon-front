@@ -86,6 +86,8 @@ export default function ProjectSection({ activeFilter = "All Projects" }: { acti
                                     <div className="relative group overflow-hidden rounded-[32px]">
                                         <Image
                                             className="relative w-full object-cover h-[380px] lg:h-auto max-w-[748px] group xl:max-w-[748px] 2xl:max-w-[900px]"
+                                            priority
+                                            sizes="(max-width: 768px) 150px, 300px"
                                             src={project.main_image?.full_url || '/frame 14.webp'}
                                             alt={project.title || "Our Work"} width={752} height={380} />
                                         <div className='absolute inset-0 bg-black/25'></div>

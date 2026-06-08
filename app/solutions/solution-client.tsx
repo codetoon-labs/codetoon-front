@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client/react';
 import { GET_CATEGORIES } from '@/lib/graphql/queries';
 import { motion } from 'framer-motion';
 
-interface Services {
+interface CategorySolution {
     id: string;
     title: string;
     slug: string;
@@ -23,8 +23,8 @@ interface Services {
 
 
 
-export default function Services() {
-    const { data, loading, error } = useQuery<{ allCategories: Services[] }>(GET_CATEGORIES);
+export default function SolutionClient() {
+    const { data, loading, error } = useQuery<{ allCategories: CategorySolution[] }>(GET_CATEGORIES);
     return (
         <>
             {/* Hero Section */}
@@ -72,7 +72,7 @@ export default function Services() {
                 </motion.div>
             </section>
 
-            {/* Services Listing */}
+            {/* Solution Listing */}
             <section className="container mx-auto px-4 sm:px-9 py-[80px] lg:pb-[140px] mt-0 lg:mt-10 lg:pt-[40px] font-sans">
                 {loading && (
                     <div className="flex justify-center py-20">
@@ -81,12 +81,12 @@ export default function Services() {
                 )}
                 {error && (
                     <div className="text-center py-20 text-red-500">
-                        Error loading services. Please try again later.
+                        Error loading solutions. Please try again later.
                     </div>
                 )}
                 {!loading && !error && data?.allCategories && (
                     <div className="flex flex-col gap-[50px]">
-                        {data.allCategories.map((category: Services, idx: number) => {
+                        {data.allCategories.map((category: CategorySolution, idx: number) => {
                             const isEven = idx % 2 === 0;
                             const theme = [
                                 { numberText: 'text-[#0D5182]', stroke: '#0D5182' },
@@ -95,7 +95,7 @@ export default function Services() {
                             ][idx % 3];
 
                             return (
-                                <Link key={category.id} href={`/service/${category.slug || ''}`} className="block group">
+                                <Link key={category.id} href={`/solution/${category.slug || ''}`} className="block group">
                                     <motion.div 
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
@@ -125,7 +125,7 @@ export default function Services() {
                                             )}
                                             
                                             <div className="mt-4 flex items-center font-bold text-[18px] text-[#0D71BA]">
-                                                <span>Explore Service</span>
+                                                <span>Explore Solution</span>
                                                 <svg className="ml-2 transition-transform duration-300 group-hover:translate-x-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                                                 </svg>
@@ -186,7 +186,6 @@ export default function Services() {
                     <Link href="/">
                         <button className="mt-4 cursor-pointer bg-[#0D71BA] hover:bg-[#FCF6D0] hover:text-[#000305] hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#FCF6D0] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
                             Book a Free Consultation
-                            
                         </button>
                     </Link>
                 </div>
