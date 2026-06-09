@@ -4,6 +4,7 @@ import Header from "./components/navbar/Header";
 import Footer from "./components/footer/Footer";
 import CursorFollower from "./components/cursorApp/page";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import WhatsAppWidget from "./components/WhatsAppWidget/WhatsAppWidget";
 import RefreshScrollRestoration from "./components/RefreshScrollRestoration/RefreshScrollRestoration";
 import { ApolloProvider } from "@/lib/apollo-provider";
 import { ModalProvider } from "./context/ModalContext";
@@ -21,6 +22,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         </main>
         <Footer />
         <ScrollToTop />
+        <WhatsAppWidget />
         <ContactModal />
       </ModalProvider>
     </ApolloProvider>

@@ -122,6 +122,7 @@ export const GET_CATEGORY_BY_SLUG = gql`
             services {
                 id
                 title
+                slug
                 description
                 deliverables
                 tags
@@ -137,11 +138,26 @@ query GetService($slug: String!) {
     title
     slug
     description
+    short_description
     deliverables
     tags
+    banner{
+      full_url
+    }
+    process_steps{
+      title
+      description
+    }
+    gallery{
+      full_url
+    }
     categories {
       id
       title
+      slug
+      main_image {
+        full_url
+      }
     }
   }
 }
