@@ -306,13 +306,19 @@ export default function Footer() {
             </div>
 
             {/* Copyright */}
-            <div className="flex items-center justify-center w-full">
+            <div className="flex flex-col gap-[12px] items-center justify-center w-full">
               <div className="flex gap-[4px] items-center">
                 <CopyrightIcon className="w-[20px] h-[20px] lg:w-[25px] lg:h-[25px]" />
                 <p className="text-[14px] lg:text-[16px] leading-normal text-gray-700">
                   Copyright {new Date().getFullYear()} - Codetoon
                 </p>
               </div>
+              <Link
+                href="/privacy"
+                className="text-[14px] lg:text-[16px] leading-normal text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
+              >
+                Privacy Policy
+              </Link>
             </div>
           </div>
         </div>
