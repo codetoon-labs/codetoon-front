@@ -1,7 +1,5 @@
 'use client'
 
-import { useQuery } from '@apollo/client/react';
-import { GET_PROJECTS } from '@/lib/graphql/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -35,19 +33,9 @@ interface Project {
     short_description: string;
 }
 
-interface GetProjectsData {
-    projects: {
-        data: Project[];
-    };
-}
-
-export default function ProjectSection({ activeFilter = "All Projects" }: { activeFilter?: string }) {
-    const { loading, error, data } = useQuery<GetProjectsData>(GET_PROJECTS);
-
+export default function ProjectSection({ projects = [], activeFilter = "All Projects" }: { projects?: Project[]; activeFilter?: string }) {
     const filteredProjects = React.useMemo(() => {
-        if (!data?.projects?.data) return [];
-        
-        let projects = data.projects.data;
+        if (!projects.length) return [];
 
         // Filter by Category (activeFilter)
         if (activeFilter === "All Projects") return projects;
@@ -55,30 +43,19 @@ export default function ProjectSection({ activeFilter = "All Projects" }: { acti
         // Handle "Featured" - if there's no specific logic, we'll return the current selection
         if (activeFilter === "Featured") return projects; 
 
-        return projects.filter(project => 
+        return projects.filter(project =>
             project.title.toLowerCase() === activeFilter.toLowerCase() ||
             project.categories?.some(cat => cat.title.toLowerCase() === activeFilter.toLowerCase()) ||
             project.services?.some(service => service.title.toLowerCase() === activeFilter.toLowerCase())
         );
-    }, [data, activeFilter]);
+    }, [projects, activeFilter]);
 
     return (
         <div>
             
                 <div className="my-[40px]">
-                    {loading && (
-                        <div className="relative w-full overflow-hidden h-[180px] flex items-center justify-center z-10">
-                            <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
-                        </div>  
-                    )}
-                    {error && (
-                        <div className="flex justify-center items-center py-20">
-                            <p className="text-xl text-red-500 font-semibold">Oops! Failed to load projects.</p>
-                        </div>
-                    )}
-
                     <AnimatePresence mode='popLayout'>
-                        {!loading && !error && filteredProjects.map((project, index) => {
+                        {filteredProjects.map((project, index) => {
                             const isEven = index % 2 === 0;
 
                             const projectImageSection = (
@@ -171,7 +148,7 @@ export default function ProjectSection({ activeFilter = "All Projects" }: { acti
                                 </motion.div>
                             );
                         })}
-                        {!loading && !error && filteredProjects.length === 0 && (
+                        {filteredProjects.length === 0 && (
                             <motion.div 
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}

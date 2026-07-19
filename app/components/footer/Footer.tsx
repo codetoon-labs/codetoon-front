@@ -3,20 +3,12 @@
 import React from 'react';
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from '@apollo/client/react';
-import { GET_PROJECTS } from '@/lib/graphql/queries';
 
 interface Project {
   id: string | number;
   slug: string;
   title: string;
   sort_order: number;
-}
-
-interface GetProjectsData {
-  projects: {
-    data: Project[];
-  };
 }
 
 interface IconProps {
@@ -138,7 +130,7 @@ function CodetoonLogo({ className }: { className?: string }) {
   );
 }
 
-export default function Footer() {
+export default function Footer({ projects: allProjects = [] }: { projects?: Project[] }) {
   const servicesLinks = [
     { name: 'AI & Automation', slug: 'ai-automation' },
     { name: 'Technology', slug: 'technology' },
@@ -152,26 +144,14 @@ export default function Footer() {
     'EBP Real Estate Mobile App',
   ];
 
-  const { data, loading, error } = useQuery<GetProjectsData>(GET_PROJECTS);
-
   const projects = React.useMemo(() => {
-    if (!data?.projects?.data) return [];
-
-    return [...data.projects.data]
+    return [...allProjects]
       .filter((p) => p.slug && p.title)
       .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
       .slice(0, 4);
-  }, [data]);
+  }, [allProjects]);
 
-  const showFallback = error || (!loading && projects.length === 0);
-
-  const ProjectSkeleton = () => (
-    <div className="flex flex-col gap-[12px] animate-pulse">
-      {[1, 2, 3, 4].map((i) => (
-        <div key={i} className="h-[22px] w-[120px] bg-gray-200 rounded"></div>
-      ))}
-    </div>
-  );
+  const showFallback = projects.length === 0;
 
   return (
     <footer 
@@ -233,9 +213,7 @@ export default function Footer() {
                 Our Work
               </Link>
               <div className="flex flex-col gap-[12px]">
-                {loading ? (
-                  <ProjectSkeleton />
-                ) : showFallback ? (
+                {showFallback ? (
                   workLinks.map((link, index) => (
                     <Link
                       key={index}

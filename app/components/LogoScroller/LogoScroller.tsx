@@ -2,8 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { useQuery } from '@apollo/client/react';
-import { GET_CUSTOMERS } from '@/lib/graphql/queries';
 
 interface Customer {
     id: string;
@@ -13,38 +11,7 @@ interface Customer {
     };
 }
 
-interface GetCustomersData {
-    allCustomers: Customer[];
-}
-
-export default function LogoScroller() {
-    const { loading, error, data } = useQuery<GetCustomersData>(GET_CUSTOMERS);
-
-    // Show loading state
-    if (loading) {
-        return (
-            <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center justify-center z-10">
-                <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
-            </div>
-        );
-    }
-
-    // Show error state
-    if (error) {
-        console.error('GraphQL Error:', error);
-        return (
-            <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center justify-center z-10">
-                <div className="text-red-500 text-center px-4">
-                    <p className="font-bold">Error loading customers</p>
-                    <p className="text-sm mt-2">{error.message}</p>
-                </div>
-            </div>
-        );
-    }
-
-    // Get customers from data
-    const customers = data?.allCustomers || [];
-
+export default function LogoScroller({ customers = [] }: { customers?: Customer[] }) {
     // If no customers, show empty state
     if (customers.length === 0) {
         return (

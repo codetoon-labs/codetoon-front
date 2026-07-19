@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import SolutionClient from './solution-client';
+import { getCategories } from '@/lib/server-data';
 
 export const metadata: Metadata = {
     title: 'Our Solutions | Codetoon',
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
     },
 };
 
-export default function SolutionsPage() {
-    return <SolutionClient />;
+export default async function SolutionsPage() {
+    const categories = await getCategories();
+    return <SolutionClient categories={categories} />;
 }

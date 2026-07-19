@@ -2,8 +2,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useQuery } from '@apollo/client/react';
-import { GET_CATEGORIES } from '@/lib/graphql/queries';
 import { motion } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
 
@@ -24,9 +22,8 @@ interface CategorySolution {
 
 
 
-export default function SolutionClient() {
+export default function SolutionClient({ categories }: { categories: CategorySolution[] }) {
     const { openContactModal } = useModal();
-    const { data, loading, error } = useQuery<{ allCategories: CategorySolution[] }>(GET_CATEGORIES);
     return (
         <>
             {/* Hero Section */}
@@ -76,19 +73,14 @@ export default function SolutionClient() {
 
             {/* Solution Listing */}
             <section className="container mx-auto px-4 sm:px-9 py-[80px] lg:pb-[140px] mt-0 lg:mt-10 lg:pt-[40px] font-sans">
-                {loading && (
-                    <div className="flex justify-center py-20">
-                        <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
-                    </div>
-                )}
-                {error && (
+                {categories.length === 0 && (
                     <div className="text-center py-20 text-red-500">
                         Error loading solutions. Please try again later.
                     </div>
                 )}
-                {!loading && !error && data?.allCategories && (
+                {categories.length > 0 && (
                     <div className="flex flex-col gap-[50px]">
-                        {data.allCategories.map((category: CategorySolution, idx: number) => {
+                        {categories.map((category: CategorySolution, idx: number) => {
                             const isEven = idx % 2 === 0;
                             const theme = [
                                 { numberText: 'text-[#0D5182]', stroke: '#0D5182' },

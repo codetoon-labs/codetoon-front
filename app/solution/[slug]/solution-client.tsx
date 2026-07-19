@@ -1,8 +1,6 @@
 'use client'
 import React from 'react';
 import Link from 'next/link';
-import { useQuery } from '@apollo/client/react';
-import { GET_CATEGORY_BY_SLUG } from '@/lib/graphql/queries';
 import { motion } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
 
@@ -50,29 +48,8 @@ function getTheme(slug: string) {
 
 }
 
-export default function SolutionClient({ slug }: { slug: string }) {
+export default function SolutionClient({ slug, category }: { slug: string; category: Category | null }) {
     const { openContactModal } = useModal();
-    const { data, loading, error } = useQuery<{ category: Category }>(GET_CATEGORY_BY_SLUG, {
-        variables: { slug }
-    });
-
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex justify-center items-center min-h-screen text-red-500 font-bold text-xl">
-                Error loading category details. Please try again later.
-            </div>
-        );
-    }
-
-    const category = data?.category;
 
     if (!category) {
         return (

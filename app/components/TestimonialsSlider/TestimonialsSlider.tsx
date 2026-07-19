@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import {TrackDetails, useKeenSlider} from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Image from "next/image";
-import {useQuery} from "@apollo/client/react";
-import {GET_TESTIMONIALS} from "@/lib/graphql/queries";
 
 interface Testimonial {
     id: number;
@@ -18,12 +16,7 @@ interface Testimonial {
     } | null;
 }
 
-interface GetTestimonialsData {
-    allTestimonials: Testimonial[];
-}
-
-export default function TestimonialsSlider() {
-    const { loading, error, data } = useQuery<GetTestimonialsData>(GET_TESTIMONIALS);
+export default function TestimonialsSlider({ testimonials = [] }: { testimonials?: Testimonial[] }) {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [loaded, setLoaded] = useState(false);
     const [details, setDetails] = React.useState<TrackDetails | null>(null);
@@ -62,16 +55,6 @@ export default function TestimonialsSlider() {
             WebkitTransform: `scale(${scale})`,
         };
     }
-
-    if (loading) {
-        return (
-            <div className="relative w-full overflow-hidden h-[180px] flex items-center justify-center z-10">
-                <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
-            </div>
-        );
-    }
-
-    const testimonials = data?.allTestimonials || [];
 
     return (
         /* Outer: side-by-side on lg+, stacked on mobile */
