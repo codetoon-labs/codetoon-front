@@ -4,6 +4,35 @@ import "./globals.css";
 import { LayoutContent } from "./LayoutContent";
 import ScrollManager from "@/app/components/RefreshScrollRestoration";
 import Script from "next/script";
+import JsonLd from "@/app/components/JsonLd";
+import { getProjects } from "@/lib/server-data";
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://codetoon.net/#organization",
+  name: "Codetoon",
+  url: "https://codetoon.net",
+  logo: "https://codetoon.net/logo.svg",
+  description:
+    "Full service digital agency, crafting tech and design solutions based in Egypt",
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "EG",
+  },
+  sameAs: [
+    "https://x.com/Codetooneg",
+  ],
+};
+
+const webSiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://codetoon.net/#website",
+  name: "Codetoon",
+  url: "https://codetoon.net",
+  publisher: { "@id": "https://codetoon.net/#organization" },
+};
 
 const cairo = Cairo({
   subsets: ["latin"],
@@ -17,6 +46,9 @@ export const metadata: Metadata = {
   description: "Full service digital agency, crafting tech and design solutions based in Egypt",
 };
 
+// Refresh CMS-fetched content hourly (pages are otherwise prerendered/cached)
+export const revalidate = 3600;
+
 
 
 const GTM_ID = "GTM-T4S9DF3V";
@@ -27,6 +59,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const footerProjects = await getProjects();
   return (
     <html lang="en">
       <head>
@@ -63,8 +96,10 @@ export default async function RootLayout({
             />
           </noscript>
         )}
+        <JsonLd data={organizationJsonLd} />
+        <JsonLd data={webSiteJsonLd} />
         <ScrollManager />
-        <LayoutContent>{children}</LayoutContent>
+        <LayoutContent footerProjects={footerProjects}>{children}</LayoutContent>
       </body>
     </html>
   );

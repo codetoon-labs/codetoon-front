@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import HomeClient from './home-client';
+import { getCategories, getProjects, getTestimonials, getCustomers } from '@/lib/server-data';
 
 export const metadata: Metadata = {
     title: "Codetoon | transform your ideas into reality",
@@ -42,6 +43,12 @@ export const metadata: Metadata = {
     }
 };
 
-export default function Home() {
-    return <HomeClient />;
+export default async function Home() {
+    const [categories, projects, testimonials, customers] = await Promise.all([
+        getCategories(),
+        getProjects(),
+        getTestimonials(),
+        getCustomers(),
+    ]);
+    return <HomeClient categories={categories} projects={projects} testimonials={testimonials} customers={customers} />;
 }

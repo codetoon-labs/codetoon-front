@@ -2,8 +2,6 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useQuery } from '@apollo/client/react';
-import { GET_SERVICE_BY_SLUG } from '@/lib/graphql/queries';
 import { motion } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
 
@@ -47,29 +45,8 @@ const itemVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
 };
 
-export default function ServiceClient({ slug }: { slug: string }) {
+export default function ServiceClient({ service }: { service: Service | null }) {
     const { openContactModal } = useModal();
-    const { data, loading, error } = useQuery<{ service: Service }>(GET_SERVICE_BY_SLUG, {
-        variables: { slug }
-    });
-
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex justify-center items-center min-h-screen text-red-500 font-bold text-xl">
-                Error loading service details. Please try again later.
-            </div>
-        );
-    }
-
-    const service = data?.service;
 
     if (!service) {
         return (

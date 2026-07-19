@@ -10,7 +10,7 @@ import { ApolloProvider } from "@/lib/apollo-provider";
 import { ModalProvider } from "./context/ModalContext";
 import ContactModal from "./components/contactUs/contactUs";
 
-export function LayoutContent({ children }: { children: React.ReactNode }) {
+export function LayoutContent({ children, footerProjects = [] }: { children: React.ReactNode; footerProjects?: any[] }) {
   return (
     <ApolloProvider>
       <ModalProvider>
@@ -20,7 +20,7 @@ export function LayoutContent({ children }: { children: React.ReactNode }) {
         <main className="min-h-screen">
           {children}
         </main>
-        <Footer />
+        <Footer projects={footerProjects} />
         <ScrollToTop />
         <WhatsAppWidget />
         <ContactModal />

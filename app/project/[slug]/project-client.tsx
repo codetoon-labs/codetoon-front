@@ -6,8 +6,6 @@ import Link from 'next/link';
 import { motion, animate, useInView } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
 import TestimonialsSlider from '@/app/components/TestimonialsSlider/TestimonialsSlider';
-import { useQuery } from '@apollo/client/react';
-import { GET_PROJECTS } from '@/lib/graphql/queries';
 
 interface Project {
     description: string;
@@ -55,12 +53,6 @@ interface Project {
     short_description: string;
     tags: string[];
     sort_order: number;
-}
-
-interface GetProjectsData {
-    projects: {
-        data: Project[];
-    };
 }
 
 function AnimatedStat({ valueStr, staticPrefix = "", staticSuffix = "" }: { valueStr: string | number | null | undefined, staticPrefix?: string, staticSuffix?: string }) {
@@ -112,24 +104,10 @@ function ArrowUpRight() {
     );
 }
 
-export default function ProjectClient({ slug }: { slug: string }) {
+export default function ProjectClient({ project, testimonials = [] }: { project: Project | null; testimonials?: any[] }) {
     const { openContactModal } = useModal();
-    const { loading, error, data } = useQuery<GetProjectsData>(GET_PROJECTS);
 
-    const project = data?.projects.data.find((p) => p.slug === slug);
-
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white">
-                <div className="flex flex-col items-center gap-4">
-                    <div className="animate-spin border-t border-b border-[#0d71ba] rounded-full w-10 h-10"></div>
-                    <p className="text-[#535556] font-medium animate-pulse">Loading project details...</p>
-                </div>
-            </div>
-        );
-    }
-
-    if (error || !project) {
+    if (!project) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white px-4">
                 <div className="text-center flex flex-col gap-6 max-w-md">
@@ -148,7 +126,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
         );
     }
 
-    const displayTitle = project.title || slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ');
+    const displayTitle = project.title || project.slug.charAt(0).toUpperCase() + project.slug.slice(1).replace(/-/g, ' ');
 
     return (
         <div className="overflow-hidden">
@@ -385,7 +363,7 @@ export default function ProjectClient({ slug }: { slug: string }) {
                     transition={{ duration: 0.6 }}
                     className="container mx-auto px-4 sm:px-9 lg:px-12 flex flex-col lg:flex-row items-start justify-between gap-10"
                 >
-                    <TestimonialsSlider />
+                    <TestimonialsSlider testimonials={testimonials} />
                 </motion.div>
             </section>
 

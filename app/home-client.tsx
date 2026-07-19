@@ -7,8 +7,6 @@ import TestimonialsSlider from "@/app/components/TestimonialsSlider/Testimonials
 import Project from './components/projectSection/projectSection';
 import { useModal } from '@/app/context/ModalContext';
 import { motion } from 'framer-motion';
-import { useQuery } from '@apollo/client/react';
-import { GET_CATEGORIES } from '@/lib/graphql/queries';
 import HeroSectionContent from './components/HeroSection/heroSectionContent';
 
 interface Category {
@@ -20,9 +18,8 @@ interface Category {
 }
 
 
-export default function HomeClient() {
+export default function HomeClient({ categories, projects, testimonials, customers }: { categories: Category[]; projects: any[]; testimonials: any[]; customers: any[] }) {
     const { openContactModal } = useModal();
-    const { data, loading, error } = useQuery<{ allCategories: Category[] }>(GET_CATEGORIES);
 
     return <div className="overflow-hidden">
         {/*hero section*/}
@@ -45,14 +42,10 @@ export default function HomeClient() {
                 </div>
             </div>
             <div className="my-[24px] z-10 min-h-[400px]">
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="w-8 h-8 border-4 border-[#0D71BA] border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                ) : error ? (
+                {categories.length === 0 ? (
                    <div className="text-center py-10 text-[#535556]">Failed to load categories.</div>
                 ) : (
-                    data?.allCategories?.map((category, index) => (
+                    categories.map((category, index) => (
                         <motion.div
                             key={category.id}
                             initial={{ opacity: 0, y: 20 }}
@@ -108,7 +101,7 @@ export default function HomeClient() {
                     <span className="self-end font-semibold text-[56px] sm:text-[72px] lg:text-[100px] italic text-[#0D71BA] z-10">Work</span>
                 </h2>
             </div>
-            <Project />
+            <Project projects={projects} />
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -381,7 +374,7 @@ export default function HomeClient() {
                 </div>
             </div>
             <div className="bg-[#EFF5FB] h-[180px]">
-                <LogoScroller />
+                <LogoScroller customers={customers} />
             </div>
         </motion.section>
         {/*What our clients say about us section*/}
@@ -392,7 +385,7 @@ export default function HomeClient() {
             viewport={{ once: true }}
             className="container mx-auto my-[60px] lg:my-[110px] px-4 sm:px-6 lg:px-0"
         >
-            <TestimonialsSlider />
+            <TestimonialsSlider testimonials={testimonials} />
         </motion.section>
     </div>
 

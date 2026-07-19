@@ -4,8 +4,6 @@ import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
 import Image from 'next/image';
-import { useQuery } from '@apollo/client/react';
-import { GET_TEAMS } from '@/lib/graphql/queries';
 
 interface TeamMember {
   id: string;
@@ -16,9 +14,6 @@ interface TeamMember {
   };
 }
 
-interface GetTeamsData {
-  teams: TeamMember[];
-}
 /* ─── Animation variant ─────────────────────────────────────────────────── */
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -258,31 +253,12 @@ function TeamCard({ name, role, image }: { name: string; role: string; image?: s
 
 /* ─── Team Section ───────────────────────────────────────────────────────── */
 
-function TeamSection() {
-  const { data, loading, error } = useQuery<GetTeamsData>(GET_TEAMS);
-
-    if (loading) {
-    return (
-      <div className="row">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="col-md-3 mb-4">
-            <div className="placeholder-">
-              <span className="placeholder col-12" style={{height:"250px"}}></span>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>Error fetching team members</div>;
-  }
-    const displayTeams = data?.teams?.map((t: TeamMember) => ({
+function TeamSection({ teams = [] }: { teams?: TeamMember[] }) {
+    const displayTeams = teams.map((t: TeamMember) => ({
         name: t.name,
         role: t.title,
         image: t.image?.full_url
-      })) ?? [];
+      }));
 
   return (
     <section className="py-10 lg:py-20">
@@ -920,12 +896,12 @@ function CTASection() {
 }
 
 /* ─── Main export ────────────────────────────────────────────────────────── */
-export default function AboutUsClient() {
+export default function AboutUsClient({ teams = [] }: { teams?: TeamMember[] }) {
   return (
     <div className="overflow-hidden">
       <HeroSection />
       <StorySection />
-      <TeamSection />
+      <TeamSection teams={teams} />
       <ProcessSection />
       <CTASection />
     </div>
