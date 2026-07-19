@@ -6,6 +6,7 @@
 # GLOBAL SEARCH ENGINE ACCESS
 # -----------------------------
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
 # Block sensitive/private areas
