@@ -1,4 +1,7 @@
-# Codetoon
+// Served as a route (not a public/ asset) so the markdown-for-agents
+// middleware rewrite works on Cloudflare, with an explicit markdown content-type.
+
+const content = `# Codetoon
 
 > Codetoon is a full-service digital agency based in New Cairo, Egypt. We fuse design and technology into one team under one roof — Build. Brand. Boost. — covering AI & automation, software development, design, and digital marketing from strategy through launch.
 
@@ -30,3 +33,13 @@ Codetoon works with brands that are tired of juggling multiple vendors: one team
 ## Optional
 
 - [Sitemap](https://codetoon.net/sitemap.xml): Full list of pages including individual project and solution pages
+`;
+
+export async function GET() {
+    return new Response(content, {
+        headers: {
+            'Content-Type': 'text/markdown; charset=utf-8',
+            'Cache-Control': 'public, max-age=3600',
+        },
+    });
+}
