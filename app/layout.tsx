@@ -9,17 +9,25 @@ import { getProjects } from "@/lib/server-data";
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "ProfessionalService",
   "@id": "https://codetoon.net/#organization",
   name: "Codetoon",
   url: "https://codetoon.net",
   logo: "https://codetoon.net/logo.svg",
+  image: "https://codetoon.net/codetoon-og.png",
   description:
     "Full service digital agency, crafting tech and design solutions based in Egypt",
+  email: "Info@Codetoon.net",
+  telephone: "+201156167758",
   address: {
     "@type": "PostalAddress",
+    streetAddress:
+      "316 Ninety Road, Sector 2, Office No. 3, Third Floor, 5th Settlement",
+    addressLocality: "New Cairo",
+    addressRegion: "Cairo",
     addressCountry: "EG",
   },
+  areaServed: "EG",
   sameAs: [
     "https://x.com/Codetooneg",
   ],
@@ -42,8 +50,26 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "Codetoon",
+  metadataBase: new URL("https://codetoon.net"),
+  title: {
+    default: "Codetoon | transform your ideas into reality",
+    template: "%s | Codetoon",
+  },
   description: "Full service digital agency, crafting tech and design solutions based in Egypt",
+  // Every page inherits a self-referencing canonical unless it sets its own.
+  alternates: { canonical: "./" },
+  openGraph: {
+    siteName: "Codetoon",
+    locale: "en_US",
+    type: "website",
+    images: [{ url: "/codetoon-og.png", width: 1200, height: 630, alt: "Codetoon" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@Codetooneg",
+    creator: "@Codetooneg",
+    images: ["/codetoon-og.png"],
+  },
 };
 
 // Refresh CMS-fetched content hourly (pages are otherwise prerendered/cached)
@@ -63,6 +89,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* CMS image origin — every project/service image loads from here, so
+            open the connection during HTML parse instead of at first <img>. */}
+        <link
+          rel="preconnect"
+          href="https://fls-9eac8cc6-db93-413e-bfc5-41e16a4267ee.laravel.cloud"
+          crossOrigin=""
+        />
         <Script
           defer
           data-website-id="dfid_CgRWCeHd3DFpRuCvrzfJR"

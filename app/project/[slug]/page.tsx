@@ -1,25 +1,36 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import ProjectClient from './project-client';
 import JsonLd from '@/app/components/JsonLd';
 import { getProjectBySlug, getTestimonials } from '@/lib/server-data';
+import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     const project = await getProjectBySlug(slug);
-    const fallbackTitle = slug ? slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ') : 'Project';
-    const title = project?.title || fallbackTitle;
-    const description = project?.short_description || project?.description
-        || `Explore our premium ${title} projects. Let's work together to build, brand, and boost your next big idea.`;
+
+    // Unknown slug: the page 404s, so don't advertise a fabricated title.
+    if (!project) {
+        return { title: 'Project not found', robots: { index: false, follow: false } };
+    }
+
+    // CMS titles carry stray whitespace; the root layout appends "| Codetoon".
+    const title = suffixOnce(pageTitle(project.title, 'Project'), 'case study');
+    const description = metaDescription(
+        project.short_description,
+        project.description,
+        `A CodeToon case study: how we built ${pageTitle(project.title, 'this project')}.`
+    );
 
     return {
-        title: `${title} | CodeToon Projects`,
+        title,
         description,
         openGraph: {
-            title: `${title} | CodeToon Projects`,
+            title: `${title} | Codetoon`,
             description,
             url: `https://codetoon.net/project/${slug}`,
-            type: 'website',
-            ...(project?.main_image?.full_url && { images: [{ url: project.main_image.full_url }] }),
+            type: 'article',
+            images: ogImages(project.main_image?.full_url),
         },
         alternates: {
             canonical: `https://codetoon.net/project/${slug}`,
@@ -31,7 +42,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     const { slug } = await params;
     const [project, testimonials] = await Promise.all([getProjectBySlug(slug), getTestimonials()]);
 
-    const jsonLd = project && {
+    // Real 404 for unknown slugs — otherwise every bad URL is an indexable
+    // 200 with a self-referencing canonical.
+    if (!project) notFound();
+
+    const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'CreativeWork',
         name: project.title,
@@ -50,7 +65,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
     return (
         <>
-            {jsonLd && <JsonLd data={jsonLd} />}
+            <JsonLd data={jsonLd} />
             <ProjectClient project={project} testimonials={testimonials} />
         </>
     );

@@ -16,6 +16,7 @@ Disallow: /dashboard/
 Disallow: /api/
 Disallow: /private/
 Disallow: /tmp/
+Disallow: /components/
 Disallow: /checkout/
 Disallow: /cart/
 
@@ -24,9 +25,6 @@ Disallow: /*?replytocom=
 Disallow: /*?preview=
 Disallow: /*?filter=
 Disallow: /*?sort=
-
-# Improve crawl efficiency
-Crawl-delay: 2
 
 
 # -----------------------------
@@ -120,4 +118,4 @@ Allow: /
 # -----------------------------
 # SITEMAPS
 # -----------------------------
-Sitemap: https://www.codetoon.net/sitemap.xml
+Sitemap: https://codetoon.net/sitemap.xml

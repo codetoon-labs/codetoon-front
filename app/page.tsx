@@ -29,6 +29,9 @@ export const metadata: Metadata = {
         creator: "@Codetooneg",
         images: ["https://codetoon.net/codetoon-og.png"],
     },
+    alternates: {
+        canonical: "https://codetoon.net",
+    },
     robots: {
         index: true,
         follow: true,

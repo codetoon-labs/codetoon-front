@@ -2,7 +2,7 @@
 
 import Header from "./components/navbar/Header";
 import Footer from "./components/footer/Footer";
-import CursorFollower from "./components/cursorApp/page";
+import CursorFollower from "./components/cursorApp/CursorFollower";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
 import WhatsAppWidget from "./components/WhatsAppWidget/WhatsAppWidget";
 import RefreshScrollRestoration from "./components/RefreshScrollRestoration/RefreshScrollRestoration";

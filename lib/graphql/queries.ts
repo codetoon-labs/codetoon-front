@@ -102,6 +102,7 @@ export const GET_CATEGORIES = gql`
             services{
                 id
                 title
+                slug
                 description
             }
         }
