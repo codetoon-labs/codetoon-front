@@ -1,25 +1,37 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import ServiceClient from './service-client';
 import JsonLd from '@/app/components/JsonLd';
 import { getServiceBySlug } from '@/lib/server-data';
+import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     const service = await getServiceBySlug(slug);
-    const fallbackTitle = slug ? slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ') : 'Service';
-    const title = service?.title || fallbackTitle;
-    const description = service?.short_description || service?.description
-        || `Discover our ${title} service. Let's work together to build, brand, and boost your next big idea.`;
+
+    // Unknown slug: the page 404s, so don't advertise a fabricated title.
+    if (!service) {
+        return { title: 'Service not found', robots: { index: false, follow: false } };
+    }
+
+    // Only 1 of 7 services has a short_description, so `description` (218-580
+    // chars) is the usual source and has to be truncated for the SERP.
+    const title = suffixOnce(pageTitle(service.title, 'Services'), 'services in Egypt');
+    const description = metaDescription(
+        service.short_description,
+        service.description,
+        `Discover CodeToon's ${pageTitle(service.title)} service — build, brand and boost your next big idea.`
+    );
 
     return {
-        title: `${title} | CodeToon Services`,
+        title,
         description,
         openGraph: {
-            title: `${title} | CodeToon Services`,
+            title: `${title} | Codetoon`,
             description,
             url: `https://codetoon.net/service/${slug}`,
             type: 'website',
-            ...(service?.banner?.full_url && { images: [{ url: service.banner.full_url }] }),
+            images: ogImages(service.banner?.full_url),
         },
         alternates: {
             canonical: `https://codetoon.net/service/${slug}`,
@@ -31,7 +43,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     const { slug } = await params;
     const service = await getServiceBySlug(slug);
 
-    const jsonLd = service && {
+    // Real 404 for unknown slugs — otherwise every bad URL is an indexable
+    // 200 with a self-referencing canonical.
+    if (!service) notFound();
+
+    const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: service.title,
@@ -53,7 +69,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
     return (
         <>
-            {jsonLd && <JsonLd data={jsonLd} />}
+            <JsonLd data={jsonLd} />
             <ServiceClient service={service} />
         </>
     );

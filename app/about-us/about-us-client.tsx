@@ -91,6 +91,11 @@ function HeroSection() {
   return (
     <section className="relative overflow-hidden pt-[100px] lg:pt-[140px] pb-10">
       <div className="container mx-auto px-4 sm:px-9">
+        {/* The visible hero headline is three separately animated, absolutely
+            positioned fragments, so the page carries its H1 here instead. */}
+        <h1 className="sr-only">
+          About CodeToon — a digital agency in Cairo where vision becomes product
+        </h1>
         <motion.div
           initial="hidden" animate="visible"
           variants={{ visible: { transition: { staggerChildren: 0.12 } } }}

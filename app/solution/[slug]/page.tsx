@@ -1,25 +1,37 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import SolutionClient from './solution-client';
 import JsonLd from '@/app/components/JsonLd';
 import { getCategoryBySlug } from '@/lib/server-data';
+import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     const category = await getCategoryBySlug(slug);
-    const fallbackTitle = slug ? slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ') : 'Solution';
-    const title = category?.title || fallbackTitle;
-    const description = category?.overview || category?.description
-        || `Explore our premium ${title} solutions. Let's work together to build, brand, and boost your next big idea.`;
+
+    // Unknown slug: the page 404s, so don't advertise a fabricated title.
+    if (!category) {
+        return { title: 'Solution not found', robots: { index: false, follow: false } };
+    }
+
+    // `description` is the short, SERP-sized field; `overview` is the long
+    // on-page copy (212-650 chars) and only serves as a fallback.
+    const title = suffixOnce(pageTitle(category.title, 'Solutions'), 'solutions');
+    const description = metaDescription(
+        category.description,
+        category.overview,
+        `Explore CodeToon's ${pageTitle(category.title)} solutions — built, branded and boosted by one team.`
+    );
 
     return {
-        title: `${title} | CodeToon Solutions`,
+        title,
         description,
         openGraph: {
-            title: `${title} | CodeToon Solutions`,
+            title: `${title} | Codetoon`,
             description,
             url: `https://codetoon.net/solution/${slug}`,
             type: 'website',
-            ...(category?.main_image?.full_url && { images: [{ url: category.main_image.full_url }] }),
+            images: ogImages(category.main_image?.full_url),
         },
         alternates: {
             canonical: `https://codetoon.net/solution/${slug}`,
@@ -31,7 +43,11 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
     const { slug } = await params;
     const category = await getCategoryBySlug(slug);
 
-    const jsonLd = category && {
+    // Real 404 for unknown slugs — otherwise every bad URL is an indexable
+    // 200 with a self-referencing canonical.
+    if (!category) notFound();
+
+    const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: category.title,
@@ -58,7 +74,7 @@ export default async function SolutionPage({ params }: { params: Promise<{ slug:
 
     return (
         <>
-            {jsonLd && <JsonLd data={jsonLd} />}
+            <JsonLd data={jsonLd} />
             <SolutionClient slug={slug} category={category} />
         </>
     );
