@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
 import Image from 'next/image';
+import { useI18n } from '@/lib/i18n/provider';
 
 interface TeamMember {
   id: string;
@@ -21,45 +22,8 @@ const fadeUp: Variants = {
 };
 
 /* ─── Static data ────────────────────────────────────────────────────────── */
-const codetoonWay = [
-  'Lead with Curiosity',
-  'Design Loud, Code Smart',
-  'Break Rules, Build Better',
-  'Embrace the Chaos',
-];
-
-const processSteps = [
-  {
-    number: '01', title: 'Discover',
-    description: "We kick off by asking the right questions, aligning goals, and deeply understanding user needs. This is where clarity is born and real problems surface — it's the foundation of everything we build.",
-    exploreLabel: 'We explore through:',
-    bullets: ['Collaborative workshops', 'Market and user research', 'Vision alignment and goal mapping'],
-  },
-  {
-    number: '02', title: 'Define',
-    description: 'We translate discovery insights into clear requirements, user journeys, and a solid project roadmap. Every decision here sets the direction for the entire project.',
-    exploreLabel: 'We define through:',
-    bullets: ['User journey mapping', 'Requirement documentation', 'Project roadmap planning'],
-  },
-  {
-    number: '03', title: 'Design',
-    description: 'We craft bold, purposeful interfaces that delight users and embody your brand. From wireframes to pixel-perfect visuals, every detail matters.',
-    exploreLabel: 'We design through:',
-    bullets: ['Wireframing and prototyping', 'Visual identity refinement', 'Interactive design systems'],
-  },
-  {
-    number: '04', title: 'Develop',
-    description: 'We build with precision, using the latest technologies to bring designs to life. Clean code, robust architecture, and scalable systems are our standards.',
-    exploreLabel: 'We develop through:',
-    bullets: ['Agile sprints and iterations', 'Code reviews and testing', 'CI/CD pipelines'],
-  },
-  {
-    number: '05', title: 'Deliver',
-    description: "We launch, monitor, and iterate. Delivery isn't the end — it's the beginning of a partnership. We ensure everything performs flawlessly from day one.",
-    exploreLabel: 'We deliver through:',
-    bullets: ['Phased rollouts', 'Performance monitoring', 'Ongoing support and iteration'],
-  },
-];
+// Copy lives in lib/i18n/messages/*/about.ts; only the step numbers are fixed.
+const STEP_NUMBERS = ['01', '02', '03', '04', '05'];
 
 /* ─── Shared staggered headline ──────────────────────────────────────────── */
 interface StaggerHeadlineProps {
@@ -76,10 +40,10 @@ function StaggerHeadline({ topLeft, bottomRight, className = '' }: StaggerHeadli
       variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
       className={`relative h-[130px] sm:h-[170px] lg:h-[225px] flex justify-between ${className}`}
     >
-      <motion.div variants={fadeUp} className="absolute top-0 left-0 flex gap-2 sm:gap-3 items-center">
+      <motion.div variants={fadeUp} className="absolute top-0 start-0 flex gap-2 sm:gap-3 items-center">
         {topLeft}
       </motion.div>
-      <motion.div variants={fadeUp} className="absolute bottom-0 right-[0%] lg:right-[10%] flex gap-2 sm:gap-3 items-center">
+      <motion.div variants={fadeUp} className="absolute bottom-0 end-[0%] lg:end-[10%] flex gap-2 sm:gap-3 items-center">
         {bottomRight}
       </motion.div>
     </motion.div>
@@ -88,13 +52,14 @@ function StaggerHeadline({ topLeft, bottomRight, className = '' }: StaggerHeadli
 
 /* ─── Hero Section ───────────────────────────────────────────────────────── */
 function HeroSection() {
+  const { t: { about: { hero: t } } } = useI18n();
   return (
     <section className="relative overflow-hidden pt-[100px] lg:pt-[140px] pb-10">
       <div className="container mx-auto px-4 sm:px-9">
         {/* The visible hero headline is three separately animated, absolutely
             positioned fragments, so the page carries its H1 here instead. */}
         <h1 className="sr-only">
-          About CodeToon — a digital agency in Cairo where vision becomes product
+          {t.h1}
         </h1>
         <motion.div
           initial="hidden" animate="visible"
@@ -111,7 +76,7 @@ function HeroSection() {
               transition={{ duration: 1 }}
               viewport={{ once: true }}
               className="absolute inset-x-0 top-[55px] sm:top-[70px] lg:top-[77px] flex justify-center z-5">
-              <Image className='rounded-[22px] shadow-2xl' src="/about-us-img.webp" alt="about us image" width={506} height={370} priority />
+              <Image className='rounded-[22px] shadow-2xl' src="/about-us-img.webp" alt={t.imageAlt} width={506} height={370} priority />
             </motion.div>
             
             {/* "Vision" */}
@@ -121,8 +86,8 @@ function HeroSection() {
               transition={{ delay: 0.8, duration: 1 }}
               viewport={{ once: true }}
               style={{ backgroundImage: 'linear-gradient(120deg, #0D71BA 15%, #ffffff 100%)' }}
-              className="absolute top-15 left-3  sm:top-7 sm:left-10 lg:top-4 lg:left-19 text-transparent bg-clip-text text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px] z-10">
-              Vision
+              className="absolute top-15 start-3  sm:top-7 sm:start-10 lg:top-4 lg:start-19 text-transparent bg-clip-text text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px] z-10">
+              {t.vision}
             </motion.p>
 
             {/* "Becomes" (Be + comes) */}
@@ -131,9 +96,9 @@ function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.5, duration: 1 }}
               viewport={{ once: true }}
-              className="absolute right-19 top-[48%]  sm:top-50 sm:right-[-30px] lg:right-[-76px] lg:top-[175px] z-10">
-              <span className="text-[#E6F0F8] text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px]">Be</span>
-              <span className="text-[#0d71ba] text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px]">comes</span>
+              className="absolute end-19 top-[48%]  sm:top-50 sm:end-[-30px] lg:end-[-76px] lg:top-[175px] z-10">
+              <span className="text-[#E6F0F8] text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px]">{t.becomesA}</span>
+              <span className="text-[#0d71ba] text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px]">{t.becomesB}</span>
             </motion.div>
 
             {/* "Product" — gradient */}
@@ -142,9 +107,9 @@ function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 2, duration: 1 }}
               viewport={{ once: true }}
-              className="absolute bottom-7 lg:bottom-1 right-3 sm:bottom-0 sm:right-[20%] lg:right-[21%] text-transparent bg-clip-text text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px] z-10"
+              className="absolute bottom-7 lg:bottom-1 end-3 sm:bottom-0 sm:end-[20%] lg:end-[21%] text-transparent bg-clip-text text-[60px] sm:text-[68px] lg:text-[88px] font-semibold leading-none tracking-[2px] z-10"
               style={{ backgroundImage: 'linear-gradient(180deg, #ffffff 22%, #0B65A7 99%)' }}>
-              Product
+              {t.product}
             </motion.p>
           </div>
 
@@ -155,7 +120,7 @@ function HeroSection() {
             transition={{ duration: 1.7 }}
             viewport={{ once: true }}
             className="mt-10 text-center text-[#535556] text-[16px] sm:text-[18px] lg:text-[20px] font-medium leading-relaxed max-w-[656px] px-4 z-10">
-            From idea to execution, we turn raw vision into refined, scalable digital products.
+            {t.tagline}
           </motion.p>
         </motion.div>
       </div>
@@ -166,6 +131,7 @@ function HeroSection() {
 
 /* ─── Story + Values Section ─────────────────────────────────────────────── */
 function StorySection() {
+  const { dir, t: { about: { story: t } } } = useI18n();
   return (
     <section className="py-10 lg:py-20">
       <div className="container mx-auto px-4 sm:px-9">
@@ -173,12 +139,12 @@ function StorySection() {
         <StaggerHeadline
           className="mb-12 lg:mb-16 z-10"
           topLeft={<>
-            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">Born to</span>
-            <span className="text-[#0d71ba] text-[36px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1]">Disrupt</span>
+            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">{t.bornTo}</span>
+            <span className="text-[#0d71ba] text-[36px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1]">{t.disrupt}</span>
           </>}
           bottomRight={<>
-            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">Fueled by</span>
-            <span className="text-[#0d71ba] text-[36px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1]">Fun.</span>
+            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">{t.fueledBy}</span>
+            <span className="text-[#0d71ba] text-[36px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1]">{t.fun}</span>
           </>}
         />
         {/* Two-column: Our Story | The CodeToon Way */}
@@ -192,25 +158,22 @@ function StorySection() {
           {/* Our Story */}
           <motion.div variants={fadeUp} className="flex flex-col gap-10 w-full lg:w-[531px] z-10">
             <div className="border-b-[3px] border-dashed border-[#f4d315] max-w-fit pb-3">
-              <h2 className="text-[#000305] text-[28px] sm:text-[32px] lg:text-[36px] font-semibold leading-[1.2]">Our Story</h2>
+              <h2 className="text-[#000305] text-[28px] sm:text-[32px] lg:text-[36px] font-semibold leading-[1.2]">{t.ourStoryTitle}</h2>
             </div>
             <p className="text-[#535556] text-[16px] sm:text-[18px] lg:text-[20px] leading-[1.44]">
-              We started CodeToon with a simple belief: great brands deserve a partner who cares as much as they do.
-              A restless crew of designers, developers, and strategists came together in Egypt to build something different —
-              a place where creativity meets execution, where bold ideas become real products.
-              We don&apos;t just deliver services. We build futures, one bold project at a time.
+              {t.ourStoryBody}
             </p>
           </motion.div>
           {/* The CodeToon Way */}
           <motion.div variants={fadeUp} className="flex flex-col gap-10 w-full lg:w-[584px] z-10">
             <div className="border-b-[3px] border-dashed border-[#f4d315] max-w-fit pb-3">
-              <h2 className="text-[#000305] text-[28px] sm:text-[32px] lg:text-[36px] font-semibold leading-[1.2]">The CodeToon Way</h2>
+              <h2 className="text-[#000305] text-[28px] sm:text-[32px] lg:text-[36px] font-semibold leading-[1.2]">{t.wayTitle}</h2>
             </div>
             <div className="flex flex-col gap-3">
-              {codetoonWay.map((item, idx) => (
+              {t.way.map((item, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, x: -16 }}
+                  initial={{ opacity: 0, x: dir === 'rtl' ? 16 : -16 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.08 }}
@@ -259,6 +222,7 @@ function TeamCard({ name, role, image }: { name: string; role: string; image?: s
 /* ─── Team Section ───────────────────────────────────────────────────────── */
 
 function TeamSection({ teams = [] }: { teams?: TeamMember[] }) {
+    const { t: { about: { team: t } } } = useI18n();
     const displayTeams = teams.map((t: TeamMember) => ({
         name: t.name,
         role: t.title,
@@ -271,11 +235,11 @@ function TeamSection({ teams = [] }: { teams?: TeamMember[] }) {
         <StaggerHeadline
           className="mb-12 lg:mb-16"
           topLeft={
-            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1] z-10">The Minds</span>
+            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1] z-10">{t.theMinds}</span>
           }
           bottomRight={<>
-            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1] z-10">Behind the</span>
-            <span className="text-[#0d71ba] text-[36px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1] z-10">Magic</span>
+            <span className="text-[#000305] text-[36px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1] z-10">{t.behindThe}</span>
+            <span className="text-[#0d71ba] text-[36px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1] z-10">{t.magic}</span>
           </>}
         />
         <motion.div
@@ -299,6 +263,10 @@ function TeamSection({ teams = [] }: { teams?: TeamMember[] }) {
 
 /* ─── Process Section ────────────────────────────────────────────────────── */
 function ProcessSection() {
+  const { dir, t: { about: { process: t } } } = useI18n();
+  // Horizontal motion offsets point toward the reading direction.
+  const sign = dir === 'rtl' ? -1 : 1;
+  const processSteps = t.steps.map((step, idx) => ({ ...step, number: STEP_NUMBERS[idx] }));
   const [activeStep, setActiveStep] = useState(0);
   const currentStep = processSteps[activeStep];
 
@@ -320,15 +288,15 @@ function ProcessSection() {
             viewport={{ once: true }} transition={{ duration: 0.6 }}
             className=""
           >
-            <span className="text-[#000305] text-[40px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">How We</span>
+            <span className="text-[#000305] text-[40px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">{t.howWe}</span>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative bottom-[-30px] right-0 flex gap-3 sm:gap-4 items-center"
+            className="relative bottom-[-30px] end-0 flex gap-3 sm:gap-4 items-center"
           >
-            <span className="text-[#000305] text-[40px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">Build</span>
-            <span className="text-[#0d71ba] text-[40px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1]">Bold</span>
+            <span className="text-[#000305] text-[40px] sm:text-[60px] lg:text-[100px] font-medium leading-[1.1]">{t.build}</span>
+            <span className="text-[#0d71ba] text-[40px] sm:text-[60px] lg:text-[100px] font-[650] leading-[1.1]">{t.bold}</span>
           </motion.div>
         </div>
 
@@ -344,7 +312,7 @@ function ProcessSection() {
           <div className="flex gap-5 sm:gap-6 w-full lg:w-[579px] relative  lg:pb-0">
             {/* Numbered column with dashed vertical line */}
             <div className="relative flex flex-col gap-0 items-center shrink-0 w-[45px] z-10">
-              <div className="absolute top-[25px] sm:top-[35px] lg:top-[45px] left-1/2 -translate-x-1/2 w-[2px] h-[72%] sm:h-[75%] lg:h-[calc(75%-22px)] border-l-2 border border-[#F7E05B]" />
+              <div className="absolute top-[25px] sm:top-[35px] lg:top-[45px] left-1/2 -translate-x-1/2 w-[2px] h-[72%] sm:h-[75%] lg:h-[calc(75%-22px)] border-s-2 border border-[#F7E05B]" />
               {processSteps.map((step, idx) => (
                 <button
                   key={idx}
@@ -371,7 +339,7 @@ function ProcessSection() {
             {/* Active step content */}
             <motion.div
               key={activeStep}
-              initial={{ opacity: 0, x: -12 }}
+              initial={{ opacity: 0, x: -12 * sign }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.35 }}
               className="flex flex-col gap-7 flex-1 min-w-0 z-10"
@@ -407,14 +375,14 @@ function ProcessSection() {
               initial={false}
               animate={{
                 opacity: activeStep === 0 ? 0 : 1,
-                x: activeStep === 0 ? -20 : 0,
+                x: activeStep === 0 ? -20 * sign : 0,
                 scale: activeStep === processSteps.length - 1 ? 1.05 : (activeStep === 0 ? 0.9 : 1),
                 pointerEvents: activeStep === 0 ? 'none' : 'auto'
               }}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
-              className="hidden lg:flex absolute bottom-[90px] left-[65px] sm:left-[69px] w-14 h-14 bg-[#0d71ba] rounded-full items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md z-20"
+              className="hidden lg:flex absolute bottom-[90px] start-[65px] sm:start-[69px] w-14 h-14 bg-[#0d71ba] rounded-full items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md z-20"
             >
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="rotate-180">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="rotate-180 rtl:rotate-0">
                 <path d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z" fill="#F4D315"/>
               </svg>
             </motion.button>
@@ -423,7 +391,7 @@ function ProcessSection() {
           {/* Right: image card + next arrow */}
           <div className="relative w-full flex flex-col gap-6 lg:w-[385px] shrink-0">
             <div className="w-full h-[200px] sm:h-[240px] lg:h-[267px] rounded-[16px] overflow-hidden bg-linear-to-br from-[#E6F0F8] to-[#B6D4EA] flex items-center justify-center z-10">
-              <span className="text-[#0d71ba] text-[14px] font-medium opacity-40">Process Visual</span>
+              <span className="text-[#0d71ba] text-[14px] font-medium opacity-40">{t.visualPlaceholder}</span>
             </div>
             
             {/* Animated Navigation Controls (Desktop) */}
@@ -435,14 +403,14 @@ function ProcessSection() {
                 initial={false}
                 animate={{
                   opacity: activeStep === processSteps.length - 1 ? 0 : 1,
-                  x: activeStep === processSteps.length - 1 ? 20 : 0,
+                  x: activeStep === processSteps.length - 1 ? 20 * sign : 0,
                   scale: activeStep === processSteps.length - 1 ? 0.9 : 1,
                   pointerEvents: activeStep === processSteps.length - 1 ? 'none' : 'auto'
                 }}
                 transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                className="w-14 h-14 bg-[#0d71ba] rounded-full flex items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md absolute bottom-[-30px] right-0 z-10"
+                className="w-14 h-14 bg-[#0d71ba] rounded-full flex items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md absolute bottom-[-30px] end-0 z-10"
               >
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="rtl:rotate-180">
                   <path d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z" fill="#F4D315"/>
                 </svg>
               </motion.button>
@@ -458,12 +426,12 @@ function ProcessSection() {
               initial={false}
               animate={{
                 opacity: activeStep === 0 ? 0 : 1,
-                x: activeStep === 0 ? -10 : 0,
+                x: activeStep === 0 ? -10 * sign : 0,
                 pointerEvents: activeStep === 0 ? 'none' : 'auto'
               }}
               className="w-12 h-12 bg-[#0d71ba] rounded-full flex items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md"
             >
-              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="rotate-180">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="rotate-180 rtl:rotate-0">
                 <path d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z" fill="#F4D315"/>
               </svg>
             </motion.button>
@@ -475,12 +443,12 @@ function ProcessSection() {
               initial={false}
               animate={{
                 opacity: activeStep === processSteps.length - 1 ? 0 : 1,
-                x: activeStep === processSteps.length - 1 ? 10 : 0,
+                x: activeStep === processSteps.length - 1 ? 10 * sign : 0,
                 pointerEvents: activeStep === processSteps.length - 1 ? 'none' : 'auto'
               }}
               className="w-12 h-12 bg-[#0d71ba] rounded-full flex items-center justify-center hover:bg-[#0B65A7] transition-colors cursor-pointer shadow-md"
             >
-              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+              <svg width="28" height="28" viewBox="0 0 32 32" fill="none" className="rtl:rotate-180">
                 <path d="M19.3688 24L17.4915 22.1144L22.2507 17.3341L4.6665 17.3342L4.6665 14.6675L22.2513 14.6674L17.4913 9.88563L19.3687 8L27.3332 16.0005L19.3688 24Z" fill="#F4D315"/>
               </svg>
             </motion.button>
@@ -597,6 +565,7 @@ const NN_EDGES = [
 
 function CTASection() {
   const { openContactModal } = useModal();
+  const { t: { about: { cta: t } } } = useI18n();
 
   return (
     <section className="relative overflow-hidden pb-16 lg:pb-24">
@@ -782,8 +751,8 @@ function CTASection() {
         }}
         className="hidden lg:flex"
       >
-        <span style={{ color: '#f4d315', fontSize: '20px', fontWeight: 700, lineHeight: 1 }}>50+</span>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', fontWeight: 500 }}>Projects Shipped</span>
+        <span style={{ color: '#f4d315', fontSize: '20px', fontWeight: 700, lineHeight: 1 }} dir="ltr">50+</span>
+        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', fontWeight: 500 }}>{t.projectsShipped}</span>
       </div>
 
       <div
@@ -800,8 +769,8 @@ function CTASection() {
         }}
         className="hidden lg:flex"
       >
-        <span style={{ color: '#f4d315', fontSize: '20px', fontWeight: 700, lineHeight: 1 }}>100%</span>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', fontWeight: 500 }}>Bold by Design</span>
+        <span style={{ color: '#f4d315', fontSize: '20px', fontWeight: 700, lineHeight: 1 }} dir="ltr">100%</span>
+        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', fontWeight: 500 }}>{t.boldByDesign}</span>
       </div>
 
       <div
@@ -818,8 +787,8 @@ function CTASection() {
         }}
         className="hidden lg:flex"
       >
-        <span style={{ color: '#f4d315', fontSize: '20px', fontWeight: 700, lineHeight: 1 }}>3x</span>
-        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', fontWeight: 500 }}>Faster Delivery</span>
+        <span style={{ color: '#f4d315', fontSize: '20px', fontWeight: 700, lineHeight: 1 }} dir="ltr">3x</span>
+        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '11px', fontWeight: 500 }}>{t.fasterDelivery}</span>
       </div>
 
       {/* ── Content (text + button) ──────────────────────────────────────── */}
@@ -837,10 +806,10 @@ function CTASection() {
             className="text-white text-[36px] sm:text-[52px] lg:text-[64px] font-semibold leading-[1.1] z-10"
             style={{ textShadow: '0 0 40px rgba(13,113,186,0.4)' }}
           >
-            Change the World
+            {t.changeTheWorld}
           </motion.p>
           <motion.div variants={fadeUp} className="flex gap-3 sm:gap-4 items-end justify-center z-10">
-            <span className="text-white text-[36px] sm:text-[52px] lg:text-[64px] font-semibold leading-[1.2]">Cause</span>
+            <span className="text-white text-[36px] sm:text-[52px] lg:text-[64px] font-semibold leading-[1.2]">{t.cause}</span>
             <span
               className="text-[36px] sm:text-[52px] lg:text-[72px] font-[650] leading-[1.2]"
               style={{
@@ -850,7 +819,7 @@ function CTASection() {
                 backgroundClip: 'text',
               }}
             >
-              We Can
+              {t.weCan}
             </span>
           </motion.div>
         </div>
@@ -858,14 +827,14 @@ function CTASection() {
         {/* Body text */}
         <motion.div variants={fadeUp} className="flex flex-col gap-3 max-w-[806px] z-10">
           <p className="text-white text-[18px] sm:text-[24px] lg:text-[32px] font-semibold leading-[1.2]">
-            Same templates? Same stock visuals? Same safe ideas?
+            {t.question}
           </p>
           <div className="text-[rgba(255,255,255,0.6)] text-[15px] sm:text-[17px] lg:text-[20px] font-normal leading-[1.4]">
-            <p>While others blend in, we stand out.</p>
-            <p>With bold design, playful energy, and purposeful code, we bring soul back to tech.</p>
+            <p>{t.line1}</p>
+            <p>{t.line2}</p>
             <p>
-              <span className="font-semibold text-white">CodeToon isn&apos;t just a name,</span>
-              {' '}it&apos;s a reminder that real creativity is brave, fun, and a little rebellious.
+              <span className="font-semibold text-white">{t.line3Strong}</span>
+              {' '}{t.line3Rest}
             </p>
           </div>
         </motion.div>
@@ -890,8 +859,8 @@ function CTASection() {
               pointerEvents: 'none',
             }}
           />
-          Let&apos;s Build Bold Together
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          {t.button}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="rtl:-scale-x-100">
             <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#F4D315" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </motion.button>

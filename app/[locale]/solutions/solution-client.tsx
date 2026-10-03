@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
+import { useI18n } from '@/lib/i18n/provider';
 
 interface CategorySolution {
     id: string;
@@ -24,12 +25,13 @@ interface CategorySolution {
 
 export default function SolutionClient({ categories }: { categories: CategorySolution[] }) {
     const { openContactModal } = useModal();
+    const { t, href } = useI18n();
     return (
         <>
             {/* Hero Section */}
             <section className="relative flex flex-col items-center justify-center font-sans dark:bg-black mt-30 lg:mt-[180px] lg:min-h-[50vh] min-h-[400px]">
                 {/* <Background /> */}
-                <svg className='absolute md:top-[-50px] top-[-70px] left-0 w-full h-full z-0' xmlns="http://www.w3.org/2000/svg" width="937" height="540" viewBox="0 0 937 540" fill="none">
+                <svg className='absolute md:top-[-50px] top-[-70px] start-0 w-full h-full z-0' xmlns="http://www.w3.org/2000/svg" width="937" height="540" viewBox="0 0 937 540" fill="none">
                     <g filter="url(#filter0_f_251_2766)">
                         <path d="M468.5 225.049C499.065 186.911 530.973 148.813 564.294 118.769C604.679 82.306 649.992 55 701.094 55C801.264 55 882 161.894 882 269.606C882 377.317 801.264 484.211 701.094 484.211C649.992 484.211 604.679 456.905 564.294 420.443C530.973 390.398 499.065 352.3 468.5 314.162C437.935 352.3 406.027 390.398 372.706 420.443C332.321 456.905 287.008 484.211 235.906 484.211C135.736 484.211 55 377.317 55 269.606C55 161.894 135.736 55 235.906 55C287.008 55 332.321 82.2652 372.706 118.769C406.027 148.813 437.935 186.911 468.5 225.049ZM235.906 116.316C165.887 116.316 106.688 193.778 106.688 269.606C106.688 345.433 165.887 422.895 235.906 422.895C270.95 422.895 305.305 404.214 341.418 371.676C372.086 343.961 401.995 308.153 432.905 269.606C401.995 231.058 372.086 195.209 341.418 167.535C305.305 134.997 270.95 116.316 235.906 116.316ZM504.095 269.606C535.005 308.153 564.914 344.002 595.582 371.676C631.695 404.214 666.05 422.895 701.094 422.895C771.113 422.895 830.312 345.433 830.312 269.606C830.312 193.778 771.113 116.316 701.094 116.316C666.05 116.316 631.695 134.997 595.582 167.535C564.914 195.25 535.005 231.058 504.095 269.606Z" fill="url(#paint0_radial_251_2766)" />
                     </g>
@@ -52,20 +54,20 @@ export default function SolutionClient({ categories }: { categories: CategorySol
                     className="container mx-auto px-4 sm:px-9 relative z-10"
                 >
                     <div className="flex flex-col items-center text-center gap-7">
-                        <h1 className="flex flex-col relative right-5 lg:right-0 lg:w-[682px] scale-100 text-[50px] lg:text-[92px] font-semibold leading-[1.1] uppercase">
-                            <span className="p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">Tech</span>
-                            <span className="relative left-10 lg:left-0 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
-                                Design
+                        <h1 className="flex flex-col relative end-5 lg:end-0 lg:w-[682px] scale-100 text-[50px] lg:text-[92px] font-semibold leading-[1.1] uppercase">
+                            <span className="p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">{t.solutions.hero.line1}</span>
+                            <span className="relative start-10 lg:start-0 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
+                                {t.solutions.hero.line2}
                             </span>
                             <span className="p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
-                                Marketing.
+                                {t.solutions.hero.line3}
                             </span>
-                            <span className="relative left-8 lg:left-18 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
-                                Fully Fused
+                            <span className="relative start-8 lg:start-18 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
+                                {t.solutions.hero.line4}
                             </span>
                         </h1>
                         <p className="w-full mt-10 max-w-[600px] mx-auto text-[20px] leading-[30px] font-medium text-[#535556]">
-                            From pixel-perfect branding to powerful digital products—we turn complex problems into elegant solutions.
+                            {t.solutions.hero.subtitle}
                         </p>
                     </div>
                 </motion.div>
@@ -75,7 +77,7 @@ export default function SolutionClient({ categories }: { categories: CategorySol
             <section className="container mx-auto px-4 sm:px-9 py-[80px] lg:pb-[140px] mt-0 lg:mt-10 lg:pt-[40px] font-sans">
                 {categories.length === 0 && (
                     <div className="text-center py-20 text-red-500">
-                        Error loading solutions. Please try again later.
+                        {t.solutions.loadError}
                     </div>
                 )}
                 {categories.length > 0 && (
@@ -89,7 +91,7 @@ export default function SolutionClient({ categories }: { categories: CategorySol
                             ][idx % 3];
 
                             return (
-                                <Link key={category.id} href={`/solution/${category.slug || ''}`} className="block group">
+                                <Link key={category.id} href={href(`/solution/${category.slug || ''}`)} className="block group">
                                     <motion.div 
                                         initial={{ opacity: 0, y: 20 }}
                                         whileInView={{ opacity: 1, y: 0 }}
@@ -99,7 +101,7 @@ export default function SolutionClient({ categories }: { categories: CategorySol
                                     >
                                         <div className={`flex flex-col w-full order-2 ${isEven ? 'xl:order-1' : 'xl:order-2'} z-10`}>
                                             <div className="flex gap-[8px] items-baseline mb-[16px]">
-                                                <span className={`text-[20px] font-bold ${theme.numberText}`}>({String(idx + 1).padStart(2, '0')})</span>
+                                                <span dir="ltr" className={`text-[20px] font-bold ${theme.numberText}`}>({String(idx + 1).padStart(2, '0')})</span>
                                                 <h2 className="text-[40px] lg:text-[56px] font-semibold text-[#2B3136] leading-[1.1] transition-colors duration-300 group-hover:text-[#0D71BA]">{category.title}</h2>
                                             </div>
                                             <p className="text-[18px] lg:text-[20px] text-[#535556] mb-[32px] leading-[1.6]">
@@ -119,8 +121,8 @@ export default function SolutionClient({ categories }: { categories: CategorySol
                                             )}
                                             
                                             <div className="mt-4 flex items-center font-bold text-[18px] text-[#0D71BA]">
-                                                <span>Explore Solution</span>
-                                                <svg className="ml-2 transition-transform duration-300 group-hover:translate-x-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <span>{t.solutions.explore}</span>
+                                                <svg className="ms-2 transition-transform duration-300 group-hover:translate-x-2 rtl:-scale-x-100 rtl:group-hover:-translate-x-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                                                 </svg>
                                             </div>
@@ -162,7 +164,7 @@ export default function SolutionClient({ categories }: { categories: CategorySol
                 className="bg-[#E6F0F8] py-[80px] lg:py-[120px] relative overflow-hidden z-10"
             >
                 {/*background*/}
-                <Image src="/bg-hero.svg" alt="codetoon-background" fill style={{
+                <Image src="/bg-hero.svg" alt={t.solutions.cta.bgAlt} fill style={{
                 transform: 'scale(0.8)',
                 marginTop: '25px',
                 opacity: 0.7,
@@ -172,13 +174,13 @@ export default function SolutionClient({ categories }: { categories: CategorySol
              
                 <div className="container mx-auto px-4 sm:px-9 flex flex-col items-center text-center gap-[30px] relative z-10">
                     <h2 className="text-[40px] lg:text-[64px] font-semibold text-[#000305] leading-[1.2]">
-                        Design. Develop. Deliver.
+                        {t.solutions.cta.title}
                     </h2>
                     <p className="text-[20px] font-semibold text-[#000305] max-w-[600px] mx-auto">
-                        Let’s Build Something Powerful Together
+                        {t.solutions.cta.subtitle}
                     </p>
                     <button onClick={() => openContactModal()} className="mt-4 cursor-pointer bg-[#0D71BA] hover:bg-[#FCF6D0] hover:text-[#000305] hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#FCF6D0] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
-                        Book a Free Consultation
+                        {t.solutions.cta.button}
                     </button>
                 </div>
             </motion.section>

@@ -1,21 +1,31 @@
 import type { Metadata } from 'next';
 import AboutUsClient from './about-us-client';
 import { getTeams } from '@/lib/server-data';
+import { absoluteUrl, localeAlternates, ogLocale } from '@/lib/i18n/config';
+import { getMessages, resolveLocale } from '@/lib/i18n/server';
 
-export const metadata: Metadata = {
-  title: 'About Us',
-  description: 'Learn about Codetoon — who we are, how we work, and the team behind the magic.',
-  alternates: { canonical: 'https://codetoon.net/about-us' },
-  openGraph: {
-    title: 'About Us | Codetoon',
-    description: 'Learn about Codetoon — who we are, how we work, and the team behind the magic.',
-    url: 'https://codetoon.net/about-us',
-    siteName: 'Codetoon',
-    type: 'website',
-  },
-};
+type Props = { params: Promise<{ locale: string }> };
 
-export default async function AboutUsPage() {
-  const teams = await getTeams();
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const locale = await resolveLocale(params);
+  const t = getMessages(locale).about.meta;
+  return {
+    title: t.title,
+    description: t.description,
+    alternates: localeAlternates('/about-us', locale),
+    openGraph: {
+      title: t.ogTitle,
+      description: t.description,
+      url: absoluteUrl('/about-us', locale),
+      siteName: 'Codetoon',
+      locale: ogLocale[locale],
+      type: 'website',
+    },
+  };
+}
+
+export default async function AboutUsPage({ params }: Props) {
+  const locale = await resolveLocale(params);
+  const teams = await getTeams(locale);
   return <AboutUsClient teams={teams} />;
 }

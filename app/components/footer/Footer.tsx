@@ -3,6 +3,8 @@
 import React from 'react';
 import Image from "next/image";
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n/provider";
+import { fmt } from "@/lib/i18n/config";
 
 interface Project {
   id: string | number;
@@ -77,11 +79,12 @@ function LinkedInIcon({ className }: IconProps) {
 }
 
 function TwitterIcon({ className }: IconProps) {
+  const { t } = useI18n();
   return (
     <Image
       className={className}
       src="/x twitter.svg"
-      alt="Twitter icon"
+      alt={t.footer.twitterIconAlt}
       width={24}
       height={24}
       priority
@@ -112,14 +115,15 @@ function CopyrightIcon({ className }: IconProps) {
 }
 
 function CodetoonLogo({ className }: { className?: string }) {
+  const { t, href } = useI18n();
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div className="absolute inset-0 flex items-center">
-          <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
+          <Link href={href('/')} className="font-bold text-[24px] text-[#0d71ba]">
               <Image
                   className=""
                   src="/logo.svg"
-                  alt="Codetoon logo"
+                  alt={t.footer.logoAlt}
                   width={250}
                   height={50}
                   priority
@@ -131,18 +135,14 @@ function CodetoonLogo({ className }: { className?: string }) {
 }
 
 export default function Footer({ projects: allProjects = [] }: { projects?: Project[] }) {
-  const servicesLinks = [
-    { name: 'AI & Automation', slug: 'ai-automation' },
-    { name: 'Technology', slug: 'technology' },
-    { name: 'Marketing', slug: 'marketing' },
-    { name: 'Design', slug: 'design' },
-  ];
+  const { t, href } = useI18n();
 
-  const workLinks = [
-    'Buongo',
-    'EBP Real Estate Website',
-    'EBP Real Estate Mobile App',
-  ];
+  const servicesLinks = (['ai-automation', 'technology', 'marketing', 'design'] as const).map((slug) => ({
+    name: t.footer.solutionLinks[slug],
+    slug,
+  }));
+
+  const workLinks = t.footer.fallbackWork;
 
   const projects = React.useMemo(() => {
     return [...allProjects]
@@ -178,14 +178,14 @@ export default function Footer({ projects: allProjects = [] }: { projects?: Proj
           <div className="flex flex-row flex-wrap justify-center gap-12 lg:contents">
             {/* Services Section */}
             <div className="flex flex-col lg:w-[109px] lg:basis-64 gap-[12px]">
-              <Link href="/solutions" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-                Solutions
+              <Link href={href('/solutions')} className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+                {t.footer.solutions}
               </Link>
               <div className="flex flex-col gap-[12px]">
                 {servicesLinks.map((link) => (
                   <Link
-                    key={link.name}
-                    href={`/solution/${link.slug}`}
+                    key={link.slug}
+                    href={href(`/solution/${link.slug}`)}
                     className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
                   >
                     {link.name}
@@ -196,28 +196,28 @@ export default function Footer({ projects: allProjects = [] }: { projects?: Proj
 
             {/* About Us Section */}
             <div className="flex flex-col lg:w-[135px] lg:basis-64 gap-[12px]">
-              <Link href="/about-us" className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-                About us
+              <Link href={href('/about-us')} className="font-bold text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+                {t.footer.aboutUs}
               </Link>
               <Link
-                href="/about-us"
+                href={href('/about-us')}
                 className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
               >
-                Our Story
+                {t.footer.ourStory}
               </Link>
             </div>
 
             {/* Our Work Section */}
             <div className="flex flex-col lg:w-[135px] lg:basis-64 gap-[12px]">
-              <Link href="/projects" className="font-bold text-center text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-                Our Work
+              <Link href={href('/projects')} className="font-bold text-center text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
+                {t.footer.ourWork}
               </Link>
               <div className="flex flex-col gap-[12px]">
                 {showFallback ? (
                   workLinks.map((link, index) => (
                     <Link
                       key={index}
-                      href="/projects"
+                      href={href('/projects')}
                       className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
                     >
                       {link}
@@ -227,7 +227,7 @@ export default function Footer({ projects: allProjects = [] }: { projects?: Proj
                   projects.map((project) => (
                     <Link
                       key={project.id}
-                      href={`/project/${project.slug}`}
+                      href={href(`/project/${project.slug}`)}
                       className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
                     >
                       {project.title}
@@ -242,20 +242,20 @@ export default function Footer({ projects: allProjects = [] }: { projects?: Proj
           <div className="flex flex-col ju lg:w-[407px] lg:basis-lg gap-[48px]">
             <div className="flex flex-col gap-[12px]">
               <h3 className="font-bold text-center lg:text-start text-[20px] lg:text-[30px] leading-[38.4px] text-[#0d71ba] mb-[12px]">
-                Contact us
+                {t.footer.contactUs}
               </h3>
               <div className="flex flex-col items-center lg:items-start px-[13px] lg:px-0 gap-[9px]">
                 {/* Address */}
                 <div className="flex gap-[10px] items-start">
                   <LocationIcon className="w-[24px] h-[24px] text-[#0d71ba] shrink-0 mt-0.5"/>
                   <Link href="https://maps.app.goo.gl/VcaAJGKX93yuiG4j9" target="_blank" rel="noopener noreferrer" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300">
-                    316 Ninety Road Sector 2 Office No.3 Third Floor ,5th Settlement, | New Cairo, Cairo Egypt
+                    {t.footer.address}
                   </Link>
                 </div>
                 {/* Phone */}
                 <div className="flex gap-[10px] items-center">
                   <PhoneIcon className="w-[24px] h-[24px] text-[#0d71ba] shrink-0" />
-                  <Link href="tel:+201156167758" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300">
+                  <Link href="tel:+201156167758" dir="ltr" className="font-medium text-[15px] lg:text-[16px] leading-[17.6px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300">
                     01156167758
                   </Link>
                 </div>
@@ -269,15 +269,15 @@ export default function Footer({ projects: allProjects = [] }: { projects?: Proj
           <div className="flex flex-col gap-[24px] lg:gap-[36px] justify-around items-center mb-9 border-t mt-6 pt-8 lg:pt-26 border-gray-300/50 w-full max-w-[1700px]">
             {/* Social Media */}
             <div className="flex gap-[16px]">
-              <a aria-label="facebook"
+              <a aria-label={t.footer.social.facebook}
                 href="https://www.facebook.com/codetoon.net" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                 <FacebookIcon className="w-[32px] h-[32px] lg:w-[35px] lg:h-[35px]" />
               </a>
-              <a aria-label="twitter"
+              <a aria-label={t.footer.social.twitter}
                 href="https://x.com/codetooneg" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                 <TwitterIcon className="w-[32px] h-[32px] lg:w-[35px] lg:h-[35px]" />
               </a>
-              <a aria-label="linkedin"
+              <a aria-label={t.footer.social.linkedin}
                 href="https://www.linkedin.com/company/codetoon" target="_blank" rel="noopener noreferrer" className="text-[#0d71ba]">
                 <LinkedInIcon className="w-[32px] h-[32px] lg:w-[35px] lg:h-[35px]" />
               </a>
@@ -288,14 +288,14 @@ export default function Footer({ projects: allProjects = [] }: { projects?: Proj
               <div className="flex gap-[4px] items-center">
                 <CopyrightIcon className="w-[20px] h-[20px] lg:w-[25px] lg:h-[25px]" />
                 <p className="text-[14px] lg:text-[16px] leading-normal text-gray-700">
-                  Copyright {new Date().getFullYear()} - Codetoon
+                  {fmt(t.footer.copyright, { year: new Date().getFullYear() })}
                 </p>
               </div>
               <Link
-                href="/privacy"
+                href={href('/privacy')}
                 className="text-[14px] lg:text-[16px] leading-normal text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
               >
-                Privacy Policy
+                {t.footer.privacyPolicy}
               </Link>
             </div>
           </div>

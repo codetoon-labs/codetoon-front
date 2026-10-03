@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
+import { useI18n } from '@/lib/i18n/provider';
+import { fmt } from '@/lib/i18n/config';
 
 interface MediaItem {
     full_url: string | null;
@@ -47,14 +49,16 @@ const itemVariants = {
 
 export default function ServiceClient({ service }: { service: Service | null }) {
     const { openContactModal } = useModal();
+    const { t: messages, href } = useI18n();
+    const t = messages.service;
 
     if (!service) {
         return (
             <div className="flex flex-col justify-center items-center gap-5 min-h-[60vh] text-center px-4">
-                <h1 className="text-4xl font-bold text-[#2B3136]">Service Not Found</h1>
-                <p className="text-[#535556]">We couldn&apos;t locate the service you were looking for.</p>
-                <Link href="/solutions" className="text-[#0D71BA] font-semibold hover:underline">
-                    &larr; Back to Solutions
+                <h1 className="text-4xl font-bold text-[#2B3136]">{t.notFound.title}</h1>
+                <p className="text-[#535556]">{t.notFound.body}</p>
+                <Link href={href('/solutions')} className="text-[#0D71BA] font-semibold hover:underline">
+                    <span className="inline-block rtl:-scale-x-100">&larr;</span> {t.notFound.back}
                 </Link>
             </div>
         );
@@ -94,13 +98,13 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                         className="flex flex-col gap-4 max-w-[840px]"
                     >
                         <div className="flex flex-wrap items-center gap-3">
-                            <span className={`font-bold tracking-widest uppercase text-sm ${bannerUrl ? 'text-[#F4D315]' : 'text-[#0D71BA]'}`}>
-                                Our Services
+                            <span className={`font-bold tracking-widest rtl:tracking-normal uppercase text-sm ${bannerUrl ? 'text-[#F4D315]' : 'text-[#0D71BA]'}`}>
+                                {t.eyebrow}
                             </span>
                             {parentCategory && (
                                 parentCategory.slug ? (
                                     <Link
-                                        href={`/solution/${parentCategory.slug}`}
+                                        href={href(`/solution/${parentCategory.slug}`)}
                                         className={`text-sm font-semibold px-4 py-1.5 rounded-full transition-colors ${bannerUrl ? 'bg-white/15 text-white hover:bg-white/25 backdrop-blur-sm' : 'bg-[#E6F0F8] text-[#0D5182] hover:bg-[#d4e6f5]'}`}
                                     >
                                         {parentCategory.title}
@@ -113,7 +117,7 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                             )}
                         </div>
 
-                        <h1 className={`text-[44px] lg:text-[80px] font-bold leading-[1.05] uppercase tracking-tight ${bannerUrl ? 'text-white' : 'bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent'}`}>
+                        <h1 className={`text-[44px] lg:text-[80px] font-bold leading-[1.05] uppercase tracking-tight rtl:tracking-normal ${bannerUrl ? 'text-white' : 'bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent'}`}>
                             {service.title}
                         </h1>
 
@@ -127,8 +131,8 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                             onClick={() => openContactModal()}
                             className="mt-4 w-fit cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-7 py-3.5 rounded-[8px] font-bold text-[18px] flex items-center gap-3 text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.2)] group"
                         >
-                            Start a Project
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1">
+                            {t.cta.button}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
                             </svg>
                         </button>
@@ -146,9 +150,9 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                     className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-20 items-start"
                 >
                     <div className="flex flex-col">
-                        <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm mb-3">Overview</span>
-                        <h2 className="bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent text-[40px] lg:text-[64px] font-semibold leading-[1.05] tracking-tight">
-                            What this service is about
+                        <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm mb-3">{t.overview.eyebrow}</span>
+                        <h2 className="bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent text-[40px] lg:text-[64px] font-semibold leading-[1.05] tracking-tight rtl:tracking-normal">
+                            {t.overview.title}
                         </h2>
                     </div>
                     <p className="text-[17px] lg:text-[19px] text-[#535556] leading-[1.9] font-medium">
@@ -168,9 +172,9 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                             transition={{ duration: 0.6 }}
                             className="mb-12 lg:mb-16"
                         >
-                            <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm">Deliverables</span>
-                            <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight mt-2">
-                                What We Deliver
+                            <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.deliverables.eyebrow}</span>
+                            <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                                {t.deliverables.title}
                             </h2>
                         </motion.div>
 
@@ -210,9 +214,9 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                         transition={{ duration: 0.6 }}
                         className="mb-12 lg:mb-16 max-w-[700px]"
                     >
-                        <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm">Our Process</span>
-                        <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight mt-2">
-                            How we make it happen
+                        <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.process.eyebrow}</span>
+                        <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                            {t.process.title}
                         </h2>
                     </motion.div>
 
@@ -226,7 +230,7 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                                 transition={{ duration: 0.6, delay: i * 0.12 }}
                                 className="relative z-10 flex flex-col gap-4 p-8 rounded-2xl border border-[#0D71BA]/10 hover:border-[#0D71BA]/30 transition-colors bg-white"
                             >
-                                <span className="text-[#0D71BA] text-[40px] font-bold leading-none">{String(i + 1).padStart(2, '0')}</span>
+                                <span dir="ltr" className="text-[#0D71BA] text-[40px] font-bold leading-none self-start">{String(i + 1).padStart(2, '0')}</span>
                                 <h3 className="text-[22px] font-semibold text-[#000305] leading-[1.3]">{String(step.title)}</h3>
                                 <p className="text-[16px] text-[#535556] leading-[1.7]">{String(step.description)}</p>
                             </motion.div>
@@ -246,9 +250,9 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                             transition={{ duration: 0.6 }}
                             className="mb-12 lg:mb-16"
                         >
-                            <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm">Gallery</span>
-                            <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight mt-2">
-                                A look at our work
+                            <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.gallery.eyebrow}</span>
+                            <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                                {t.gallery.title}
                             </h2>
                         </motion.div>
 
@@ -267,7 +271,7 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                                 >
                                     <Image
                                         src={img.full_url as string}
-                                        alt={`${String(service.title)} gallery image ${i + 1}`}
+                                        alt={fmt(t.gallery.imageAlt, { title: String(service.title), n: i + 1 })}
                                         fill
                                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
@@ -288,9 +292,9 @@ export default function ServiceClient({ service }: { service: Service | null }) 
                         transition={{ duration: 0.6 }}
                         className="mb-8"
                     >
-                        <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm">Stack</span>
-                        <h2 className="text-[32px] lg:text-[48px] font-bold text-[#000305] leading-[1.1] tracking-tight mt-2">
-                            Technologies &amp; Focus Areas
+                        <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.stack.eyebrow}</span>
+                        <h2 className="text-[32px] lg:text-[48px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                            {t.stack.title}
                         </h2>
                     </motion.div>
 
@@ -317,14 +321,14 @@ export default function ServiceClient({ service }: { service: Service | null }) 
             {/* ── Back link ── */}
             <section className="container mx-auto px-4 sm:px-9 pb-[40px] lg:pb-[60px] font-sans relative z-10">
                 <Link
-                    href={parentCategory?.slug ? `/solution/${parentCategory.slug}` : '/solutions'}
+                    href={href(parentCategory?.slug ? `/solution/${parentCategory.slug}` : '/solutions')}
                     onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
                     className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group"
                 >
-                    <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1 rtl:-scale-x-100 rtl:group-hover:translate-x-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                     </svg>
-                    <span>{parentCategory?.slug ? `Back to ${parentCategory.title}` : 'Browse all Solutions'}</span>
+                    <span>{parentCategory?.slug ? fmt(t.backTo, { title: parentCategory.title }) : t.browseAll}</span>
                 </Link>
             </section>
 
@@ -335,14 +339,14 @@ export default function ServiceClient({ service }: { service: Service | null }) 
 
                 <div className="container mx-auto px-4 sm:px-9 flex flex-col items-center text-center gap-[30px] relative z-10">
                     <h2 className="text-[40px] lg:text-[64px] font-bold text-[#FCF6D0] leading-[1.2]">
-                        Ready to Transform Your <span className="italic text-white">Business?</span>
+                        {t.cta.titleStart} <span className="italic text-white">{t.cta.titleEmphasis}</span>
                     </h2>
                     <p className="text-[20px] font-medium text-white/90 max-w-[600px] mx-auto">
-                        Let&apos;s work together to build, brand, and boost your next big idea.
+                        {t.cta.subtitle}
                     </p>
                     <button onClick={() => openContactModal()} className="mt-4 cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
-                        Start a Project
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1">
+                        {t.cta.button}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">
                             <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
                         </svg>
                     </button>

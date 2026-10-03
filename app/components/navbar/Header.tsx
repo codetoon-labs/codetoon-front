@@ -255,8 +255,8 @@ export default function Header() {
             <p className="text-[#8492A6] text-xs font-bold tracking-widest uppercase mb-3">
               {t.common.header.getInTouch}
             </p>
-            <a href="tel:+201156167758" onClick={closeMenu} dir="ltr" className="text-white text-xl font-bold mb-2 self-start">
-              01156167758
+            <a href="tel:+201156167758" onClick={closeMenu} className="text-white text-xl font-bold mb-2">
+              <bdi dir="ltr">01156167758</bdi>
             </a>
             <a href="https://maps.app.goo.gl/VcaAJGKX93yuiG4j9" target="_blank" rel="noopener noreferrer" className="text-[#00BAFF] text-sm font-medium">
               {t.common.header.address}

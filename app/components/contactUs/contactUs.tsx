@@ -9,9 +9,11 @@ import { cn } from '@/lib/utils';
 import { PhoneInput, defaultCountries } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { isValidPhoneNumber } from 'libphonenumber-js';
+import { useI18n } from '@/lib/i18n/provider';
 
 export default function ContactModal() {
   const { isContactModalOpen, closeContactModal } = useModal();
+  const { t } = useI18n();
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
@@ -31,9 +33,9 @@ export default function ContactModal() {
     },
      onError: (error) => {
     if (error?.message?.includes('429')) {
-      setErrorMsg('Too many attempts, please try again later.');
+      setErrorMsg(t.contact.errors.tooManyAttempts);
     } else {
-      setErrorMsg(error.message || 'Something went wrong. Please try again.');
+      setErrorMsg(error.message || t.contact.errors.generic);
     }
   },
   });
@@ -41,16 +43,16 @@ export default function ContactModal() {
   const validateForm = () => {
     const errors: { name?: string; phone?: string } = {};
     if (!name.trim()) {
-      errors.name = 'Full name is required';
+      errors.name = t.contact.errors.nameRequired;
     } else if (name.trim().length < 3) {
-      errors.name = 'Name must be at least 3 characters';
+      errors.name = t.contact.errors.nameTooShort;
     }
 
     const phoneRegex = /^(?:\+20|0020|0)?1[0125][0-9]{8}$/;
     if (!phoneNumber.trim()) {
-      errors.phone = 'Phone number is required';
+      errors.phone = t.contact.errors.phoneRequired;
     } else if (!phoneRegex.test(phoneNumber.replace(/\s+/g, ''))) {
-      errors.phone = 'Please enter a valid phone number (e.g. +201234567890)';
+      errors.phone = t.contact.errors.phoneInvalid;
     }
 
     setFieldErrors(errors);
@@ -104,15 +106,16 @@ export default function ContactModal() {
               {/* Close Button */}
               <button
                 onClick={closeContactModal}
-                className="absolute right-4 top-6 rounded-full cursor-pointer p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
+                aria-label={t.contact.modal.close}
+                className="absolute end-4 top-6 rounded-full cursor-pointer p-2 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
 
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Let's Build Together</h2>
+                <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">{t.contact.modal.title}</h2>
                 <p className="mt-1 text-zinc-500">
-                    Enter your details and we will get back to you soon.
+                    {t.contact.modal.subtitle}
                 </p>
               </div>
 
@@ -125,18 +128,18 @@ export default function ContactModal() {
                   <div className="mb-4 rounded-full bg-green-100 p-3 text-green-600">
                     <CheckCircle2 className="h-10 w-10" />
                   </div>
-                  <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">Thank You!</h3>
-                  <p className="mt-2 text-zinc-500">Your message has been received.</p>
+                  <h3 className="text-xl font-semibold text-zinc-900 dark:text-zinc-50">{t.contact.modal.successTitle}</h3>
+                  <p className="mt-2 text-zinc-500">{t.contact.modal.successBody}</p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Name Input */}
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                      Full Name
+                      {t.contact.modal.nameLabel}
                     </label>
                     <div className="relative">
-                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400">
+                      <div className="absolute start-3 top-1/2 -translate-y-1/2 text-zinc-400">
                         <User className="h-5 w-5" />
                       </div>
                       <input
@@ -147,9 +150,9 @@ export default function ContactModal() {
                           setName(e.target.value);
                           if (fieldErrors.name) setFieldErrors({ ...fieldErrors, name: "" });
                         }}
-                        placeholder="Enter your name"
+                        placeholder={t.contact.modal.namePlaceholder}
                         className={cn(
-                          "w-full rounded-xl border bg-zinc-50 py-3 pl-10 pr-4 text-zinc-900 outline-none transition-all focus:ring-2 dark:bg-zinc-800 dark:text-zinc-50",
+                          "w-full rounded-xl border bg-zinc-50 py-3 ps-10 pe-4 text-zinc-900 outline-none transition-all focus:ring-2 dark:bg-zinc-800 dark:text-zinc-50",
                           fieldErrors.name 
                             ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" 
                             : "border-zinc-200 focus:border-[#0d71ba] focus:ring-[#0d71ba]/20 dark:border-zinc-800"
@@ -174,9 +177,10 @@ export default function ContactModal() {
                   {/* Phone Input */}
                   <div className="space-y-2">
                     <label htmlFor="phone" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
-                      Phone Number
+                      {t.contact.modal.phoneLabel}
                     </label>
-                    <div className={cn(
+                    {/* Phone numbers read left-to-right in every locale */}
+                    <div dir="ltr" className={cn(
                       "relative flex w-full items-center rounded-xl border bg-zinc-50 transition-all focus-within:ring-2 dark:bg-zinc-800 dark:text-zinc-50",
                       fieldErrors.phone 
                         ? "border-red-500 focus-within:border-red-500 focus-within:ring-red-500/20" 
@@ -192,7 +196,7 @@ export default function ContactModal() {
                         className="w-full !border-none !bg-transparent"
                         inputProps={{
                           id: "phone",
-                          placeholder: "Enter your phone number"
+                          placeholder: t.contact.modal.phonePlaceholder
                         }}
                         inputClassName="w-full !bg-transparent !border-none !outline-none !py-3 !h-auto pr-4 pl-2 text-zinc-900 dark:text-zinc-50 focus:ring-0"
                         countrySelectorStyleProps={{
@@ -237,10 +241,10 @@ export default function ContactModal() {
                       {loading ? (
                         <>
                           <Loader2 className="h-5 w-5 animate-spin" />
-                          <span>Sending...</span>
+                          <span>{t.contact.modal.sending}</span>
                         </>
                       ) : (
-                        <span>Send Message</span>
+                        <span>{t.contact.modal.send}</span>
                       )}
                     </div>
                     {/* Hover Glow Effect */}
@@ -252,7 +256,7 @@ export default function ContactModal() {
               {/* Footer text */}
               {!isSuccess && (
                 <p className="mt-6 text-center text-xs text-zinc-400">
-                  By submitting, you agree to our privacy policy.
+                  {t.contact.modal.consent}
                 </p>
               )}
             </div>

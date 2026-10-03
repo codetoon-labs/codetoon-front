@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import ProjectSection from '@/app/components/projectSection/projectSection';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useI18n } from '@/lib/i18n/provider';
+import { fmt } from '@/lib/i18n/config';
 interface Category {
   id: string;
   title: string;
@@ -21,6 +23,7 @@ const itemVariants = {
 };
 
 function Projects({ categories, projects }: { categories: Category[]; projects: any[] }) {
+  const { t } = useI18n();
   const [activeFilter, setActiveFilter] = useState("All Projects");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -28,7 +31,11 @@ function Projects({ categories, projects }: { categories: Category[]; projects: 
   const rawCategories = categories || [];
   
   // Filter categories shown in the bar
+  // "All Projects" / "Featured" are filter keys understood by ProjectSection;
+  // only their labels are translated.
   const filterOptions = ["All Projects", "Featured", ...rawCategories.map(cat => cat.title)];
+  const filterLabel = (option: string) =>
+    option === "All Projects" ? t.projects.filters.all : option === "Featured" ? t.projects.filters.featured : option;
 
   const displayLimit = 5;
   const visibleCategories = filterOptions.slice(0, displayLimit);
@@ -51,7 +58,7 @@ function Projects({ categories, projects }: { categories: Category[]; projects: 
       {/* Hero Section */}
       <section className="relative flex flex-col items-center justify-center font-sans dark:bg-black mt-30 lg:mt-[180px] lg:min-h-[50vh] min-h-[400px]">
         {/* <Background /> */}
-        <svg className='absolute md:top-[-50px] top-[-70px] left-0 w-full h-full z-0' xmlns="http://www.w3.org/2000/svg" width="937" height="540" viewBox="0 0 937 540" fill="none">
+        <svg className='absolute md:top-[-50px] top-[-70px] start-0 w-full h-full z-0' xmlns="http://www.w3.org/2000/svg" width="937" height="540" viewBox="0 0 937 540" fill="none">
           <g filter="url(#filter0_f_251_2766)">
             <path d="M468.5 225.049C499.065 186.911 530.973 148.813 564.294 118.769C604.679 82.306 649.992 55 701.094 55C801.264 55 882 161.894 882 269.606C882 377.317 801.264 484.211 701.094 484.211C649.992 484.211 604.679 456.905 564.294 420.443C530.973 390.398 499.065 352.3 468.5 314.162C437.935 352.3 406.027 390.398 372.706 420.443C332.321 456.905 287.008 484.211 235.906 484.211C135.736 484.211 55 377.317 55 269.606C55 161.894 135.736 55 235.906 55C287.008 55 332.321 82.2652 372.706 118.769C406.027 148.813 437.935 186.911 468.5 225.049ZM235.906 116.316C165.887 116.316 106.688 193.778 106.688 269.606C106.688 345.433 165.887 422.895 235.906 422.895C270.95 422.895 305.305 404.214 341.418 371.676C372.086 343.961 401.995 308.153 432.905 269.606C401.995 231.058 372.086 195.209 341.418 167.535C305.305 134.997 270.95 116.316 235.906 116.316ZM504.095 269.606C535.005 308.153 564.914 344.002 595.582 371.676C631.695 404.214 666.05 422.895 701.094 422.895C771.113 422.895 830.312 345.433 830.312 269.606C830.312 193.778 771.113 116.316 701.094 116.316C666.05 116.316 631.695 134.997 595.582 167.535C564.914 195.25 535.005 231.058 504.095 269.606Z" fill="url(#paint0_radial_251_2766)" />
           </g>
@@ -74,19 +81,19 @@ function Projects({ categories, projects }: { categories: Category[]; projects: 
           className="container mx-auto px-4 sm:px-9 relative z-10"
         >
           <div className="flex flex-col items-center text-center gap-7">
-            <h1 className="flex flex-col relative right-5 lg:right-0 lg:w-[682px] scale-100 text-[50px] md:text-[70px] lg:text-[92px] font-semibold leading-[1.1] uppercase">
-              <span className="relative left-10 lg:left-10 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
-                Real Work.
+            <h1 className="flex flex-col relative end-5 lg:end-0 lg:w-[682px] scale-100 text-[50px] md:text-[70px] lg:text-[92px] font-semibold leading-[1.1] uppercase">
+              <span className="relative start-10 lg:start-10 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
+                {t.projects.hero.line1}
               </span>
-              <span className="relative left-10 lg:left-[-100px] p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
-                Real Growth.
+              <span className="relative start-10 lg:start-[-100px] p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
+                {t.projects.hero.line2}
               </span>
-              <span className="relative left-8 lg:left-[-10px] p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
-                Real Fast.
+              <span className="relative start-8 lg:start-[-10px] p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
+                {t.projects.hero.line3}
               </span>
             </h1>
             <p className="w-full mt-10 max-w-[600px] mx-auto text-[20px] leading-[30px] font-medium text-[#535556]">
-              We build digital products that solve real business problems—with speed, clarity, and a focus on measurable results.
+              {t.projects.hero.subtitle}
             </p>
           </div>
         </motion.div>
@@ -118,7 +125,7 @@ function Projects({ categories, projects }: { categories: Category[]; projects: 
                   }
                 `}
               >
-                {category}
+                {filterLabel(category)}
               </motion.button>
             );
           })}
@@ -132,9 +139,9 @@ function Projects({ categories, projects }: { categories: Category[]; projects: 
                   ${dropdownCategories.includes(activeFilter) ? "bg-linear-to-r! from-[#0D71BA] via-[#257FC0] to-[#3D8DC7] text-white! border-transparent! shadow-lg" : ""}
                 `}
               >
-                {dropdownCategories.includes(activeFilter) ? activeFilter : `+${dropdownCategories.length} More`}
+                {dropdownCategories.includes(activeFilter) ? filterLabel(activeFilter) : fmt(t.projects.filters.more, { count: dropdownCategories.length })}
                 <svg 
-                  className={`ml-2 w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`} 
+                  className={`ms-2 w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`} 
                   fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
@@ -148,7 +155,7 @@ function Projects({ categories, projects }: { categories: Category[]; projects: 
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 10 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute z-50 top-full mt-3 right-0 w-48 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-100 dark:border-zinc-800 overflow-hidden"
+                    className="absolute z-50 top-full mt-3 end-0 w-48 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-zinc-100 dark:border-zinc-800 overflow-hidden"
                   >
                     <div className="py-2">
                       {dropdownCategories.map((category) => (
@@ -159,14 +166,14 @@ function Projects({ categories, projects }: { categories: Category[]; projects: 
                             setIsDropdownOpen(false);
                           }}
                           className={`
-                            w-full text-left px-6 py-3 text-[15px] font-semibold transition-colors
+                            w-full text-start px-6 py-3 text-[15px] font-semibold transition-colors
                             ${activeFilter === category 
                               ? "bg-linear-to-r from-[#0D71BA] to-[#3D8DC7] text-white" 
                               : "text-[#0D5182] hover:bg-zinc-50 dark:hover:bg-zinc-800"
                             }
                           `}
                         >
-                          {category}
+                          {filterLabel(category)}
                         </button>
                       ))}
                     </div>

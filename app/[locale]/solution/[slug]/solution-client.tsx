@@ -3,6 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
+import { useI18n } from '@/lib/i18n/provider';
+import type { Messages } from '@/lib/i18n/messages';
 
 interface Service {
     id: string;
@@ -34,36 +36,38 @@ const itemVariants = {
 };
 
 // Derive accent colour from category slug
-function getTheme(slug: string) {
+function getTheme(slug: string, t: Messages['solution']['describe']) {
     if (slug.includes('design')) {
-        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Transform your ideas into impactful visual experiences with our creative design solutions.' };
+        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: t.design };
     }
     if (slug.includes('marketing')) {
-        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Results-driven digital marketing solutions to grow your brand, increase traffic, and boost conversions.' };
+        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: t.marketing };
     }
     if (slug.includes('ai-automation') || slug.includes('ai')) {
-        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Empower your business with cutting-edge AI & Automation solutions designed to optimize workflows, enhance efficiency, and drive intelligent growth.' };
+        return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: t.ai };
     }
-    return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: 'Scalable technology solutions for web, mobile, and custom software—built for performance, security, and growth.' };
+    return { numberText: 'text-[#0D5182]', stroke: '#0D5182', blob: 'bg-[#0D5182]/20', describe: t.technology };
 
 }
 
 export default function SolutionClient({ slug, category }: { slug: string; category: Category | null }) {
     const { openContactModal } = useModal();
+    const { t: messages, href } = useI18n();
+    const t = messages.solution;
 
     if (!category) {
         return (
             <div className="flex flex-col justify-center items-center gap-5 min-h-[60vh] text-center px-4">
-                <h1 className="text-4xl font-bold text-[#2B3136]">Category Not Found</h1>
-                <p className="text-[#535556]">We couldn&apos;t locate the category you were looking for.</p>
-                <Link href="/solutions" className="text-[#0D71BA] font-semibold hover:underline">
-                    &larr; Back to Solutions
+                <h1 className="text-4xl font-bold text-[#2B3136]">{t.notFound.title}</h1>
+                <p className="text-[#535556]">{t.notFound.body}</p>
+                <Link href={href('/solutions')} className="text-[#0D71BA] font-semibold hover:underline">
+                    <span className="inline-block rtl:-scale-x-100">&larr;</span> {t.notFound.back}
                 </Link>
             </div>
         );
     }
 
-    const theme = getTheme(slug);
+    const theme = getTheme(slug, t.describe);
 
     return (
         <div className="overflow-hidden">
@@ -76,14 +80,14 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                         transition={{ duration: 0.6, ease: 'easeOut' }}
                         className="flex flex-col items-center text-center gap-2 sm:mt-0 lg:mt-15"
                     >
-                        <span className="text-[#0D71BA] font-bold tracking-widest uppercase text-sm z-10">Our Solutions</span>
-                        <h1 className="text-[50px] z-10 lg:text-[90px] font-bold leading-none uppercase bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent tracking-tight">
+                        <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm z-10">{t.eyebrow}</span>
+                        <h1 className="text-[50px] z-10 lg:text-[90px] font-bold leading-none uppercase bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent tracking-tight rtl:tracking-normal">
                             {category.title}
                         </h1>
                         <p className='text-[22px] text-[#535556] mt-10 z-10'>{theme.describe}</p>
                     </motion.div>
                 </div>
-                <div className="pointer-events-none absolute bottom-[-50px] left-[-25%] w-[150%] h-20
+                <div className="pointer-events-none absolute bottom-[-50px] start-[-25%] w-[150%] h-20
               bg-[#F3F8FC] blur-md z-0">
                  </div>
             </section>
@@ -99,8 +103,8 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                 >
                     <div className="flex flex-col lg:w-[820px] z-10">
                         <span className="text-[#000305] font-normal capitalize text-[50px] lg:text-[100px]">{category.title}</span>
-                        <h2 className="self-center lg:self-end me-10  bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent text-[50px] lg:text-[100px] italic font-semibold leading-none tracking-tight mb-8">
-                            Overview
+                        <h2 className="self-center lg:self-end me-10  bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent text-[50px] lg:text-[100px] italic font-semibold leading-none tracking-tight rtl:tracking-normal mb-8">
+                            {t.overview}
                         </h2>
                     </div>
                     <p className="text-[16px] lg:text-[18px] text-[#535556] leading-[1.8] font-medium w-full z-10">
@@ -122,7 +126,7 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                                 transition={{ duration: 0.7, ease: 'easeOut' }}
                                 className="flex flex-col lg:flex-row justify-between items-start gap-16 lg:gap-20 z-10"
                             >
-                                {/* ── Left column ── */}
+                                {/* ── Start column ── */}
                                 <div className="flex flex-col lg:w-[820px]">
                                     {/* Title + description */}
                                     <div className="flex flex-col w-full mb-10">
@@ -143,7 +147,7 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                                             transition={{ duration: 0.6 }}
                                             className="text-[24px] font-semibold text-[#000305] leading-[1.2] mb-4"
                                         >
-                                            Tags
+                                            {t.tags}
                                         </motion.h3>
 
                                         {service.tags && service.tags.length > 0 ? (
@@ -165,24 +169,24 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                                                 ))}
                                             </motion.div>
                                         ) : (
-                                            <p className="text-[#535556]">Details on the tags used will be added shortly.</p>
+                                            <p className="text-[#535556]">{t.tagsEmpty}</p>
                                         )}
                                     </div>
 
                                     {/* CTA */}
                                     <Link
-                                        href={`/service/${service.slug}`}
+                                        href={href(`/service/${service.slug}`)}
                                         onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
                                         className="inline-flex items-center gap-3 mt-10 w-fit bg-[#0D71BA] text-[#FCF6D0] px-7 py-3.5 rounded-[8px] font-bold text-[18px] shadow-[0_8px_20px_rgba(13,113,186,0.25)] hover:scale-[1.02] hover:bg-[#0B65A7] transition-all duration-300 group"
                                     >
-                                        Explore this Service
-                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform group-hover:translate-x-1">
+                                        {t.exploreService}
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">
                                             <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                                         </svg>
                                     </Link>
                                 </div>
 
-                                {/* ── Right column ── */}
+                                {/* ── End column ── */}
                                 <div className="flex flex-col justify-start w-full lg:w-1/2 self-start min-h-[300px]">
                                     <motion.div
                                         initial={{ opacity: 0, y: 15 }}
@@ -191,8 +195,8 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                                         transition={{ duration: 0.6, ease: 'easeOut' }}
                                         className="flex flex-col"
                                     >
-                                        <h3 className="text-[32px] font-bold leading-[1.2] tracking-tight mb-8 text-[#000305]">
-                                            What We Deliver
+                                        <h3 className="text-[32px] font-bold leading-[1.2] tracking-tight rtl:tracking-normal mb-8 text-[#000305]">
+                                            {t.whatWeDeliver}
                                         </h3>
 
                                         {service.deliverables && service.deliverables.length > 0 ? (
@@ -207,7 +211,7 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                                                 ))}
                                             </ul>
                                         ) : (
-                                            <p className="text-[#535556]">Detailed deliverables coming soon.</p>
+                                            <p className="text-[#535556]">{t.deliverablesEmpty}</p>
                                         )}
                                     </motion.div>
                                 </div>
@@ -215,7 +219,7 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                         ))}
                     </div>
                 ) : (
-                    <p className="text-[#535556] text-[18px]">No services found in this category yet.</p>
+                    <p className="text-[#535556] text-[18px]">{t.servicesEmpty}</p>
                 )}
 
                 {/* Back link */}
@@ -226,11 +230,11 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
                     viewport={{ once: true }}
                     className="mt-16 z-10"
                 >
-                    <Link href="/solutions" onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group z-10">
-                        <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1 z-10" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Link href={href('/solutions')} onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group z-10">
+                        <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1 rtl:-scale-x-100 rtl:group-hover:translate-x-1 z-10" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
                         </svg>
-                        <span className="z-10">Browsing all Solutions</span>
+                        <span className="z-10">{t.browseAll}</span>
                     </Link>
                 </motion.div>
             </section>
@@ -242,14 +246,14 @@ export default function SolutionClient({ slug, category }: { slug: string; categ
 
                 <div className="container mx-auto px-4 sm:px-9 flex flex-col items-center text-center gap-[30px] relative z-10">
                     <h2 className="text-[40px] lg:text-[64px] font-bold text-[#FCF6D0] leading-[1.2]">
-                        Ready to Transform Your <span className="italic text-white">Business?</span>
+                        {t.cta.titleStart} <span className="italic text-white">{t.cta.titleEmphasis}</span>
                     </h2>
                     <p className="text-[20px] font-medium text-white/90 max-w-[600px] mx-auto">
-                        Let&apos;s work together to build, brand, and boost your next big idea.
+                        {t.cta.subtitle}
                     </p>
                     <button onClick={() => openContactModal()} className="mt-4 cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
-                        Start a Project
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1">
+                        {t.cta.button}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">
                             <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
                         </svg>
                     </button>

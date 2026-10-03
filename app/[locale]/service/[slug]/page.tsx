@@ -4,23 +4,32 @@ import ServiceClient from './service-client';
 import JsonLd from '@/app/components/JsonLd';
 import { getServiceBySlug } from '@/lib/server-data';
 import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
+import { absoluteUrl, fmt, localeAlternates, ogLocale } from '@/lib/i18n/config';
+import { getMessages, resolveLocale } from '@/lib/i18n/server';
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+type Props = { params: Promise<{ locale: string; slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const service = await getServiceBySlug(slug);
+    const locale = await resolveLocale(params);
+    const t = getMessages(locale).service.meta;
+    const service = await getServiceBySlug(slug, locale);
 
     // Unknown slug: the page 404s, so don't advertise a fabricated title.
     if (!service) {
-        return { title: 'Service not found', robots: { index: false, follow: false } };
+        return { title: t.notFoundTitle, robots: { index: false, follow: false } };
     }
 
     // Only 1 of 7 services has a short_description, so `description` (218-580
     // chars) is the usual source and has to be truncated for the SERP.
-    const title = suffixOnce(pageTitle(service.title, 'Services'), 'services in Egypt');
+    const baseTitle = pageTitle(service.title, t.fallbackTitle);
+    const title = locale === 'en'
+        ? suffixOnce(baseTitle, t.titleSuffix)
+        : fmt(t.titleTemplate, { title: baseTitle });
     const description = metaDescription(
         service.short_description,
         service.description,
-        `Discover CodeToon's ${pageTitle(service.title)} service — build, brand and boost your next big idea.`
+        fmt(t.fallbackDescription, { title: pageTitle(service.title) })
     );
 
     return {
@@ -29,19 +38,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         openGraph: {
             title: `${title} | Codetoon`,
             description,
-            url: `https://codetoon.net/service/${slug}`,
+            url: absoluteUrl(`/service/${slug}`, locale),
+            locale: ogLocale[locale],
             type: 'website',
             images: ogImages(service.banner?.full_url),
         },
-        alternates: {
-            canonical: `https://codetoon.net/service/${slug}`,
-        },
+        alternates: localeAlternates(`/service/${slug}`, locale),
     };
 }
 
-export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ServicePage({ params }: Props) {
     const { slug } = await params;
-    const service = await getServiceBySlug(slug);
+    const locale = await resolveLocale(params);
+    const service = await getServiceBySlug(slug, locale);
 
     // Real 404 for unknown slugs — otherwise every bad URL is an indexable
     // 200 with a self-referencing canonical.
@@ -52,13 +61,14 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         '@type': 'Service',
         name: service.title,
         description: service.short_description || service.description,
-        url: `https://codetoon.net/service/${slug}`,
+        url: absoluteUrl(`/service/${slug}`, locale),
+        inLanguage: locale,
         provider: { '@id': 'https://codetoon.net/#organization' },
         ...(service.banner?.full_url && { image: service.banner.full_url }),
         ...(service.deliverables?.length && {
             hasOfferCatalog: {
                 '@type': 'OfferCatalog',
-                name: `${service.title} Deliverables`,
+                name: fmt(getMessages(locale).service.meta.deliverablesCatalogName, { title: service.title }),
                 itemListElement: service.deliverables.map((item: string) => ({
                     '@type': 'Offer',
                     itemOffered: { '@type': 'Service', name: item },

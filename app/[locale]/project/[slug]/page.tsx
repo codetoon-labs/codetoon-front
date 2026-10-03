@@ -4,22 +4,31 @@ import ProjectClient from './project-client';
 import JsonLd from '@/app/components/JsonLd';
 import { getProjectBySlug, getTestimonials } from '@/lib/server-data';
 import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
+import { absoluteUrl, fmt, localeAlternates, ogLocale } from '@/lib/i18n/config';
+import { getMessages, resolveLocale } from '@/lib/i18n/server';
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+type Props = { params: Promise<{ locale: string; slug: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const project = await getProjectBySlug(slug);
+    const locale = await resolveLocale(params);
+    const t = getMessages(locale).project.meta;
+    const project = await getProjectBySlug(slug, locale);
 
     // Unknown slug: the page 404s, so don't advertise a fabricated title.
     if (!project) {
-        return { title: 'Project not found', robots: { index: false, follow: false } };
+        return { title: t.notFoundTitle, robots: { index: false, follow: false } };
     }
 
     // CMS titles carry stray whitespace; the root layout appends "| Codetoon".
-    const title = suffixOnce(pageTitle(project.title, 'Project'), 'case study');
+    const baseTitle = pageTitle(project.title, t.fallbackTitle);
+    const title = locale === 'en'
+        ? suffixOnce(baseTitle, t.titleSuffix)
+        : fmt(t.titleTemplate, { title: baseTitle });
     const description = metaDescription(
         project.short_description,
         project.description,
-        `A CodeToon case study: how we built ${pageTitle(project.title, 'this project')}.`
+        fmt(t.fallbackDescription, { title: pageTitle(project.title, t.fallbackDescriptionTitle) })
     );
 
     return {
@@ -28,19 +37,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         openGraph: {
             title: `${title} | Codetoon`,
             description,
-            url: `https://codetoon.net/project/${slug}`,
+            url: absoluteUrl(`/project/${slug}`, locale),
+            locale: ogLocale[locale],
             type: 'article',
             images: ogImages(project.main_image?.full_url),
         },
-        alternates: {
-            canonical: `https://codetoon.net/project/${slug}`,
-        },
+        alternates: localeAlternates(`/project/${slug}`, locale),
     };
 }
 
-export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProjectPage({ params }: Props) {
     const { slug } = await params;
-    const [project, testimonials] = await Promise.all([getProjectBySlug(slug), getTestimonials()]);
+    const locale = await resolveLocale(params);
+    const [project, testimonials] = await Promise.all([getProjectBySlug(slug, locale), getTestimonials(locale)]);
 
     // Real 404 for unknown slugs — otherwise every bad URL is an indexable
     // 200 with a self-referencing canonical.
@@ -52,7 +61,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         name: project.title,
         headline: project.short_title || project.title,
         description: project.short_description || project.description,
-        url: `https://codetoon.net/project/${slug}`,
+        url: absoluteUrl(`/project/${slug}`, locale),
+        inLanguage: locale,
         creator: { '@id': 'https://codetoon.net/#organization' },
         ...(project.main_image?.full_url && { image: project.main_image.full_url }),
         ...(project.services?.length && {

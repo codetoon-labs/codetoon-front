@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { motion, animate, useInView } from 'framer-motion';
 import { useModal } from '@/app/context/ModalContext';
 import TestimonialsSlider from '@/app/components/TestimonialsSlider/TestimonialsSlider';
+import { useI18n } from '@/lib/i18n/provider';
+import { fmt } from '@/lib/i18n/config';
 
 interface Project {
     description: string;
@@ -98,7 +100,7 @@ function AnimatedStat({ valueStr, staticPrefix = "", staticSuffix = "" }: { valu
 
 function ArrowUpRight() {
     return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="rtl:-scale-x-100">
             <path d="M7 17L17 7M17 7H8M17 7V16" stroke="#F4D315" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     );
@@ -106,20 +108,22 @@ function ArrowUpRight() {
 
 export default function ProjectClient({ project, testimonials = [] }: { project: Project | null; testimonials?: any[] }) {
     const { openContactModal } = useModal();
+    const { t: messages, href } = useI18n();
+    const t = messages.project;
 
     if (!project) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white px-4">
                 <div className="text-center flex flex-col gap-6 max-w-md">
-                    <h2 className="text-[32px] font-bold text-[#000305]">Project Not Found</h2>
+                    <h2 className="text-[32px] font-bold text-[#000305]">{t.notFound.title}</h2>
                     <p className="text-[#535556]">
-                        We couldn&rsquo;t find the project you&rsquo;re looking for. It may have been moved or the URL might be incorrect.
+                        {t.notFound.body}
                     </p>
                     <Link
-                        href="/projects"
+                        href={href('/projects')}
                         className="bg-[#0D71BA] text-white px-8 py-3 rounded-[8px] font-bold hover:bg-[#0B65A7] transition-colors"
                     >
-                        Back to Projects
+                        {t.notFound.back}
                     </Link>
                 </div>
             </div>
@@ -143,13 +147,13 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                             {project.short_title}
                         </h1>
                         <p className="text-[16px] sm:text-[18px] lg:text-[20px] leading-[1.54] text-[#535556] max-w-[820px] z-10">
-                            {project.short_description || "Creating a sleek new experience for global innovation."}
+                            {project.short_description || t.hero.fallbackDescription}
                         </p>
                     </div>
                     <div className="relative w-full max-w-[750px] aspect-video rounded-[30px] shadow-2xl overflow-hidden">
                         <Image
                             src={project.main_image?.full_url || "/Frame 43.png"}
-                            alt={`${displayTitle} project cover`}
+                            alt={fmt(t.hero.coverAlt, { title: displayTitle })}
                             fill
                             sizes="(max-width: 768px) 100vw, 480px"
                             className="object-contain z-10"
@@ -180,7 +184,7 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                             ))
                         ) : (
                             <span className="bg-[#E6F0F8] text-[#000305] text-[16px] sm:text-[18px] font-semibold capitalize px-4 py-[6px] rounded-[8px] leading-[1.71] z-10">
-                                Project Detail
+                                {t.overview.fallbackTag}
                             </span>
                         )}
                     </div>
@@ -189,11 +193,11 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                             <h2 className="text-[24px] sm:text-[28px] lg:text-[32px] font-bold text-[#000305] leading-[1.14] z-10">
                                 {project.title}
                             </h2>
-                            <div className="text-[16px] sm:text-[18px] text-[#393B3C] tracking-[0.02em] leading-normal flex flex-col gap-4 z-10">
+                            <div className="text-[16px] sm:text-[18px] text-[#393B3C] tracking-[0.02em] rtl:tracking-normal leading-normal flex flex-col gap-4 z-10">
                                 {project.description ? (
                                     <div dangerouslySetInnerHTML={{ __html: project.description }} />
                                 ) : (
-                                    <p>No description available for this project.</p>
+                                    <p>{t.overview.noDescription}</p>
                                 )}
                             </div>
                         </div>
@@ -204,7 +208,7 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                                 rel="noopener noreferrer"
                                 className="group bg-[#0D71BA] hover:bg-[#0B65A7] transition-colors duration-300 cursor-pointer  flex gap-3 h-12 items-center justify-center rounded-[8px] w-[200px] capitalize font-bold text-[#F4D315] text-[18px] tracking-[0.01em] z-10"
                             >
-                                <span>Visit site</span>
+                                <span>{t.overview.visitSite}</span>
                                 <ArrowUpRight />
                             </Link>
                         )}
@@ -224,7 +228,7 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                     {project.objectives && project.objectives.length > 0 && (
                         <div className="flex flex-col gap-4 w-full lg:w-[506px] shrink-0">
                             <h3 className="text-[22px] sm:text-[26px] lg:text-[28px] font-bold text-[#000305] capitalize leading-[1.2] z-10">
-                                Project Objectives
+                                {t.objectives}
                             </h3>
                             <ul className="flex flex-col gap-3 w-full list-disc ps-8">
                                 {project.objectives.map((item, idx) => (
@@ -245,7 +249,7 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                     {project.phases && project.phases.length > 0 && (
                         <div className="flex flex-col gap-4 w-full lg:w-[584px] shrink-0">
                             <h3 className="text-[22px] sm:text-[26px] lg:text-[28px] font-bold text-[#000305] capitalize leading-[1.2]">
-                                How We Made It Happen
+                                {t.phases}
                             </h3>
                             <div className="flex flex-col gap-6 mt-4 z-10">
                                 {project.phases.map((phase, idx) => (
@@ -300,12 +304,12 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                                         key={stat.title}
                                         className={`relative z-10 flex flex-col gap-3 items-center px-5 py-10 sm:py-0 sm:px-8 lg:px-4 
                                             /* Vertical separators for Tablet/Desktop */
-                                            border-[#257FC0] border-dashed border-r-0 sm:odd:border-r-2 xl:border-r-2 xl:last:border-r-0
+                                            border-[#257FC0] border-dashed border-e-0 sm:odd:border-e-2 xl:border-e-2 xl:last:border-e-0
                                             /* Mobile bottom separator (centered and shortened) */
                                             after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-[250px] after:border-b-2 after:border-dashed after:border-[#257FC0] 
                                             after:sm:hidden`}
                                     >
-                                        <p className="text-[#000305] text-[32px] sm:text-[36px] lg:text-[40px] font-semibold leading-[1.44]">
+                                        <p dir="ltr" className="text-[#000305] text-[32px] sm:text-[36px] lg:text-[40px] font-semibold leading-[1.44]">
                                             <AnimatedStat
                                                 valueStr={stat.count}
                                                 staticPrefix={staticPrefix}
@@ -341,7 +345,7 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                                 >
                                     <Image
                                         src={project.gallery[idx].full_url || ""}
-                                        alt={`${displayTitle} gallery image ${idx + 1}`}
+                                        alt={fmt(t.galleryAlt, { title: displayTitle, n: idx + 1 })}
                                         fill
                                         loading="lazy"
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 348px"
@@ -378,22 +382,22 @@ export default function ProjectClient({ project, testimonials = [] }: { project:
                 <div className="container mx-auto flex flex-col items-center gap-6 text-center relative z-10">
                     <div className="flex flex-col items-center gap-4 w-full">
                         <h2 className="text-[#000305] text-[36px] sm:text-[48px] lg:text-[56px] font-semibold leading-[1.2]">
-                            Turn Ideas Into Impact
+                            {t.cta.title}
                         </h2>
                         <p className="text-[#393B3C] text-[16px] sm:text-[18px] lg:text-[20px] font-medium leading-[1.68] max-w-[900px]">
-                            From startup dreams to scaling giants &mdash; we craft digital experiences that work and wow.
+                            {t.cta.subtitle}
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-0 sm:justify-between w-full max-w-[364px]">
                         <p className="text-[#393B3C] text-[16px] sm:text-[18px] font-semibold leading-[1.22]">
-                            The Next Big Thing?
+                            {t.cta.question}
                         </p>
                         <button
                             type="button"
                             onClick={() => openContactModal()}
                             className="bg-[#0D71BA] hover:bg-[#0B65A7] transition-colors duration-300 h-12 w-[200px] rounded-[8px] px-4 flex items-center justify-center capitalize font-bold text-[#F4D315] text-[18px] tracking-[0.01em] cursor-pointer"
                         >
-                            Start Your Project
+                            {t.cta.button}
                         </button>
                     </div>
                 </div>
