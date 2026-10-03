@@ -1,0 +1,66 @@
+// home copy. Arabic counterpart: ../ar/home.ts (typed against this shape).
+const home = {
+    meta: {
+        twitterTitle: 'Codetoon - transform your ideas into reality',
+    },
+    hero: {
+        tagline: 'Delivering the WOW factor—through code, design, and strategy.',
+        headline: ['Change', 'The world', 'cause', 'we can'],
+        omg: 'From idea to "OMG that\'s awesome!"',
+        description: 'Full service digital agency, crafting tech and design solutions based in Egypt',
+        cta: "Let's Build Together",
+        backgroundAlt: 'hero-background',
+    },
+    pillars: ['Build.', 'Brand.', 'Boost.'],
+    categoriesError: 'Failed to load categories.',
+    readMore: 'Read more',
+    ourWork: { our: 'Our', work: 'Work' },
+    workTagline: 'Smart design. Sharp code. Real results.',
+    viewAllProjects: 'View All Projects',
+    imageAlt: 'Our Work',
+    story: {
+        our: 'Our',
+        story: 'Story',
+        headline: ['One Problem.', 'One Vision.', 'One Bold Fix.'],
+        intro: 'How a restless crew in Egypt decided to end scattered growth once and for all.',
+        problemExpandedTitle: 'Problem – The Breaking Point',
+        problemExpanded: [
+            'Great brands were stuck.',
+            'Too many vendors. No alignment.',
+            'Ideas got lost. Execution slowed down.',
+            'We knew there had to be a better way.',
+        ],
+        problemLabel: 'The Problem',
+        problemTitle: 'Scattered Execution',
+        problemPoints: ['Brands juggled +5 vendors.', 'Confused strategies.', 'Missed deadlines.', 'Scattered results.'],
+        ideaLabel: 'Idea',
+        ideaTitle: 'We fused creativity with Technology',
+        ideaPoints: ['One Team, One Flow, ', 'One Purpose.'],
+        ideaExpandedTitle: 'Idea — The Bold Move',
+        ideaExpanded: [
+            "We didn't want to be another agency.",
+            'We fused two worlds — design + tech — into one team, under one roof.',
+            'The goal? Kill the chaos and build smarter, faster, better.',
+        ],
+        todayExpandedTitle: 'Today — The CodeToon Way',
+        todayExpanded: [
+            'One team. One strategy. Real results.',
+            'From pixel-perfect branding to powerful products — we launch what others can only plan.',
+            "And our clients? They're growing faster than ever.",
+        ],
+        todayLabel: 'Today',
+        todayTitle: ['One Team.', 'One Strategy.'],
+        todaySubtitle: 'Real Results.',
+        quote: '“Our ROI jumped 50% after just one quarter. We finally found a team that gets both the creative and the technical.”',
+        quoteAuthor: 'Ahmed S., Marketing Director at ABC',
+        frustrated: 'Frustrated by the chaos? So we are ',
+        different: 'That’s why we set out to build something different',
+        discover: 'Discover the better way',
+    },
+    clients: {
+        title: 'Cool Clients.',
+        subtitle: 'Even Cooler Projects.',
+    },
+};
+
+export default home;

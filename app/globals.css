@@ -141,3 +141,12 @@ html {
     }
 }
 
+
+/* Arabic has no true italic in Cairo (browsers fake a slant) and tracking
+   pulls joined letters apart, so both are neutralised on RTL pages only. */
+html[dir="rtl"] .italic {
+  font-style: normal;
+}
+html[dir="rtl"] [class*="tracking-"] {
+  letter-spacing: normal;
+}

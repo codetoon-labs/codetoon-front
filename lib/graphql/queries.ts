@@ -1,9 +1,13 @@
 import { gql } from '@apollo/client';
 
+// Translatable fields are requested as `{ en ar }` — one query serves both
+// languages. lib/server-data.ts collapses them to the page locale with
+// localize() before they reach components.
+
 export const GET_CUSTOMERS = gql`
     query GetCustomers {
         allCustomers {
-            name
+            name { en ar }
             image {
                 full_url
             }
@@ -12,18 +16,17 @@ export const GET_CUSTOMERS = gql`
     }
 `;
 
-// Testimonials query - uncomment when backend is ready
 export const GET_TESTIMONIALS = gql`
     query GetTestimonials {
         allTestimonials {
-            description
+            description { en ar }
             id
             image {
                 full_url
             }
-            name
-            position
-            title
+            name { en ar }
+            position { en ar }
+            title { en ar }
         }
     }
 `;
@@ -33,77 +36,73 @@ export const GET_PROJECTS = gql`
         projects {
             data {
                 categories {
-                    title
+                    title { en ar }
                     type
-                } 
-              	gallery{
-                  full_url
                 }
-              
-              	objectives{
-                  title
-                  description
+                gallery {
+                    full_url
                 }
-                phases{
-                  title
-                  description
+                objectives {
+                    title { en ar }
+                    description { en ar }
                 }
-              	counters{
-                  title
-                  count
-                  abbreviation
+                phases {
+                    title { en ar }
+                    description { en ar }
                 }
-              	country {
+                counters {
+                    title { en ar }
+                    count
+                    abbreviation
+                }
+                country {
                     id
-                    name
+                    name { en ar }
                     image {
                         full_url
                     }
                 }
-              	services{
+                services {
                     id
-                    title
-                    description
+                    title { en ar }
+                    description { en ar }
                 }
-              	main_image {
+                main_image {
                     full_url
                 }
-              	sort_order
-               	tags
+                sort_order
+                tags { en ar }
                 id
-                slug
-                title
-                description  
-              	short_title
-              	short_description
-              	visit_link
-              	in_homepage
+                slug { en ar }
+                title { en ar }
+                description { en ar }
+                short_title { en ar }
+                short_description { en ar }
+                visit_link
+                in_homepage
             }
         }
     }
 `;
 
-
-
-
 export const GET_CATEGORIES = gql`
     query GetAllCategories {
         allCategories {
             id
-            title
+            title { en ar }
             slug
-            description
-            overview
+            description { en ar }
+            overview { en ar }
             type
-            main_image{
+            main_image {
                 id
                 full_url
             }
-            services{
+            services {
                 id
-                title
+                title { en ar }
                 slug
-                description
+                description { en ar }
             }
         }
     }
@@ -113,56 +112,55 @@ export const GET_CATEGORY_BY_SLUG = gql`
     query GetCategory($slug: String!) {
         category(slug: $slug) {
             id
-            title
+            title { en ar }
             slug
-            description
-            overview
+            description { en ar }
+            overview { en ar }
             main_image {
                 full_url
             }
             services {
                 id
-                title
+                title { en ar }
                 slug
-                description
-                deliverables
-                tags
+                description { en ar }
+                deliverables { en ar }
+                tags { en ar }
             }
         }
     }
 `;
 
 export const GET_SERVICE_BY_SLUG = gql`
-query GetService($slug: String!) {
-  service(slug: $slug) {
-    id
-    title
-    slug
-    description
-    short_description
-    deliverables
-    tags
-    banner{
-      full_url
+    query GetService($slug: String!) {
+        service(slug: $slug) {
+            id
+            title { en ar }
+            slug
+            description { en ar }
+            short_description { en ar }
+            deliverables { en ar }
+            tags { en ar }
+            banner {
+                full_url
+            }
+            process_steps {
+                en { title description }
+                ar { title description }
+            }
+            gallery {
+                full_url
+            }
+            categories {
+                id
+                title { en ar }
+                slug
+                main_image {
+                    full_url
+                }
+            }
+        }
     }
-    process_steps{
-      title
-      description
-    }
-    gallery{
-      full_url
-    }
-    categories {
-      id
-      title
-      slug
-      main_image {
-        full_url
-      }
-    }
-  }
-}
-
 `;
 
 export const CREATE_LEAD = gql`
@@ -177,14 +175,14 @@ export const CREATE_LEAD = gql`
 
 export const GET_TEAMS = gql`
     query GetTeams {
-  teams {
-    name
-    id
-    created_at
-    title
-    image {
-      full_url
+        teams {
+            name { en ar }
+            id
+            created_at
+            title { en ar }
+            image {
+                full_url
+            }
+        }
     }
-  }
-}
 `;

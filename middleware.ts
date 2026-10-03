@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { defaultLocale } from '@/lib/i18n/config';
 
 // codetoon.net is the canonical host. www.codetoon.net resolves to the same
 // worker, so without this every page exists twice and ranking signals split.
@@ -15,18 +16,36 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
+  const { pathname } = request.nextUrl;
+
   // Markdown for Agents: AI agents that request markdown instead of HTML
   // (Accept: text/markdown) get the machine-readable site summary.
   const accept = request.headers.get('accept') ?? '';
   if (
-    request.nextUrl.pathname === '/' &&
+    pathname === '/' &&
     accept.includes('text/markdown') &&
     !accept.includes('text/html')
   ) {
     return NextResponse.rewrite(new URL('/llms.txt', request.url));
   }
 
-  return NextResponse.next();
+  // Files (llms.txt, sitemap.xml, robots.txt, images) live outside [locale].
+  if (/\.[^/]+$/.test(pathname)) return NextResponse.next();
+
+  // Arabic is served from its public prefix as-is.
+  if (pathname === '/ar' || pathname.startsWith('/ar/')) return NextResponse.next();
+
+  // The default locale has no public prefix: /en/x would duplicate /x.
+  if (pathname === `/${defaultLocale}` || pathname.startsWith(`/${defaultLocale}/`)) {
+    const url = request.nextUrl.clone();
+    url.pathname = pathname.slice(defaultLocale.length + 1) || '/';
+    return NextResponse.redirect(url, 308);
+  }
+
+  // Everything else is English, rendered by app/[locale] with locale=en.
+  const url = request.nextUrl.clone();
+  url.pathname = `/${defaultLocale}${pathname === '/' ? '' : pathname}`;
+  return NextResponse.rewrite(url);
 }
 
 export const config = {

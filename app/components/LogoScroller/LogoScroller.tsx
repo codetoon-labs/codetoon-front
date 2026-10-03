@@ -2,28 +2,32 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useI18n } from '@/lib/i18n/provider';
 
 interface Customer {
     id: string;
     name: string;
     image: {
         full_url: string;
-    };
+    } | null;
 }
 
-export default function LogoScroller({ customers = [] }: { customers?: Customer[] }) {
+export default function LogoScroller({ customers: allCustomers = [] }: { customers?: Customer[] }) {
+    const { t } = useI18n();
+    // A customer saved without a logo would otherwise crash the whole page.
+    const customers = allCustomers.filter((customer) => customer.image?.full_url);
     // If no customers, show empty state
     if (customers.length === 0) {
         return (
             <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center justify-center z-10">
-                <div className="text-gray-400">No customers to display</div>
+                <div className="text-gray-400">{t.widgets.logos.empty}</div>
             </div>
         );
     }
 
     return (
         <div className="relative w-full overflow-hidden bg-[#EFF5FB] h-[180px] flex items-center z-10">
-            <div className="logo-scroll-container ">
+            <div className="logo-scroll-container " dir="ltr">
                 <div className="logo-scroll-track py-10">
                     {/* First set of logos */}
                     {customers.map((customer) => (
@@ -32,7 +36,7 @@ export default function LogoScroller({ customers = [] }: { customers?: Customer[
                             className="logo-item flex items-center justify-center px-8"
                         >
                             <Image
-                                src={customer.image.full_url}
+                                src={customer.image!.full_url}
                                 alt={customer.name}
                                 width={120}
                                 height={40}
@@ -47,7 +51,7 @@ export default function LogoScroller({ customers = [] }: { customers?: Customer[
                             className="logo-item flex items-center justify-center px-8"
                         >
                             <Image
-                                src={customer.image.full_url}
+                                src={customer.image!.full_url}
                                 alt={customer.name}
                                 width={120}
                                 height={40}

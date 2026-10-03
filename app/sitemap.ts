@@ -1,44 +1,58 @@
 import type { MetadataRoute } from 'next';
-import { GET_PROJECTS, GET_CATEGORIES } from '@/lib/graphql/queries';
-import { createApolloClient } from '@/lib/apollo-client';
+import { getCategories, getProjects } from '@/lib/server-data';
+import { absoluteUrl, locales } from '@/lib/i18n/config';
 
 // The CMS doesn't expose an updated_at on projects/categories, so a per-URL
 // lastModified would just be "now" on every request — a false freshness signal.
 // One build-time date for the whole file is the honest version.
 const BUILD_DATE = new Date();
 
+// Each page exists once per locale (/x and /ar/x). Both get an entry, and each
+// entry lists every language version so search engines pair them (hreflang).
+function localized(entries: MetadataRoute.Sitemap): MetadataRoute.Sitemap {
+  return entries.flatMap((entry) => {
+    const path = entry.url || '/';
+    const languages = Object.fromEntries(locales.map((l) => [l, absoluteUrl(path, l)]));
+    return locales.map((locale) => ({
+      ...entry,
+      url: absoluteUrl(path, locale),
+      alternates: { languages },
+    }));
+  });
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://codetoon.net';
+  // Locale-agnostic paths here; localized() expands them to absolute URLs.
 
   // Static routes. /products is deliberately absent — it's a placeholder and
   // is marked noindex until it has real content.
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: `${baseUrl}`,
+      url: '/',
       lastModified: BUILD_DATE,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: `${baseUrl}/about-us`,
+      url: '/about-us',
       lastModified: BUILD_DATE,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/solutions`,
+      url: '/solutions',
       lastModified: BUILD_DATE,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/projects`,
+      url: '/projects',
       lastModified: BUILD_DATE,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/privacy`,
+      url: '/privacy',
       lastModified: BUILD_DATE,
       changeFrequency: 'yearly',
       priority: 0.3,
@@ -46,33 +60,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const client = createApolloClient();
+    // Solutions (categories) also carry the services beneath them. Projects
+    // come back with their English slug, which is the URL in every language.
+    const [projects, categories] = await Promise.all([getProjects('en'), getCategories('en')]);
 
-    // Fetch projects
-    const { data: projectsData } = await client.query<any>({
-      query: GET_PROJECTS,
-    });
-
-    // Fetch solutions (categories) — these also carry the services beneath them
-    const { data: categoriesData } = await client.query<any>({
-      query: GET_CATEGORIES,
-    });
-
-    const projectRoutes: MetadataRoute.Sitemap = (projectsData?.projects?.data || [])
+    const projectRoutes: MetadataRoute.Sitemap = projects
       .filter((project: any) => project?.slug)
       .map((project: any) => ({
-        url: `${baseUrl}/project/${project.slug}`,
+        url: `/project/${project.slug}`,
         lastModified: BUILD_DATE,
         changeFrequency: 'monthly' as const,
         priority: 0.7,
       }));
 
-    const categories = categoriesData?.allCategories || [];
-
     const solutionRoutes: MetadataRoute.Sitemap = categories
       .filter((category: any) => category?.slug)
       .map((category: any) => ({
-        url: `${baseUrl}/solution/${category.slug}`,
+        url: `/solution/${category.slug}`,
         lastModified: BUILD_DATE,
         changeFrequency: 'monthly' as const,
         priority: 0.7,
@@ -89,16 +93,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     const serviceRoutes: MetadataRoute.Sitemap = [...serviceSlugs].map((slug) => ({
-      url: `${baseUrl}/service/${slug}`,
+      url: `/service/${slug}`,
       lastModified: BUILD_DATE,
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     }));
 
-    return [...staticRoutes, ...projectRoutes, ...solutionRoutes, ...serviceRoutes];
+    return localized([...staticRoutes, ...projectRoutes, ...solutionRoutes, ...serviceRoutes]);
   } catch (error) {
     console.error('Error fetching dynamic routes for sitemap:', error);
     // Graceful fallback to static routes only if GraphQL API fails
-    return staticRoutes;
+    return localized(staticRoutes);
   }
 }

@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from 'next/navigation';
 import { useModal } from '../../context/ModalContext';
+import { useBarePathname, useI18n } from '@/lib/i18n/provider';
+import { localizePath } from '@/lib/i18n/config';
 import { 
   LayoutGrid, 
   AlignLeft, 
@@ -66,21 +67,22 @@ function DrawerNavItem({ label, href = "#", isActive = false, onClick, icon: Ico
       </div>
       <ChevronRight 
         size={18} 
-        className={`transition-transform duration-200 ${isActive ? 'text-[#0d71ba]' : 'text-[#CBD5E0] group-hover:translate-x-1'}`} 
+        className={`transition-transform duration-200 rtl:-scale-x-100 ${isActive ? 'text-[#0d71ba]' : 'text-[#CBD5E0] group-hover:translate-x-1 rtl:group-hover:-translate-x-1'}`} 
       />
     </Link>
   );
 }
 
 function CodetoonLogo() {
+  const { t, href } = useI18n();
   return (
     <div className="relative w-[120px] h-[40px] lg:w-[172px] lg:h-[50px] overflow-hidden">
       <div className="absolute inset-0 flex items-center">
-        <Link href="/" className="font-bold text-[24px] text-[#0d71ba]">
+        <Link href={href('/')} className="font-bold text-[24px] text-[#0d71ba]">
             <Image
                 className=""
                 src="/logo.svg"
-                alt="Codetoon logo"
+                alt={t.common.header.logoAlt}
                 width={172}
                 height={50}
                 priority
@@ -92,16 +94,18 @@ function CodetoonLogo() {
 }
 
 export default function Header() {
-  const pathname = usePathname();
+  const pathname = useBarePathname();
+  const { t, locale, href } = useI18n();
+  const otherLocale = locale === 'ar' ? 'en' : 'ar';
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { openContactModal } = useModal();
 
   const navItems = [
-    { label: 'Home', href: '/', icon: LayoutGrid },
-    { label: 'Solutions', href: '/solutions', icon: AlignLeft },
-    { label: 'Projects', href: '/projects', icon: Monitor },
-    { label: 'About Us', href: '/about-us', icon: User }
+    { label: t.common.nav.home, href: '/', icon: LayoutGrid },
+    { label: t.common.nav.solutions, href: '/solutions', icon: AlignLeft },
+    { label: t.common.nav.projects, href: '/projects', icon: Monitor },
+    { label: t.common.nav.aboutUs, href: '/about-us', icon: User }
   ];
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -122,7 +126,7 @@ export default function Header() {
         <button
           onClick={() => setIsMenuOpen(true)}
           className="lg:hidden flex items-center justify-center w-[40px] h-[40px] rounded-full text-white transition-colors duration-200 hover:bg-[#0a5a95]"
-          aria-label="Open menu"
+          aria-label={t.common.header.openMenu}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path fillRule="evenodd" clipRule="evenodd" d="M20 6L4 6L4 4L20 4L20 6Z" fill="#0D71BA" />
@@ -137,13 +141,31 @@ export default function Header() {
         <div className="hidden capitalize lg:flex items-center gap-[16px]">
           {navItems.map((item) => (
             <NavItem
-              key={item.label}
+              key={item.href}
               label={item.label}
-              href={item.href}
+              href={href(item.href)}
               isActive={pathname === item.href}
             />
           ))}
         </div>
+
+        <div className="flex items-center gap-3">
+        {/* Language switcher: same page, other locale */}
+        <Link
+          href={localizePath(pathname, otherLocale)}
+          hrefLang={otherLocale}
+          lang={otherLocale}
+          aria-label={t.common.header.switchLanguageLabel}
+          className="
+          hidden lg:flex items-center justify-center
+          h-[48px] px-[16px]
+          border border-[#0d71ba]/30 rounded-[40px]
+          font-bold text-[16px] text-[#0d71ba]
+          transition-colors duration-300
+          hover:bg-[#0d71ba]/10
+        ">
+          {t.common.header.switchLanguage}
+        </Link>
 
         {/* Desktop Contact Button */}
         <button 
@@ -156,8 +178,9 @@ export default function Header() {
           transition-colors duration-300
           hover:bg-[#0a5a95] cursor-pointer
         ">
-          Contact us
+          {t.common.header.contactUs}
         </button>
+        </div>
 
       </nav>
 
@@ -171,10 +194,10 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       <div className={`
-        fixed top-0 left-0 h-full w-[300px] bg-white z-101 lg:hidden
-        flex flex-col shadow-2xl rounded-r-[32px] overflow-hidden
+        fixed top-0 start-0 h-full w-[300px] bg-white z-101 lg:hidden
+        flex flex-col shadow-2xl rounded-e-[32px] overflow-hidden
         transition-transform duration-300 ease-in-out
-        ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+        ${isMenuOpen ? 'translate-x-0' : '-translate-x-full rtl:translate-x-full'}
       `}>
         {/* Drawer Header */}
         <div className="flex flex-col px-6 pt-8 pb-6">
@@ -184,15 +207,15 @@ export default function Header() {
             </div>
             <button
               type="button"
-              aria-label="Close menu"
+              aria-label={t.common.header.closeMenu}
               onClick={closeMenu}
               className="p-2 rounded-full bg-gray-50 text-gray-400 hover:bg-gray-100 transition-colors"
             >
-              <X size={20} aria-label='Close menu' aria-hidden="true" focusable="false" />
+              <X size={20} aria-label={t.common.header.closeMenu} aria-hidden="true" focusable="false" />
             </button>
           </div>
           <p className="text-[#718096] text-[15px] leading-relaxed max-w-[200px]">
-            Change the world, 'cause we can.
+            {t.common.header.tagline}
           </p>
         </div>
 
@@ -202,9 +225,9 @@ export default function Header() {
         <nav className="flex flex-col gap-1 px-0">
           {navItems.map((item) => (
             <DrawerNavItem
-              key={item.label}
+              key={item.href}
               label={item.label}
-              href={item.href}
+              href={href(item.href)}
               icon={item.icon}
               isActive={pathname === item.href}
               onClick={closeMenu}
@@ -212,20 +235,31 @@ export default function Header() {
           ))}
         </nav>
 
+        <Link
+          href={localizePath(pathname, otherLocale)}
+          hrefLang={otherLocale}
+          lang={otherLocale}
+          onClick={closeMenu}
+          aria-label={t.common.header.switchLanguageLabel}
+          className="mx-6 mt-4 flex items-center justify-center h-[44px] border border-[#0d71ba]/30 rounded-[40px] font-bold text-[16px] text-[#0d71ba] hover:bg-[#0d71ba]/10 transition-colors"
+        >
+          {t.common.header.switchLanguage}
+        </Link>
+
         {/* Drawer Footer */}
         <div className="mt-auto p-6">
           <div className="flex flex-col gap-2 bg-[#102A43] rounded-3xl p-6 relative overflow-hidden group">
             {/* Subtle background decoration */}
-            <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-all duration-500" />
+            <div className="absolute -end-4 -bottom-4 w-24 h-24 bg-white/5 rounded-full blur-2xl group-hover:bg-white/10 transition-all duration-500" />
             
             <p className="text-[#8492A6] text-xs font-bold tracking-widest uppercase mb-3">
-              Get in touch
+              {t.common.header.getInTouch}
             </p>
             <a href="tel:+201156167758" onClick={closeMenu} className="text-white text-xl font-bold mb-2">
-              01156167758
+              <bdi dir="ltr">01156167758</bdi>
             </a>
             <a href="https://maps.app.goo.gl/VcaAJGKX93yuiG4j9" target="_blank" rel="noopener noreferrer" className="text-[#00BAFF] text-sm font-medium">
-              316 Ninety Road Sector 2 Office No.3 Third Floor ,5th Settlement, | New Cairo, Cairo Egypt
+              {t.common.header.address}
             </a>
           </div>
         </div>

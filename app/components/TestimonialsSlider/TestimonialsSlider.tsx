@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {TrackDetails, useKeenSlider} from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Image from "next/image";
+import { useI18n } from "@/lib/i18n/provider";
 
 interface Testimonial {
     id: number;
@@ -17,12 +18,14 @@ interface Testimonial {
 }
 
 export default function TestimonialsSlider({ testimonials = [] }: { testimonials?: Testimonial[] }) {
+    const { t: { widgets: { testimonials: t } }, dir } = useI18n();
     const [currentSlide, setCurrentSlide] = useState(0);
     const [loaded, setLoaded] = useState(false);
     const [details, setDetails] = React.useState<TrackDetails | null>(null);
     const [sliderRef, instanceRef] = useKeenSlider({
         initial: 0,
         loop: true,
+        rtl: dir === 'rtl',
         mode: "snap",
         dragSpeed: 0.3,
         renderMode: "precision",
@@ -63,7 +66,7 @@ export default function TestimonialsSlider({ testimonials = [] }: { testimonials
             {/* Left Section — Title + Navigation */}
             <div className="flex flex-row xl:flex-col items-center justify-around xl:justify-start xl:gap-[39px] w-full xl:w-[384px] xl:shrink-0">
                 <h2 className="font-semibold leading-tight text-[28px] sm:text-[36px] lg:text-[48px] xl:leading-[91.2px] xl:text-[76px] text-black whitespace-pre-wrap xl:w-full z-10 max-w-[280px] lg:max-w-[360px] xl:max-w-none">
-                    What our clients say about us
+                    {t.title}
                 </h2>
 
                 {/* Navigation Arrows — beside title on mobile, below on desktop */}
@@ -76,7 +79,7 @@ export default function TestimonialsSlider({ testimonials = [] }: { testimonials
                         }}
                         disabled={!loaded}
                         className="bg-[#07436f] flex items-center justify-center p-[10px] rounded-full w-[42px] h-[42px] xl:w-[50px] xl:h-[50px] group/buttons hover:scale-105 hover:bg-[#07436FE5] transition-all duration-300"
-                        aria-label="Previous testimonial"
+                        aria-label={t.previous}
                     >
                         <svg className="group-hover/buttons:translate-y-1 transition-all duration-300"
                             xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32" fill="none">
@@ -91,7 +94,7 @@ export default function TestimonialsSlider({ testimonials = [] }: { testimonials
                             instanceRef.current?.next();
                         }}
                         className="bg-[#07436f] rotate-180 flex items-center justify-center p-[10px] rounded-full w-[42px] h-[42px] xl:w-[50px] xl:h-[50px] group/buttons hover:scale-105 hover:bg-[#07436FE5] transition-all duration-300"
-                        aria-label="Next testimonial"
+                        aria-label={t.next}
                     >
                         <svg className="group-hover/buttons:translate-y-1 transition-all duration-300"
                              xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32" fill="none">
@@ -111,10 +114,10 @@ export default function TestimonialsSlider({ testimonials = [] }: { testimonials
                         >
                             <div
                                 style={scaleStyle(idx)}
-                                className="bg-[#e3eef7] flex flex-col gap-[28px] xl:gap-[48px] pb-[24px] pl-[20px] pr-[16px] xl:pl-[32px] xl:pr-[24px] pt-[20px] xl:pt-[28px] rounded-[16px] shadow-[0px_4px_10px_0px_#d6e7f5]"
+                                className="bg-[#e3eef7] flex flex-col gap-[28px] xl:gap-[48px] pb-[24px] ps-[20px] pe-[16px] xl:ps-[32px] xl:pe-[24px] pt-[20px] xl:pt-[28px] rounded-[16px] shadow-[0px_4px_10px_0px_#d6e7f5]"
                             >
                                 {/* Counter */}
-                                <p className="font-medium leading-[24px] text-[16px] xl:text-[18px] text-black">
+                                <p dir="ltr" className="font-medium leading-[24px] text-[16px] xl:text-[18px] text-black self-start">
                                     {currentSlide + 1}/{testimonials.length}
                                 </p>
 
@@ -162,7 +165,7 @@ export default function TestimonialsSlider({ testimonials = [] }: { testimonials
                                                 {testimonial.description}
                                             </p>
                                         </div>
-                                        <p className="font-medium text-[36px] xl:text-[48px] leading-[36px] xl:leading-[48px] italic self-end text-black text-right h-[20px] xl:h-[25px]">
+                                        <p className="font-medium text-[36px] xl:text-[48px] leading-[36px] xl:leading-[48px] italic self-end text-black text-end h-[20px] xl:h-[25px]">
                                             "
                                         </p>
                                     </div>

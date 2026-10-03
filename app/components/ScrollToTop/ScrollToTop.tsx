@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useI18n } from '@/lib/i18n/provider';
 
 export default function ScrollToTop() {
+  const { t } = useI18n();
   const [isVisible, setIsVisible] = useState(false);
 
   // Show button when page is scrolled down
@@ -35,8 +37,8 @@ export default function ScrollToTop() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-[104px] right-8 z-50 flex items-center justify-center w-14 h-14 bg-[#0d71ba] hover:bg-[#0a5a95] text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 cursor-pointer"
-          aria-label="Scroll to top"
+          className="fixed bottom-[104px] end-8 z-50 flex items-center justify-center w-14 h-14 bg-[#0d71ba] hover:bg-[#0a5a95] text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 cursor-pointer"
+          aria-label={t.widgets.scrollToTop}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

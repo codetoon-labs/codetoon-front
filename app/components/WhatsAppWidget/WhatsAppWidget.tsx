@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useI18n } from '@/lib/i18n/provider';
+import { fmt } from '@/lib/i18n/config';
 
 const WHATSAPP_NUMBER = '+201149996247';
-const WHATSAPP_MESSAGE = 'Hi CodeToon! I\'d like to learn more about your services.';
 const PHONE_NUMBER = '+201156167758';
 const PHONE_DISPLAY = '01156167758';
 
-const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
 function WhatsAppIcon({ size = 24 }: { size?: number }) {
     return (
@@ -31,6 +31,8 @@ export default function WhatsAppWidget() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
+    const { t, dir } = useI18n();
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.contact.whatsapp.prefilledMessage)}`;
 
     useEffect(() => {
         const check = () => setIsMobile(window.innerWidth < 1024);
@@ -56,7 +58,7 @@ export default function WhatsAppWidget() {
     return (
         <div
             ref={containerRef}
-            className="fixed bottom-8 right-8 z-50 flex flex-col items-end gap-3"
+            className="fixed bottom-8 end-8 z-50 flex flex-col items-end gap-3"
         >
             {/* ── Mobile expanded menu ── */}
             <AnimatePresence>
@@ -74,26 +76,26 @@ export default function WhatsAppWidget() {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={handleAction}
-                            aria-label="Chat on WhatsApp"
+                            aria-label={t.contact.whatsapp.chat}
                             className="flex items-center gap-3 bg-white text-[#0d71ba] font-semibold text-[14px] px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(13,113,186,0.18)] hover:shadow-[0_6px_28px_rgba(13,113,186,0.28)] hover:scale-[1.03] transition-all duration-200 whitespace-nowrap"
                         >
                             <span className="text-[#0d71ba]">
                                 <WhatsAppIcon size={20} />
                             </span>
-                            Chat on WhatsApp
+                            {t.contact.whatsapp.chat}
                         </a>
 
                         {/* Call action */}
                         <a
                             href={`tel:${PHONE_NUMBER}`}
                             onClick={handleAction}
-                            aria-label={`Call us at ${PHONE_DISPLAY}`}
+                            aria-label={fmt(t.contact.whatsapp.callUs, { phone: PHONE_DISPLAY })}
                             className="flex items-center gap-3 bg-white text-[#0d71ba] font-semibold text-[14px] px-4 py-3 rounded-full shadow-[0_4px_20px_rgba(13,113,186,0.18)] hover:shadow-[0_6px_28px_rgba(13,113,186,0.28)] hover:scale-[1.03] transition-all duration-200 whitespace-nowrap"
                         >
                             <span className="text-[#0d71ba]">
                                 <PhoneIcon size={20} />
                             </span>
-                            {PHONE_DISPLAY}
+                            <span dir="ltr">{PHONE_DISPLAY}</span>
                         </a>
                     </motion.div>
                 )}
@@ -105,19 +107,19 @@ export default function WhatsAppWidget() {
                 <AnimatePresence>
                     <motion.span
                         key="tooltip"
-                        initial={{ opacity: 0, x: 8, scale: 0.95 }}
+                        initial={{ opacity: 0, x: dir === 'rtl' ? -8 : 8, scale: 0.95 }}
                         whileHover={{ opacity: 1, x: 0, scale: 1 }}
-                        className="hidden lg:flex pointer-events-none absolute right-[68px] items-center bg-[#0d71ba] text-white text-[14px] font-semibold px-4 py-2 rounded-full shadow-[0_4px_16px_rgba(13,113,186,0.3)] whitespace-nowrap
-                        opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2
+                        className="hidden lg:flex pointer-events-none absolute end-[68px] items-center bg-[#0d71ba] text-white text-[14px] font-semibold px-4 py-2 rounded-full shadow-[0_4px_16px_rgba(13,113,186,0.3)] whitespace-nowrap
+                        opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 rtl:-translate-x-2
                         transition-all duration-250 ease-out"
                         aria-hidden="true"
                     >
-                        Chat on WhatsApp
+                        {t.contact.whatsapp.chat}
                     </motion.span>
                 </AnimatePresence>
 
                 <motion.button
-                    aria-label="Chat on WhatsApp"
+                    aria-label={t.contact.whatsapp.chat}
                     aria-expanded={isMobile ? mobileMenuOpen : undefined}
                     aria-haspopup={isMobile ? 'menu' : undefined}
                     animate={{ y: [0, -5, 0] }}

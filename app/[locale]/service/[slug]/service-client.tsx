@@ -1,0 +1,357 @@
+'use client'
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useModal } from '@/app/context/ModalContext';
+import { useI18n } from '@/lib/i18n/provider';
+import { fmt } from '@/lib/i18n/config';
+
+interface MediaItem {
+    full_url: string | null;
+}
+
+interface ProcessStep {
+    title: string;
+    description: string;
+}
+
+interface ServiceCategory {
+    id: string;
+    title: string;
+    slug: string | null;
+    main_image: { full_url: string } | null;
+}
+
+interface Service {
+    id: string;
+    title: string;
+    slug: string;
+    description: string;
+    short_description: string | null;
+    deliverables: string[];
+    tags: string[];
+    banner: MediaItem | null;
+    process_steps: ProcessStep[];
+    gallery: MediaItem[];
+    categories: ServiceCategory[];
+}
+
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
+
+export default function ServiceClient({ service }: { service: Service | null }) {
+    const { openContactModal } = useModal();
+    const { t: messages, href } = useI18n();
+    const t = messages.service;
+
+    if (!service) {
+        return (
+            <div className="flex flex-col justify-center items-center gap-5 min-h-[60vh] text-center px-4">
+                <h1 className="text-4xl font-bold text-[#2B3136]">{t.notFound.title}</h1>
+                <p className="text-[#535556]">{t.notFound.body}</p>
+                <Link href={href('/solutions')} className="text-[#0D71BA] font-semibold hover:underline">
+                    <span className="inline-block rtl:-scale-x-100">&larr;</span> {t.notFound.back}
+                </Link>
+            </div>
+        );
+    }
+
+    const parentCategory = service.categories?.[0] ?? null;
+    const bannerUrl = service.banner?.full_url ?? parentCategory?.main_image?.full_url ?? null;
+    const description = String(service.description ?? '');
+    const shortDescription = service.short_description ? String(service.short_description) : '';
+    const processSteps = service.process_steps ?? [];
+    const gallery = (service.gallery ?? []).filter((img) => img?.full_url);
+
+    return (
+        <div className="overflow-hidden">
+            {/* ── Hero with banner image ── */}
+            <section className="relative min-h-[600px] flex items-end overflow-hidden font-sans z-10 pt-[110px] lg:pt-[160px]">
+                {bannerUrl ? (
+                    <>
+                        <Image
+                            src={bannerUrl}
+                            alt={String(service.title)}
+                            fill
+                            priority
+                            className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/50 to-black/20" />
+                    </>
+                ) : (
+                    <div className="absolute inset-0 bg-linear-to-r from-[#3D8DC7] via-[#ffffff] to-[#F6DB43]" />
+                )}
+
+                <div className="container mx-auto px-4 sm:px-9 relative z-10 pb-16 lg:pb-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, ease: 'easeOut' }}
+                        className="flex flex-col gap-4 max-w-[840px]"
+                    >
+                        <div className="flex flex-wrap items-center gap-3">
+                            <span className={`font-bold tracking-widest rtl:tracking-normal uppercase text-sm ${bannerUrl ? 'text-[#F4D315]' : 'text-[#0D71BA]'}`}>
+                                {t.eyebrow}
+                            </span>
+                            {parentCategory && (
+                                parentCategory.slug ? (
+                                    <Link
+                                        href={href(`/solution/${parentCategory.slug}`)}
+                                        className={`text-sm font-semibold px-4 py-1.5 rounded-full transition-colors ${bannerUrl ? 'bg-white/15 text-white hover:bg-white/25 backdrop-blur-sm' : 'bg-[#E6F0F8] text-[#0D5182] hover:bg-[#d4e6f5]'}`}
+                                    >
+                                        {parentCategory.title}
+                                    </Link>
+                                ) : (
+                                    <span className={`text-sm font-semibold px-4 py-1.5 rounded-full ${bannerUrl ? 'bg-white/15 text-white backdrop-blur-sm' : 'bg-[#E6F0F8] text-[#0D5182]'}`}>
+                                        {parentCategory.title}
+                                    </span>
+                                )
+                            )}
+                        </div>
+
+                        <h1 className={`text-[44px] lg:text-[80px] font-bold leading-[1.05] uppercase tracking-tight rtl:tracking-normal ${bannerUrl ? 'text-white' : 'bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent'}`}>
+                            {service.title}
+                        </h1>
+
+                        {shortDescription && (
+                            <p className={`text-[18px] lg:text-[20px] leading-[1.7] max-w-[680px] ${bannerUrl ? 'text-white/85' : 'text-[#535556]'}`}>
+                                {shortDescription}
+                            </p>
+                        )}
+
+                        <button
+                            onClick={() => openContactModal()}
+                            className="mt-4 w-fit cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-7 py-3.5 rounded-[8px] font-bold text-[18px] flex items-center gap-3 text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.2)] group"
+                        >
+                            {t.cta.button}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
+                            </svg>
+                        </button>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* ── Overview ── */}
+            <section className="container mx-auto px-4 sm:px-9 py-[50px] lg:py-[90px] font-sans relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    viewport={{ once: true }}
+                    className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-20 items-start"
+                >
+                    <div className="flex flex-col">
+                        <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm mb-3">{t.overview.eyebrow}</span>
+                        <h2 className="bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent text-[40px] lg:text-[64px] font-semibold leading-[1.05] tracking-tight rtl:tracking-normal">
+                            {t.overview.title}
+                        </h2>
+                    </div>
+                    <p className="text-[17px] lg:text-[19px] text-[#535556] leading-[1.9] font-medium">
+                        {description}
+                    </p>
+                </motion.div>
+            </section>
+
+            {/* ── What We Deliver (card grid) ── */}
+            {service.deliverables && service.deliverables.length > 0 && (
+                <section className="bg-[#F3F8FC] py-[60px] lg:py-[100px] font-sans relative z-10">
+                    <div className="container mx-auto px-4 sm:px-9">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="mb-12 lg:mb-16"
+                        >
+                            <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.deliverables.eyebrow}</span>
+                            <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                                {t.deliverables.title}
+                            </h2>
+                        </motion.div>
+
+                        <motion.div
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: '-50px' }}
+                            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                        >
+                            {service.deliverables.map((item, i) => (
+                                <motion.div
+                                    variants={itemVariants}
+                                    key={i}
+                                    className="relative z-10 flex gap-4 items-start bg-white p-7 rounded-2xl shadow-[0_4px_20px_rgba(13,113,186,0.06)] hover:shadow-[0_8px_30px_rgba(13,113,186,0.12)] transition-shadow group"
+                                >
+                                    <span className="shrink-0 w-11 h-11 rounded-full bg-[#E6F0F8] flex items-center justify-center transition-transform group-hover:scale-110">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6L9 17L4 12" stroke="#0D5182" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </span>
+                                    <span className="text-[17px] lg:text-[19px] text-[#2B3136] leading-[1.6] font-medium pt-1.5">{item}</span>
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
+                </section>
+            )}
+
+            {/* ── Process steps ── */}
+            {processSteps.length > 0 && (
+                <section className="container mx-auto px-4 sm:px-9 py-[60px] lg:py-[100px] font-sans relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-12 lg:mb-16 max-w-[700px]"
+                    >
+                        <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.process.eyebrow}</span>
+                        <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                            {t.process.title}
+                        </h2>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {processSteps.map((step, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: i * 0.12 }}
+                                className="relative z-10 flex flex-col gap-4 p-8 rounded-2xl border border-[#0D71BA]/10 hover:border-[#0D71BA]/30 transition-colors bg-white"
+                            >
+                                <span dir="ltr" className="text-[#0D71BA] text-[40px] font-bold leading-none self-start">{String(i + 1).padStart(2, '0')}</span>
+                                <h3 className="text-[22px] font-semibold text-[#000305] leading-[1.3]">{String(step.title)}</h3>
+                                <p className="text-[16px] text-[#535556] leading-[1.7]">{String(step.description)}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* ── Gallery ── */}
+            {gallery.length > 0 && (
+                <section className="bg-[#F3F8FC] py-[60px] lg:py-[100px] font-sans relative z-10">
+                    <div className="container mx-auto px-4 sm:px-9">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="mb-12 lg:mb-16"
+                        >
+                            <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.gallery.eyebrow}</span>
+                            <h2 className="text-[36px] lg:text-[56px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                                {t.gallery.title}
+                            </h2>
+                        </motion.div>
+
+                        <motion.div
+                            variants={containerVariants}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true, margin: '-50px' }}
+                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+                        >
+                            {gallery.map((img, i) => (
+                                <motion.div
+                                    variants={itemVariants}
+                                    key={i}
+                                    className="relative z-10 aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(13,113,186,0.08)] hover:shadow-[0_12px_36px_rgba(13,113,186,0.18)] transition-shadow group"
+                                >
+                                    <Image
+                                        src={img.full_url as string}
+                                        alt={fmt(t.gallery.imageAlt, { title: String(service.title), n: i + 1 })}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                </motion.div>
+                            ))}
+                        </motion.div>
+                    </div>
+                </section>
+            )}
+
+            {/* ── Technologies & Focus Areas ── */}
+            {service.tags && service.tags.length > 0 && (
+                <section className="container mx-auto px-4 sm:px-9 py-[60px] lg:py-[100px] font-sans relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="mb-8"
+                    >
+                        <span className="text-[#0D71BA] font-bold tracking-widest rtl:tracking-normal uppercase text-sm">{t.stack.eyebrow}</span>
+                        <h2 className="text-[32px] lg:text-[48px] font-bold text-[#000305] leading-[1.1] tracking-tight rtl:tracking-normal mt-2">
+                            {t.stack.title}
+                        </h2>
+                    </motion.div>
+
+                    <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-50px' }}
+                        className="flex flex-wrap gap-4"
+                    >
+                        {service.tags.map((tag, i) => (
+                            <motion.span
+                                variants={itemVariants}
+                                key={i}
+                                className="relative z-10 bg-[#E6F0F8] border border-[#0D71BA]/20 px-6 py-3 rounded-full text-[16px] lg:text-[18px] font-semibold text-[#0D5182]"
+                            >
+                                {tag}
+                            </motion.span>
+                        ))}
+                    </motion.div>
+                </section>
+            )}
+
+            {/* ── Back link ── */}
+            <section className="container mx-auto px-4 sm:px-9 pb-[40px] lg:pb-[60px] font-sans relative z-10">
+                <Link
+                    href={href(parentCategory?.slug ? `/solution/${parentCategory.slug}` : '/solutions')}
+                    onClick={() => typeof window !== 'undefined' && window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="inline-flex items-center gap-2 font-bold text-[#000305] hover:text-black transition-colors group"
+                >
+                    <svg className="transform rotate-180 transition-transform group-hover:-translate-x-1 rtl:-scale-x-100 rtl:group-hover:translate-x-1" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="currentColor" />
+                    </svg>
+                    <span>{parentCategory?.slug ? fmt(t.backTo, { title: parentCategory.title }) : t.browseAll}</span>
+                </Link>
+            </section>
+
+            {/* ── CTA ── */}
+            <section className="bg-[#0D71BA] py-[80px] lg:py-[120px] relative overflow-hidden z-10">
+                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-black/10 rounded-full blur-2xl -translate-x-1/2 translate-y-1/2" />
+
+                <div className="container mx-auto px-4 sm:px-9 flex flex-col items-center text-center gap-[30px] relative z-10">
+                    <h2 className="text-[40px] lg:text-[64px] font-bold text-[#FCF6D0] leading-[1.2]">
+                        {t.cta.titleStart} <span className="italic text-white">{t.cta.titleEmphasis}</span>
+                    </h2>
+                    <p className="text-[20px] font-medium text-white/90 max-w-[600px] mx-auto">
+                        {t.cta.subtitle}
+                    </p>
+                    <button onClick={() => openContactModal()} className="mt-4 cursor-pointer bg-[#F4D315] hover:bg-white hover:scale-[1.02] transition-all duration-300 px-8 py-4 rounded-[8px] font-bold text-[20px] flex items-center justify-center gap-[12px] text-[#000305] shadow-[0_8px_20px_rgba(0,0,0,0.15)] group">
+                        {t.cta.button}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" className="transition-transform group-hover:translate-x-1 rtl:-scale-x-100 rtl:group-hover:-translate-x-1">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="#000305" />
+                        </svg>
+                    </button>
+                </div>
+            </section>
+        </div>
+    );
+}

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useI18n } from '@/lib/i18n/provider';
 
 interface Project {
     description: string;
@@ -34,6 +35,7 @@ interface Project {
 }
 
 export default function ProjectSection({ projects = [], activeFilter = "All Projects" }: { projects?: Project[]; activeFilter?: string }) {
+    const { t: { widgets: { projects: t } }, href } = useI18n();
     const filteredProjects = React.useMemo(() => {
         if (!projects.length) return [];
 
@@ -66,14 +68,14 @@ export default function ProjectSection({ projects = [], activeFilter = "All Proj
                                             priority
                                             sizes="(max-width: 768px) 150px, 300px"
                                             src={project.main_image?.full_url || '/frame 14.webp'}
-                                            alt={project.title || "Our Work"} width={752} height={380} />
+                                            alt={project.title || t.imageAlt} width={752} height={380} />
                                         <div className='absolute inset-0 bg-black/25'></div>
-                                        <Link className='lg:hidden' href={`/project/${project.slug}`}>
-                                            <button className="absolute bottom-5 left-5 z-10 flex justify-center w-fit items-center text-[#ffffff] text-[18px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[15px] px-[16px] py-[8px]">
-                                                view project
+                                        <Link className='lg:hidden' href={href(`/project/${project.slug}`)}>
+                                            <button className="absolute bottom-5 start-5 z-10 flex justify-center w-fit items-center text-[#ffffff] text-[18px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[15px] px-[16px] py-[8px]">
+                                                {t.viewProjectMobile}
                                             </button>
                                         </Link>
-                                        <div className="absolute top-5 right-5 flex gap-2">
+                                        <div className="absolute top-5 end-5 flex gap-2">
                                             <span className="z-10 flex justify-center w-fit items-center text-[#ffffff] text-[16px] font-semibold border border-[#E6F0F866] bg-[rgba(255,255,255,0.10)] backdrop-blur-[10px] rounded-[8px] shadow-md px-[16px] py-[8px]">
                                                 2025
                                             </span>
@@ -95,10 +97,10 @@ export default function ProjectSection({ projects = [], activeFilter = "All Proj
                                         </div>
                                         <div
                                             className="absolute inset-0 hidden bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 lg:flex justify-center items-center">
-                                            <Link href={`/project/${project.slug}`}>
+                                            <Link href={href(`/project/${project.slug}`)}>
                                                 <button
                                                     className="px-[40px] h-[48px] border border-[#FFFFFF] cursor-pointer text-white font-medium rounded-3xl transition-all duration-300 hover:bg-white/20 hover:scale-105">
-                                                    View project
+                                                    {t.viewProject}
                                                 </button>
                                             </Link>
                                         </div>
@@ -155,7 +157,7 @@ export default function ProjectSection({ projects = [], activeFilter = "All Proj
                                 exit={{ opacity: 0 }}
                                 className="flex justify-center items-center py-20 w-full"
                             >
-                                <p className="flex justify-center items-center text-xl h-80 text-[#0D71BA] font-semibold italic">No projects found in this category.</p>
+                                <p className="flex justify-center items-center text-xl h-80 text-[#0D71BA] font-semibold italic">{t.empty}</p>
                             </motion.div>
                         )}
                     </AnimatePresence>
