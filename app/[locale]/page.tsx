@@ -4,6 +4,8 @@ import HomeClient from './home-client';
 import { getCategories, getProjects, getTestimonials, getCustomers } from '@/lib/server-data';
 import { absoluteUrl, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
+import JsonLd from '@/app/components/JsonLd';
+import { graph, ORGANIZATION_ID, webPage } from '@/lib/structured-data';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -61,5 +63,16 @@ export default async function Home({ params }: PageProps) {
         getTestimonials(locale),
         getCustomers(locale),
     ]);
-    return <HomeClient categories={categories} projects={projects} testimonials={testimonials} customers={customers} />;
+    const { meta } = getMessages(locale).common;
+    // Testimonials are deliberately not marked up as Review/AggregateRating:
+    // Google treats reviews a business hosts about itself as self-serving.
+    const jsonLd = graph(
+        webPage({ path: '/', locale, name: meta.defaultTitle, description: meta.description, hasBreadcrumb: false, mainEntityId: ORGANIZATION_ID }),
+    );
+    return (
+        <>
+            <JsonLd data={jsonLd} />
+            <HomeClient categories={categories} projects={projects} testimonials={testimonials} customers={customers} />
+        </>
+    );
 }

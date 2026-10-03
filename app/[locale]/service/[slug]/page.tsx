@@ -6,6 +6,7 @@ import { getServiceBySlug } from '@/lib/server-data';
 import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
 import { absoluteUrl, fmt, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
+import { breadcrumbs, entityId, graph, service as serviceNode, webPage } from '@/lib/structured-data';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -56,26 +57,35 @@ export default async function ServicePage({ params }: Props) {
     // 200 with a self-referencing canonical.
     if (!service) notFound();
 
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'Service',
-        name: service.title,
-        description: service.short_description || service.description,
-        url: absoluteUrl(`/service/${slug}`, locale),
-        inLanguage: locale,
-        provider: { '@id': 'https://codetoon.net/#organization' },
-        ...(service.banner?.full_url && { image: service.banner.full_url }),
-        ...(service.deliverables?.length && {
-            hasOfferCatalog: {
-                '@type': 'OfferCatalog',
-                name: fmt(getMessages(locale).service.meta.deliverablesCatalogName, { title: service.title }),
-                itemListElement: service.deliverables.map((item: string) => ({
-                    '@type': 'Offer',
-                    itemOffered: { '@type': 'Service', name: item },
-                })),
-            },
+    const path = `/service/${slug}`;
+    const t = getMessages(locale);
+    // A service sits under its solution: Home › Solutions › Solution › Service.
+    const parent = (service.categories ?? []).find((c: any) => c?.slug);
+    const jsonLd = graph(
+        webPage({
+            path,
+            locale,
+            name: service.title,
+            description: service.short_description || service.description,
+            image: service.banner?.full_url,
+            mainEntityId: entityId(path, locale, 'service'),
         }),
-    };
+        breadcrumbs(path, locale, [
+            { name: t.common.nav.solutions, path: '/solutions' },
+            ...(parent ? [{ name: parent.title, path: `/solution/${parent.slug}` }] : []),
+            { name: service.title, path },
+        ]),
+        serviceNode({
+            path,
+            locale,
+            name: service.title,
+            description: service.description || service.short_description,
+            image: service.banner?.full_url,
+            category: parent?.title,
+            catalogName: fmt(t.service.meta.deliverablesCatalogName, { title: service.title }),
+            offers: (service.deliverables ?? []).map((item: string) => ({ name: item })),
+        }),
+    );
 
     return (
         <>

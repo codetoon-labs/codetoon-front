@@ -6,6 +6,7 @@ import { getCategoryBySlug } from '@/lib/server-data';
 import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
 import { absoluteUrl, fmt, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
+import { breadcrumbs, entityId, graph, service, webPage } from '@/lib/structured-data';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -56,31 +57,35 @@ export default async function SolutionPage({ params }: Props) {
     // 200 with a self-referencing canonical.
     if (!category) notFound();
 
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'Service',
-        name: category.title,
-        description: category.overview || category.description,
-        url: absoluteUrl(`/solution/${slug}`, locale),
-        inLanguage: locale,
-        provider: { '@id': 'https://codetoon.net/#organization' },
-        ...(category.main_image?.full_url && { image: category.main_image.full_url }),
-        ...(category.services?.length && {
-            hasOfferCatalog: {
-                '@type': 'OfferCatalog',
-                name: fmt(getMessages(locale).solution.meta.offerCatalogName, { title: category.title }),
-                itemListElement: category.services.map((service: any) => ({
-                    '@type': 'Offer',
-                    itemOffered: {
-                        '@type': 'Service',
-                        name: service.title,
-                        description: service.description,
-                        url: absoluteUrl(`/service/${service.slug}`, locale),
-                    },
-                })),
-            },
+    const path = `/solution/${slug}`;
+    const t = getMessages(locale);
+    const jsonLd = graph(
+        webPage({
+            path,
+            locale,
+            name: category.title,
+            description: category.description || category.overview,
+            image: category.main_image?.full_url,
+            mainEntityId: entityId(path, locale, 'service'),
         }),
-    };
+        breadcrumbs(path, locale, [
+            { name: t.common.nav.solutions, path: '/solutions' },
+            { name: category.title, path },
+        ]),
+        service({
+            path,
+            locale,
+            name: category.title,
+            description: category.overview || category.description,
+            image: category.main_image?.full_url,
+            catalogName: fmt(t.solution.meta.offerCatalogName, { title: category.title }),
+            offers: (category.services ?? []).map((s: any) => ({
+                name: s.title,
+                description: s.description,
+                path: `/service/${s.slug}`,
+            })),
+        }),
+    );
 
     return (
         <>

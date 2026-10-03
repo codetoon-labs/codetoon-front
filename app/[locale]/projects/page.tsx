@@ -3,6 +3,8 @@ import ProjectsClient from './projects-client';
 import { getCategories, getProjects } from '@/lib/server-data';
 import { absoluteUrl, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
+import JsonLd from '@/app/components/JsonLd';
+import { breadcrumbs, entityId, graph, itemList, webPage } from '@/lib/structured-data';
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -27,5 +29,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectsPage({ params }: Props) {
     const locale = await resolveLocale(params);
     const [categories, projects] = await Promise.all([getCategories(locale), getProjects(locale)]);
-    return <ProjectsClient categories={categories} projects={projects} />;
+    const t = getMessages(locale);
+    const jsonLd = graph(
+        webPage({ path: '/projects', locale, type: 'CollectionPage', name: t.projects.meta.title, description: t.projects.meta.description, mainEntityId: entityId('/projects', locale, 'list') }),
+        breadcrumbs('/projects', locale, [{ name: t.common.nav.projects, path: '/projects' }]),
+        itemList('/projects', locale, projects.map((p: any) => ({ name: p.title, path: `/project/${p.slug}`, image: p.main_image?.full_url }))),
+    );
+    return (
+        <>
+            <JsonLd data={jsonLd} />
+            <ProjectsClient categories={categories} projects={projects} />
+        </>
+    );
 }

@@ -5,44 +5,10 @@ import { LayoutContent } from "./LayoutContent";
 import ScrollManager from "@/app/components/RefreshScrollRestoration";
 import Script from "next/script";
 import JsonLd from "@/app/components/JsonLd";
+import { graph, organization, website } from "@/lib/structured-data";
 import { getProjects } from "@/lib/server-data";
-import { absoluteUrl, dirOf, locales, localeAlternates, ogLocale } from "@/lib/i18n/config";
+import { dirOf, locales, localeAlternates, ogLocale } from "@/lib/i18n/config";
 import { getMessages, resolveLocale } from "@/lib/i18n/server";
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": "https://codetoon.net/#organization",
-  name: "Codetoon",
-  url: "https://codetoon.net",
-  logo: "https://codetoon.net/logo.svg",
-  image: "https://codetoon.net/codetoon-og.png",
-  description:
-    "Full service digital agency, crafting tech and design solutions based in Egypt",
-  email: "Info@Codetoon.net",
-  telephone: "+201156167758",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress:
-      "316 Ninety Road, Sector 2, Office No. 3, Third Floor, 5th Settlement",
-    addressLocality: "New Cairo",
-    addressRegion: "Cairo",
-    addressCountry: "EG",
-  },
-  areaServed: "EG",
-  sameAs: [
-    "https://x.com/Codetooneg",
-  ],
-};
-
-const webSiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://codetoon.net/#website",
-  name: "Codetoon",
-  url: "https://codetoon.net",
-  publisher: { "@id": "https://codetoon.net/#organization" },
-};
 
 const cairo = Cairo({
   subsets: ["latin", "arabic"],
@@ -144,8 +110,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             />
           </noscript>
         )}
-        <JsonLd data={organizationJsonLd} />
-        <JsonLd data={{ ...webSiteJsonLd, url: absoluteUrl("/", locale), inLanguage: locale }} />
+        <JsonLd data={graph(organization(locale), website(locale))} />
         <ScrollManager />
         <LayoutContent locale={locale} footerProjects={footerProjects}>{children}</LayoutContent>
       </body>

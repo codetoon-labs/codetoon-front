@@ -80,6 +80,8 @@ export const GET_PROJECTS = gql`
                 short_description { en ar }
                 visit_link
                 in_homepage
+                date
+                updated_at
             }
         }
     }

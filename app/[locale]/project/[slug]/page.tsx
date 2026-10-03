@@ -6,6 +6,7 @@ import { getProjectBySlug, getTestimonials } from '@/lib/server-data';
 import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
 import { absoluteUrl, fmt, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
+import { breadcrumbs, caseStudy, entityId, graph, webPage } from '@/lib/structured-data';
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
@@ -55,23 +56,24 @@ export default async function ProjectPage({ params }: Props) {
     // 200 with a self-referencing canonical.
     if (!project) notFound();
 
-    const jsonLd = {
-        '@context': 'https://schema.org',
-        '@type': 'CreativeWork',
-        name: project.title,
-        headline: project.short_title || project.title,
-        description: project.short_description || project.description,
-        url: absoluteUrl(`/project/${slug}`, locale),
-        inLanguage: locale,
-        creator: { '@id': 'https://codetoon.net/#organization' },
-        ...(project.main_image?.full_url && { image: project.main_image.full_url }),
-        ...(project.services?.length && {
-            about: project.services.map((s: any) => s.title).join(', '),
+    const path = `/project/${slug}`;
+    const nav = getMessages(locale).common.nav;
+    const jsonLd = graph(
+        webPage({
+            path,
+            locale,
+            name: project.title,
+            description: project.short_description || project.description,
+            image: project.main_image?.full_url,
+            mainEntityId: entityId(path, locale, 'project'),
+            dateModified: project.updated_at,
         }),
-        ...(project.country?.name && {
-            locationCreated: { '@type': 'Country', name: project.country.name },
-        }),
-    };
+        breadcrumbs(path, locale, [
+            { name: nav.projects, path: '/projects' },
+            { name: project.title, path },
+        ]),
+        caseStudy(project, path, locale),
+    );
 
     return (
         <>
