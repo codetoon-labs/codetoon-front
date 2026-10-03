@@ -1,0 +1,48 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20.19.2"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      # Validate queries against the committed schema snapshot, not whatever
+      # the CMS has deployed. Refresh it with `npm run schema:pull`.
+      GRAPHQL_SCHEMA: graphql/schema.graphql
+      # Build without the CMS: an unreachable endpoint makes every fetch fail
+      # fast, so the build proves pages compile and prerender with empty data.
+      NEXT_PUBLIC_GRAPHQL_ENDPOINT: http://127.0.0.1:9/graphql
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Generate GraphQL types
+        run: npm run codegen
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npx next build

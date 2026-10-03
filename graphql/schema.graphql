@@ -1,0 +1,376 @@
+# Snapshot of the CMS GraphQL schema (codetoon-labs/codetoon), used by codegen
+# in CI so query validation doesn't depend on what's deployed.
+# Refresh with: npm run schema:pull
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+  allCategories(type: String): [Category!]!
+  category(id: ID, slug: String, type: String): Category
+  allCustomers: [Customer!]!
+
+  "Project URLs use the English slug."
+  project(slug: String!): Project
+
+  allProjects: [Project!]!
+  service(slug: String!): Service
+  allServices: [Service!]!
+  teams: [Team!]!
+  allTestimonials: [Testimonial!]!
+  categories(
+    type: String
+
+    "Limits number of fetched items."
+    first: Int! = 10
+
+    "The offset from which items are returned."
+    page: Int
+  ): CategoryPaginator!
+  customers(
+    "Limits number of fetched items."
+    first: Int! = 10
+
+    "The offset from which items are returned."
+    page: Int
+  ): CustomerPaginator!
+  projects(
+    term: String
+
+    "Limits number of fetched items."
+    first: Int! = 10
+
+    "The offset from which items are returned."
+    page: Int
+  ): ProjectPaginator!
+  services(
+    "Limits number of fetched items."
+    first: Int! = 10
+
+    "The offset from which items are returned."
+    page: Int
+  ): ServicePaginator!
+  testimonials(
+    "Limits number of fetched items."
+    first: Int! = 10
+
+    "The offset from which items are returned."
+    page: Int
+  ): TestimonialPaginator!
+}
+
+type Mutation {
+  createLead(name: String!, phone_number: String!): Lead!
+}
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime
+
+"A date string with format `Y-m-d`, e.g. `2018-05-23`."
+scalar Date
+
+"Arbitrary JSON value."
+scalar JSON
+
+"A category in the system."
+type Category {
+  id: ID!
+  sort_order: Int!
+  title: Translation
+  slug: String
+  description: Translation
+  overview: Translation
+  type: String
+  main_image: Media
+  services: [Service!]!
+  projects: [Project!]!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+"A country in the system."
+type Country {
+  id: ID!
+  name: Translation
+  image: Media
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+"A customer in the system."
+type Customer {
+  id: ID!
+  name: Translation
+  slug: String!
+  image: Media
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+type Lead {
+  id: ID!
+  name: String!
+  phone_number: String!
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+type Media {
+  id: ID!
+  name: String
+  full_url: String
+  collection_name: String
+  order: Int
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"A project in the system."
+type Project {
+  id: ID!
+  title: Translation
+  description: Translation
+  short_title: Translation
+  short_description: Translation
+  slug: Translation
+  sort_order: Int!
+  date: Date
+  visit_link: String
+  in_homepage: Boolean!
+  main_image: Media
+  gallery: [Media!]!
+  country: Country
+  services: [Service!]!
+  categories: [Category!]!
+  objectives: [ProjectProcess!]!
+  phases: [ProjectProcess!]!
+  counters: [ProjectCounter!]!
+  tags: [Translation!]
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+"A counter (stat) belonging to a project."
+type ProjectCounter {
+  id: ID!
+  project_id: ID!
+  title: Translation
+  count: Int!
+  abbreviation: String
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+enum ProjectProcessType {
+  objective
+  phases
+}
+
+"A process (objective or phase) belonging to a project."
+type ProjectProcess {
+  id: ID!
+  project_id: ID!
+  title: Translation
+  description: Translation
+  type: ProjectProcessType!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"A service in the system."
+type Service {
+  id: ID!
+  title: Translation
+  slug: String!
+  description: Translation
+  short_description: Translation
+  banner: Media
+  gallery: [Media!]!
+  deliverables: TranslationList
+  process_steps: ProcessStepsTranslation
+  tags: [Translation!]
+  categories: [Category!]!
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+"A single step describing how a service is delivered."
+type ProcessStep {
+  title: String!
+  description: String
+}
+
+"The service's process steps, one list per locale."
+type ProcessStepsTranslation {
+  en: [ProcessStep!]
+  ar: [ProcessStep!]
+}
+
+"A team member in the system."
+type Team {
+  id: ID!
+  name: Translation
+  title: Translation
+  sort: Int!
+  image: Media
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+"A testimonial in the system."
+type Testimonial {
+  id: ID!
+  name: Translation
+  title: Translation
+  position: Translation
+  description: Translation
+  image: Media
+  created_at: DateTime!
+  updated_at: DateTime!
+  deleted_at: DateTime
+}
+
+"""
+A translatable text value in every supported locale. A locale that has not
+been translated yet is null, so clients can fall back (e.g. `ar ?? en`).
+"""
+type Translation {
+  en: String
+  ar: String
+}
+
+"A translatable list of strings, one list per locale."
+type TranslationList {
+  en: [String!]
+  ar: [String!]
+}
+
+"Information about pagination using a fully featured paginator."
+type PaginatorInfo {
+  "Number of items in the current page."
+  count: Int!
+
+  "Index of the current page."
+  currentPage: Int!
+
+  "Index of the first item in the current page."
+  firstItem: Int
+
+  "Are there more pages after this one?"
+  hasMorePages: Boolean!
+
+  "Index of the last item in the current page."
+  lastItem: Int
+
+  "Index of the last available page."
+  lastPage: Int!
+
+  "Number of items per page."
+  perPage: Int!
+
+  "Number of total available items."
+  total: Int!
+}
+
+"A paginated list of Category items."
+type CategoryPaginator {
+  "Pagination information about the list of items."
+  paginatorInfo: PaginatorInfo!
+
+  "A list of Category items."
+  data: [Category!]!
+}
+
+"A paginated list of Customer items."
+type CustomerPaginator {
+  "Pagination information about the list of items."
+  paginatorInfo: PaginatorInfo!
+
+  "A list of Customer items."
+  data: [Customer!]!
+}
+
+"A paginated list of Project items."
+type ProjectPaginator {
+  "Pagination information about the list of items."
+  paginatorInfo: PaginatorInfo!
+
+  "A list of Project items."
+  data: [Project!]!
+}
+
+"A paginated list of Service items."
+type ServicePaginator {
+  "Pagination information about the list of items."
+  paginatorInfo: PaginatorInfo!
+
+  "A list of Service items."
+  data: [Service!]!
+}
+
+"A paginated list of Testimonial items."
+type TestimonialPaginator {
+  "Pagination information about the list of items."
+  paginatorInfo: PaginatorInfo!
+
+  "A list of Testimonial items."
+  data: [Testimonial!]!
+}
+
+"Directions for ordering a list of records."
+enum SortOrder {
+  "Sort records in ascending order."
+  ASC
+
+  "Sort records in descending order."
+  DESC
+}
+
+"Aggregate functions when ordering by a relation without specifying a column."
+enum OrderByRelationAggregateFunction {
+  "Amount of items."
+  COUNT
+}
+
+"Aggregate functions when ordering by a relation that may specify a column."
+enum OrderByRelationWithColumnAggregateFunction {
+  "Average."
+  AVG
+
+  "Minimum."
+  MIN
+
+  "Maximum."
+  MAX
+
+  "Sum."
+  SUM
+
+  "Amount of items."
+  COUNT
+}
+
+"Allows ordering a list of records."
+input OrderByClause {
+  "The column that is used for ordering."
+  column: String!
+
+  "The direction that is used for ordering."
+  order: SortOrder!
+}
+
+"Specify if you want to include or exclude trashed results from a query."
+enum Trashed {
+  "Only return trashed results."
+  ONLY
+
+  "Return both trashed and non-trashed results."
+  WITH
+
+  "Only return non-trashed results."
+  WITHOUT
+}
+
