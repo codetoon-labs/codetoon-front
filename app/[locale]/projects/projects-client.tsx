@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useRef, useEffect } from 'react';
 
-import ProjectSection from '../components/projectSection/projectSection';
+import ProjectSection from '@/app/components/projectSection/projectSection';
 import { motion, AnimatePresence } from 'framer-motion';
 interface Category {
   id: string;

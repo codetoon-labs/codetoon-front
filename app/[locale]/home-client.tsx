@@ -2,12 +2,12 @@
 import React from 'react';
 import Link from "next/link";
 import Image from 'next/image'
-import LogoScroller from './components/LogoScroller/LogoScroller';
+import LogoScroller from '@/app/components/LogoScroller/LogoScroller';
 import TestimonialsSlider from "@/app/components/TestimonialsSlider/TestimonialsSlider";
-import Project from './components/projectSection/projectSection';
+import Project from '@/app/components/projectSection/projectSection';
 import { useModal } from '@/app/context/ModalContext';
 import { motion } from 'framer-motion';
-import HeroSectionContent from './components/HeroSection/heroSectionContent';
+import HeroSectionContent from '@/app/components/HeroSection/heroSectionContent';
 
 interface Category {
     id: string;

@@ -1,4 +1,5 @@
 import { cache } from 'react';
+import type { Locale } from '@/lib/i18n/config';
 import { createApolloClient } from '@/lib/apollo-client';
 import {
     GET_CATEGORIES,
@@ -13,10 +14,12 @@ import {
 // Server-side data fetchers so page content is present in the initial HTML
 // (search engines and AI crawlers don't execute client-side JavaScript).
 // cache() dedupes calls within a single request (e.g. generateMetadata + page).
+// Every fetcher takes the page locale; the CMS falls back to English for any
+// field that has no Arabic translation yet.
 
-export const getCategories = cache(async (): Promise<any[]> => {
+export const getCategories = cache(async (locale: Locale = 'en'): Promise<any[]> => {
     try {
-        const client = createApolloClient();
+        const client = createApolloClient(locale);
         const { data } = await client.query<any>({ query: GET_CATEGORIES });
         return data?.allCategories ?? [];
     } catch (error) {
@@ -25,9 +28,9 @@ export const getCategories = cache(async (): Promise<any[]> => {
     }
 });
 
-export const getProjects = cache(async (): Promise<any[]> => {
+const fetchProjects = cache(async (locale: Locale): Promise<any[]> => {
     try {
-        const client = createApolloClient();
+        const client = createApolloClient(locale);
         const { data } = await client.query<any>({ query: GET_PROJECTS });
         return data?.projects?.data ?? [];
     } catch (error) {
@@ -36,14 +39,24 @@ export const getProjects = cache(async (): Promise<any[]> => {
     }
 });
 
-export const getProjectBySlug = cache(async (slug: string): Promise<any | null> => {
-    const projects = await getProjects();
+// Project slugs are translatable in the CMS, but URLs must be the same in
+// every language (hreflang pairs, the language switcher). Localised projects
+// therefore keep their English slug, matched by id.
+export const getProjects = cache(async (locale: Locale = 'en'): Promise<any[]> => {
+    if (locale === 'en') return fetchProjects('en');
+    const [localized, english] = await Promise.all([fetchProjects(locale), fetchProjects('en')]);
+    const slugById = new Map(english.map((p: any) => [p.id, p.slug]));
+    return localized.map((p: any) => ({ ...p, slug: slugById.get(p.id) ?? p.slug }));
+});
+
+export const getProjectBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> => {
+    const projects = await getProjects(locale);
     return projects.find((p: any) => p.slug === slug) ?? null;
 });
 
-export const getCategoryBySlug = cache(async (slug: string): Promise<any | null> => {
+export const getCategoryBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> => {
     try {
-        const client = createApolloClient();
+        const client = createApolloClient(locale);
         const { data } = await client.query<any>({
             query: GET_CATEGORY_BY_SLUG,
             variables: { slug },
@@ -55,9 +68,9 @@ export const getCategoryBySlug = cache(async (slug: string): Promise<any | null>
     }
 });
 
-export const getTestimonials = cache(async (): Promise<any[]> => {
+export const getTestimonials = cache(async (locale: Locale = 'en'): Promise<any[]> => {
     try {
-        const client = createApolloClient();
+        const client = createApolloClient(locale);
         const { data } = await client.query<any>({ query: GET_TESTIMONIALS });
         return data?.allTestimonials ?? [];
     } catch (error) {
@@ -66,9 +79,9 @@ export const getTestimonials = cache(async (): Promise<any[]> => {
     }
 });
 
-export const getCustomers = cache(async (): Promise<any[]> => {
+export const getCustomers = cache(async (locale: Locale = 'en'): Promise<any[]> => {
     try {
-        const client = createApolloClient();
+        const client = createApolloClient(locale);
         const { data } = await client.query<any>({ query: GET_CUSTOMERS });
         return data?.allCustomers ?? [];
     } catch (error) {
@@ -77,9 +90,9 @@ export const getCustomers = cache(async (): Promise<any[]> => {
     }
 });
 
-export const getTeams = cache(async (): Promise<any[]> => {
+export const getTeams = cache(async (locale: Locale = 'en'): Promise<any[]> => {
     try {
-        const client = createApolloClient();
+        const client = createApolloClient(locale);
         const { data } = await client.query<any>({ query: GET_TEAMS });
         return data?.teams ?? [];
     } catch (error) {
@@ -88,9 +101,9 @@ export const getTeams = cache(async (): Promise<any[]> => {
     }
 });
 
-export const getServiceBySlug = cache(async (slug: string): Promise<any | null> => {
+export const getServiceBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> => {
     try {
-        const client = createApolloClient();
+        const client = createApolloClient(locale);
         const { data } = await client.query<any>({
             query: GET_SERVICE_BY_SLUG,
             variables: { slug },

@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache, HttpLink, CombinedGraphQLErrors } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache, HttpLink, CombinedGraphQLErrors } from '@apollo/client';
 import { ErrorLink } from '@apollo/client/link/error';
 
 // Error handling link
@@ -53,10 +53,18 @@ export const client = new ApolloClient({
     },
 });
 
-// Function to create a new client instance (useful for SSR)
-export function createApolloClient() {
+// Function to create a new client instance (useful for SSR).
+// The CMS stores en/ar copy for every translatable field and picks the
+// language from Accept-Language, so each server fetch states its locale.
+export function createApolloClient(locale: string = 'en') {
+    const localeLink = new ApolloLink((operation, forward) => {
+        operation.setContext(({ headers = {} }: { headers?: Record<string, string> }) => ({
+            headers: { ...headers, 'Accept-Language': locale },
+        }));
+        return forward(operation);
+    });
     return new ApolloClient({
-        link: errorLink.concat(httpLink),
+        link: ApolloLink.from([errorLink, localeLink, httpLink]),
         cache: new InMemoryCache(),
         ssrMode: typeof window === 'undefined',
     });
