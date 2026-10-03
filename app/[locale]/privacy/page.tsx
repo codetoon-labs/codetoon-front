@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { absoluteUrl, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
+import JsonLd from '@/app/components/JsonLd';
+import { breadcrumbs, graph, webPage } from '@/lib/structured-data';
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -47,8 +49,13 @@ function renderText(text: string) {
 export default async function PrivacyPolicyPage({ params }: PageProps) {
   const locale = await resolveLocale(params);
   const t = getMessages(locale).privacy;
+  const jsonLd = graph(
+    webPage({ path: '/privacy', locale, name: t.metaTitle, description: t.metaDescription }),
+    breadcrumbs('/privacy', locale, [{ name: t.title, path: '/privacy' }]),
+  );
   return (
     <div className="px-5 pt-32 pb-14 sm:pt-40 sm:pb-20">
+      <JsonLd data={jsonLd} />
       <article className="mx-auto w-full max-w-[720px]">
         {/* Header */}
         <header className="mb-10">
