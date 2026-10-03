@@ -9,11 +9,13 @@ interface Customer {
     name: string;
     image: {
         full_url: string;
-    };
+    } | null;
 }
 
-export default function LogoScroller({ customers = [] }: { customers?: Customer[] }) {
+export default function LogoScroller({ customers: allCustomers = [] }: { customers?: Customer[] }) {
     const { t } = useI18n();
+    // A customer saved without a logo would otherwise crash the whole page.
+    const customers = allCustomers.filter((customer) => customer.image?.full_url);
     // If no customers, show empty state
     if (customers.length === 0) {
         return (
@@ -34,7 +36,7 @@ export default function LogoScroller({ customers = [] }: { customers?: Customer[
                             className="logo-item flex items-center justify-center px-8"
                         >
                             <Image
-                                src={customer.image.full_url}
+                                src={customer.image!.full_url}
                                 alt={customer.name}
                                 width={120}
                                 height={40}
@@ -49,7 +51,7 @@ export default function LogoScroller({ customers = [] }: { customers?: Customer[
                             className="logo-item flex items-center justify-center px-8"
                         >
                             <Image
-                                src={customer.image.full_url}
+                                src={customer.image!.full_url}
                                 alt={customer.name}
                                 width={120}
                                 height={40}

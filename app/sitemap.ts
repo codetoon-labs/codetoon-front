@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { GET_PROJECTS, GET_CATEGORIES } from '@/lib/graphql/queries';
-import { createApolloClient } from '@/lib/apollo-client';
+import { getCategories, getProjects } from '@/lib/server-data';
 import { absoluteUrl, locales } from '@/lib/i18n/config';
 
 // The CMS doesn't expose an updated_at on projects/categories, so a per-URL
@@ -61,19 +60,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const client = createApolloClient();
+    // Solutions (categories) also carry the services beneath them. Projects
+    // come back with their English slug, which is the URL in every language.
+    const [projects, categories] = await Promise.all([getProjects('en'), getCategories('en')]);
 
-    // Fetch projects
-    const { data: projectsData } = await client.query<any>({
-      query: GET_PROJECTS,
-    });
-
-    // Fetch solutions (categories) — these also carry the services beneath them
-    const { data: categoriesData } = await client.query<any>({
-      query: GET_CATEGORIES,
-    });
-
-    const projectRoutes: MetadataRoute.Sitemap = (projectsData?.projects?.data || [])
+    const projectRoutes: MetadataRoute.Sitemap = projects
       .filter((project: any) => project?.slug)
       .map((project: any) => ({
         url: `/project/${project.slug}`,
@@ -81,8 +72,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'monthly' as const,
         priority: 0.7,
       }));
-
-    const categories = categoriesData?.allCategories || [];
 
     const solutionRoutes: MetadataRoute.Sitemap = categories
       .filter((category: any) => category?.slug)

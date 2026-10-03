@@ -1,5 +1,6 @@
 import { cache } from 'react';
 import type { Locale } from '@/lib/i18n/config';
+import { englishSlug, localize } from '@/lib/i18n/cms';
 import { createApolloClient } from '@/lib/apollo-client';
 import {
     GET_CATEGORIES,
@@ -14,103 +15,60 @@ import {
 // Server-side data fetchers so page content is present in the initial HTML
 // (search engines and AI crawlers don't execute client-side JavaScript).
 // cache() dedupes calls within a single request (e.g. generateMetadata + page).
-// Every fetcher takes the page locale; the CMS falls back to English for any
-// field that has no Arabic translation yet.
+//
+// The CMS returns every translatable field in all locales (`title { en ar }`),
+// so each query runs once regardless of language; the exported fetchers then
+// localize() the result for the page, falling back to English per field.
 
-export const getCategories = cache(async (locale: Locale = 'en'): Promise<any[]> => {
+async function query<T>(label: string, document: any, variables?: Record<string, unknown>): Promise<T | null> {
     try {
-        const client = createApolloClient(locale);
-        const { data } = await client.query<any>({ query: GET_CATEGORIES });
-        return data?.allCategories ?? [];
+        const client = createApolloClient();
+        const { data } = await client.query<any>({ query: document, variables });
+        return data ?? null;
     } catch (error) {
-        console.error('Error fetching categories:', error);
-        return [];
+        console.error(`Error fetching ${label}:`, error);
+        return null;
     }
-});
+}
 
-const fetchProjects = cache(async (locale: Locale): Promise<any[]> => {
-    try {
-        const client = createApolloClient(locale);
-        const { data } = await client.query<any>({ query: GET_PROJECTS });
-        return data?.projects?.data ?? [];
-    } catch (error) {
-        console.error('Error fetching projects:', error);
-        return [];
-    }
-});
+const fetchCategories = cache(async () => (await query<any>('categories', GET_CATEGORIES))?.allCategories ?? []);
+const fetchProjects = cache(async () => (await query<any>('projects', GET_PROJECTS))?.projects?.data ?? []);
+const fetchTestimonials = cache(async () => (await query<any>('testimonials', GET_TESTIMONIALS))?.allTestimonials ?? []);
+const fetchCustomers = cache(async () => (await query<any>('customers', GET_CUSTOMERS))?.allCustomers ?? []);
+const fetchTeams = cache(async () => (await query<any>('teams', GET_TEAMS))?.teams ?? []);
+const fetchCategory = cache(async (slug: string) =>
+    (await query<any>(`category "${slug}"`, GET_CATEGORY_BY_SLUG, { slug }))?.category ?? null);
+const fetchService = cache(async (slug: string) =>
+    (await query<any>(`service "${slug}"`, GET_SERVICE_BY_SLUG, { slug }))?.service ?? null);
+
+export const getCategories = cache(async (locale: Locale = 'en'): Promise<any[]> =>
+    localize(await fetchCategories(), locale));
 
 // Project slugs are translatable in the CMS, but URLs must be the same in
-// every language (hreflang pairs, the language switcher). Localised projects
-// therefore keep their English slug, matched by id.
-export const getProjects = cache(async (locale: Locale = 'en'): Promise<any[]> => {
-    if (locale === 'en') return fetchProjects('en');
-    const [localized, english] = await Promise.all([fetchProjects(locale), fetchProjects('en')]);
-    const slugById = new Map(english.map((p: any) => [p.id, p.slug]));
-    return localized.map((p: any) => ({ ...p, slug: slugById.get(p.id) ?? p.slug }));
-});
+// every language (hreflang pairs, the language switcher), so projects always
+// carry their English slug.
+export const getProjects = cache(async (locale: Locale = 'en'): Promise<any[]> =>
+    (await fetchProjects()).map((project: any) => ({
+        ...localize(project, locale),
+        slug: englishSlug(project.slug),
+    })));
 
 export const getProjectBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> => {
     const projects = await getProjects(locale);
     return projects.find((p: any) => p.slug === slug) ?? null;
 });
 
-export const getCategoryBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> => {
-    try {
-        const client = createApolloClient(locale);
-        const { data } = await client.query<any>({
-            query: GET_CATEGORY_BY_SLUG,
-            variables: { slug },
-        });
-        return data?.category ?? null;
-    } catch (error) {
-        console.error(`Error fetching category "${slug}":`, error);
-        return null;
-    }
-});
+export const getCategoryBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> =>
+    localize(await fetchCategory(slug), locale));
 
-export const getTestimonials = cache(async (locale: Locale = 'en'): Promise<any[]> => {
-    try {
-        const client = createApolloClient(locale);
-        const { data } = await client.query<any>({ query: GET_TESTIMONIALS });
-        return data?.allTestimonials ?? [];
-    } catch (error) {
-        console.error('Error fetching testimonials:', error);
-        return [];
-    }
-});
+export const getTestimonials = cache(async (locale: Locale = 'en'): Promise<any[]> =>
+    localize(await fetchTestimonials(), locale));
 
-export const getCustomers = cache(async (locale: Locale = 'en'): Promise<any[]> => {
-    try {
-        const client = createApolloClient(locale);
-        const { data } = await client.query<any>({ query: GET_CUSTOMERS });
-        return data?.allCustomers ?? [];
-    } catch (error) {
-        console.error('Error fetching customers:', error);
-        return [];
-    }
-});
+export const getCustomers = cache(async (locale: Locale = 'en'): Promise<any[]> =>
+    localize(await fetchCustomers(), locale));
 
-export const getTeams = cache(async (locale: Locale = 'en'): Promise<any[]> => {
-    try {
-        const client = createApolloClient(locale);
-        const { data } = await client.query<any>({ query: GET_TEAMS });
-        return data?.teams ?? [];
-    } catch (error) {
-        console.error('Error fetching teams:', error);
-        return [];
-    }
-});
+export const getTeams = cache(async (locale: Locale = 'en'): Promise<any[]> =>
+    localize(await fetchTeams(), locale));
 
-export const getServiceBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> => {
-    try {
-        const client = createApolloClient(locale);
-        const { data } = await client.query<any>({
-            query: GET_SERVICE_BY_SLUG,
-            variables: { slug },
-        });
-        return data?.service ?? null;
-    } catch (error) {
-        console.error(`Error fetching service "${slug}":`, error);
-        return null;
-    }
-});
+export const getServiceBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> =>
+    localize(await fetchService(slug), locale));
