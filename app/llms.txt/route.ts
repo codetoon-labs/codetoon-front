@@ -1,5 +1,8 @@
 // Served as a route (not a public/ asset) so the markdown-for-agents
 // middleware rewrite works on Cloudflare, with an explicit markdown content-type.
+import { getAllBlogPosts } from '@/lib/blog-data';
+import { blogPostPath } from '@/lib/blog';
+import { absoluteUrl } from '@/lib/i18n/config';
 
 const content = `# Codetoon
 
@@ -35,11 +38,19 @@ Codetoon works with brands that are tired of juggling multiple vendors: one team
 - [Sitemap](https://codetoon.net/sitemap.xml): Full list of pages including individual project and solution pages
 `;
 
+export const revalidate = 300;
+
 export async function GET() {
-    return new Response(content, {
+    const posts = (await getAllBlogPosts()).slice(0, 10);
+    const blogSection = posts.length
+        ? `\n## Blog\n\n${posts.map((p) => `- [${p.title}](${absoluteUrl(blogPostPath(p.slug), 'en')})${p.excerpt ? `: ${p.excerpt.replace(/\s+/g, ' ').trim()}` : ''}`).join('\n')}\n- [All articles](${absoluteUrl('/blog', 'en')}): Every guide and article\n`
+        : '';
+    const body = content.replace('\n## Optional', `${blogSection}\n## Optional`);
+
+    return new Response(body, {
         headers: {
             'Content-Type': 'text/markdown; charset=utf-8',
-            'Cache-Control': 'public, max-age=3600',
+            'Cache-Control': 'public, max-age=300',
         },
     });
 }

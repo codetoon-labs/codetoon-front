@@ -11,6 +11,7 @@ import {
   AlignLeft, 
   Monitor, 
   User, 
+  Newspaper,
   ChevronRight, 
   X,
   Phone
@@ -105,8 +106,12 @@ export default function Header() {
     { label: t.common.nav.home, href: '/', icon: LayoutGrid },
     { label: t.common.nav.solutions, href: '/solutions', icon: AlignLeft },
     { label: t.common.nav.projects, href: '/projects', icon: Monitor },
+    { label: t.common.nav.blog, href: '/blog', icon: Newspaper },
     { label: t.common.nav.aboutUs, href: '/about-us', icon: User }
   ];
+  // A section stays active on its sub-pages (/blog/<slug> highlights Blog).
+  const isActive = (itemHref: string) =>
+    pathname === itemHref || (itemHref !== '/' && pathname.startsWith(`${itemHref}/`));
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -144,7 +149,7 @@ export default function Header() {
               key={item.href}
               label={item.label}
               href={href(item.href)}
-              isActive={pathname === item.href}
+              isActive={isActive(item.href)}
             />
           ))}
         </div>
@@ -229,7 +234,7 @@ export default function Header() {
               label={item.label}
               href={href(item.href)}
               icon={item.icon}
-              isActive={pathname === item.href}
+              isActive={isActive(item.href)}
               onClick={closeMenu}
             />
           ))}

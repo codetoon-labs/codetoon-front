@@ -188,3 +188,84 @@ export const GET_TEAMS = gql`
         }
     }
 `;
+
+// Card fields are written out in each query (not interpolated): codegen's
+// document plucking can't resolve string interpolation inside gql``.
+export const GET_BLOG_POSTS = gql`
+    query GetBlogPosts($first: Int!, $page: Int, $category: String, $locale: String) {
+        blogPosts(first: $first, page: $page, category: $category, locale: $locale) {
+            data {
+                id
+                slug
+                title { en ar }
+                excerpt { en ar }
+                cover_alt { en ar }
+                reading_time { en ar }
+                available_locales
+                published_at
+                updated_at
+                cover { full_url }
+                category { slug name { en ar } }
+                author { id name { en ar } title { en ar } image { full_url } }
+            }
+            paginatorInfo { currentPage lastPage total }
+        }
+    }
+`;
+
+export const GET_BLOG_POST = gql`
+    query GetBlogPost($slug: String!) {
+        blogPost(slug: $slug) {
+            id
+            slug
+            title { en ar }
+            excerpt { en ar }
+            cover_alt { en ar }
+            reading_time { en ar }
+            available_locales
+            published_at
+            updated_at
+            cover { full_url }
+            category { slug name { en ar } }
+            body { en ar }
+            seo_title { en ar }
+            seo_description { en ar }
+            faqs { en { question answer } ar { question answer } }
+            tags { en ar }
+            author { id name { en ar } title { en ar } bio { en ar } image { full_url } }
+        }
+    }
+`;
+
+export const GET_RELATED_BLOG_POSTS = gql`
+    query GetRelatedBlogPosts($slug: String!) {
+        relatedBlogPosts(slug: $slug, first: 6) {
+            id
+            slug
+            title { en ar }
+            excerpt { en ar }
+            cover_alt { en ar }
+            reading_time { en ar }
+            available_locales
+            published_at
+            updated_at
+            cover { full_url }
+            category { slug name { en ar } }
+            author { id name { en ar } title { en ar } image { full_url } }
+        }
+    }
+`;
+
+export const GET_BLOG_CATEGORIES = gql`
+    query GetBlogCategories($locale: String) {
+        blogCategories(locale: $locale) {
+            id
+            slug
+            name { en ar }
+            description { en ar }
+            seo_title { en ar }
+            seo_description { en ar }
+            posts_count
+        }
+    }
+`;

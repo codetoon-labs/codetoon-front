@@ -6,8 +6,10 @@
 // @id, which is how search engines join them across <script> blocks.
 
 import { absoluteUrl, SITE_URL, type Locale } from '@/lib/i18n/config';
+import type { BlogPost, BlogPostCard } from '@/lib/blog-data';
 import { getMessages } from '@/lib/i18n/server';
 import { cleanText } from '@/lib/seo';
+import { postDescription } from '@/lib/blog';
 
 type Node = Record<string, unknown>;
 export type Crumb = { name: string; path: string };
@@ -220,8 +222,7 @@ export function caseStudy(project: any, path: string, locale: Locale): Node {
         '@type': 'CreativeWork',
         '@id': entityId(path, locale, 'project'),
         name,
-        // Google truncates headlines past 110 characters.
-        headline: headline && headline.length > 110 ? `${headline.slice(0, 109)}…` : headline,
+        headline: capHeadline(headline),
         description: text(project.short_description) ?? text(project.description),
         url: pageUrl(path, locale),
         inLanguage: locale,
@@ -245,4 +246,67 @@ function toIsoDate(value?: string | null): string | undefined {
     if (!value) return undefined;
     const iso = value.includes(' ') ? `${value.replace(' ', 'T')}Z` : value;
     return Number.isNaN(Date.parse(iso)) ? undefined : iso;
+}
+
+/** Google truncates headlines past 110 characters. */
+function capHeadline(value?: string): string | undefined {
+    return value && value.length > 110 ? `${value.slice(0, 109)}…` : value;
+}
+
+export const blogId = (locale: Locale) => entityId('/blog', locale, 'blog');
+
+export function blogPosting(post: BlogPost, path: string, locale: Locale): Node {
+    const plain = text(post.body?.replace(/<[^>]+>/g, ' '));
+    return compact({
+        '@type': 'BlogPosting',
+        '@id': entityId(path, locale, 'article'),
+        headline: capHeadline(text(post.title)),
+        description: text(postDescription(post)),
+        image: post.cover?.full_url,
+        datePublished: toIsoDate(post.published_at),
+        dateModified: toIsoDate(post.updated_at),
+        // A deleted author leaves the organization as the author.
+        author: (post.author && person(post.author)) || { '@id': ORGANIZATION_ID },
+        publisher: { '@id': ORGANIZATION_ID },
+        mainEntityOfPage: { '@id': pageId(path, locale) },
+        isPartOf: { '@id': blogId(locale) },
+        articleSection: text(post.category?.name),
+        keywords: (post.tags ?? []).map(text).filter(Boolean).join(', '),
+        wordCount: plain ? plain.split(' ').length : undefined,
+        inLanguage: locale,
+        url: pageUrl(path, locale),
+    });
+}
+
+export function faqPage(faqs: BlogPost['faqs'], path: string, locale: Locale): Node | null {
+    const items = (faqs ?? []).filter((f) => text(f.question) && text(f.answer));
+    if (!items.length) return null;
+    return {
+        '@type': 'FAQPage',
+        '@id': entityId(path, locale, 'faq'),
+        mainEntity: items.map((f) => ({
+            '@type': 'Question',
+            name: text(f.question),
+            acceptedAnswer: { '@type': 'Answer', text: text(f.answer) },
+        })),
+    };
+}
+
+export function blog(locale: Locale, posts: BlogPostCard[], name: string, description: string): Node {
+    return compact({
+        '@type': 'Blog',
+        '@id': blogId(locale),
+        name: text(name),
+        description: text(description),
+        url: pageUrl('/blog', locale),
+        inLanguage: locale,
+        publisher: { '@id': ORGANIZATION_ID },
+        blogPost: posts.map((p) => compact({
+            '@type': 'BlogPosting',
+            '@id': entityId(`/blog/${p.slug}`, locale, 'article'),
+            headline: capHeadline(text(p.title)),
+            url: pageUrl(`/blog/${p.slug}`, locale),
+            datePublished: toIsoDate(p.published_at),
+        })),
+    });
 }

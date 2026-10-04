@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { messages } from './index';
+import { fmt } from '@/lib/i18n/config';
 
 // TypeScript already checks that Arabic has every key. These catch what types
 // can't: lists with a different number of items, and copy left empty.
@@ -42,5 +43,13 @@ describe('Arabic messages', () => {
     it('are actually Arabic where English has words', () => {
         const ar = JSON.stringify(messages.ar);
         expect(ar).toMatch(/[؀-ۿ]/);
+    });
+
+    it('Arabic minRead is number-neutral (no plural noun that breaks for 1 or 12)', () => {
+        for (const minutes of [1, 12]) {
+            const out = fmt(messages.ar.blog.list.minRead, { minutes });
+            expect(out).toContain(String(minutes));
+            expect(out).not.toContain('دقائق');
+        }
     });
 });

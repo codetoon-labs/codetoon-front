@@ -20,7 +20,7 @@ import {
 // so each query runs once regardless of language; the exported fetchers then
 // localize() the result for the page, falling back to English per field.
 
-async function query<T>(label: string, document: any, variables?: Record<string, unknown>): Promise<T | null> {
+export async function cmsQuery<T>(label: string, document: any, variables?: Record<string, unknown>): Promise<T | null> {
     try {
         const client = createApolloClient();
         const { data } = await client.query<any>({ query: document, variables });
@@ -31,15 +31,15 @@ async function query<T>(label: string, document: any, variables?: Record<string,
     }
 }
 
-const fetchCategories = cache(async () => (await query<any>('categories', GET_CATEGORIES))?.allCategories ?? []);
-const fetchProjects = cache(async () => (await query<any>('projects', GET_PROJECTS))?.projects?.data ?? []);
-const fetchTestimonials = cache(async () => (await query<any>('testimonials', GET_TESTIMONIALS))?.allTestimonials ?? []);
-const fetchCustomers = cache(async () => (await query<any>('customers', GET_CUSTOMERS))?.allCustomers ?? []);
-const fetchTeams = cache(async () => (await query<any>('teams', GET_TEAMS))?.teams ?? []);
+const fetchCategories = cache(async () => (await cmsQuery<any>('categories', GET_CATEGORIES))?.allCategories ?? []);
+const fetchProjects = cache(async () => (await cmsQuery<any>('projects', GET_PROJECTS))?.projects?.data ?? []);
+const fetchTestimonials = cache(async () => (await cmsQuery<any>('testimonials', GET_TESTIMONIALS))?.allTestimonials ?? []);
+const fetchCustomers = cache(async () => (await cmsQuery<any>('customers', GET_CUSTOMERS))?.allCustomers ?? []);
+const fetchTeams = cache(async () => (await cmsQuery<any>('teams', GET_TEAMS))?.teams ?? []);
 const fetchCategory = cache(async (slug: string) =>
-    (await query<any>(`category "${slug}"`, GET_CATEGORY_BY_SLUG, { slug }))?.category ?? null);
+    (await cmsQuery<any>(`category "${slug}"`, GET_CATEGORY_BY_SLUG, { slug }))?.category ?? null);
 const fetchService = cache(async (slug: string) =>
-    (await query<any>(`service "${slug}"`, GET_SERVICE_BY_SLUG, { slug }))?.service ?? null);
+    (await cmsQuery<any>(`service "${slug}"`, GET_SERVICE_BY_SLUG, { slug }))?.service ?? null);
 
 export const getCategories = cache(async (locale: Locale = 'en'): Promise<any[]> =>
     localize(await fetchCategories(), locale));

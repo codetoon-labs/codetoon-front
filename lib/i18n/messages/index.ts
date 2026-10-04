@@ -26,6 +26,8 @@ import en_contact from './en/contact';
 import ar_contact from './ar/contact';
 import en_widgets from './en/widgets';
 import ar_widgets from './ar/widgets';
+import en_blog from './en/blog';
+import ar_blog from './ar/blog';
 
 const en = {
     common: en_common,
@@ -41,6 +43,7 @@ const en = {
     footer: en_footer,
     contact: en_contact,
     widgets: en_widgets,
+    blog: en_blog,
 };
 
 export type Messages = typeof en;
@@ -59,6 +62,7 @@ const ar: Messages = {
     footer: ar_footer,
     contact: ar_contact,
     widgets: ar_widgets,
+    blog: ar_blog,
 };
 
 export const messages = { en, ar };
