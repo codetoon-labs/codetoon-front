@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { absoluteUrl, fmt, isLocale, localeAlternates, localizePath, stripLocale } from './config';
+import { absoluteUrl, fmt, isLocale, localeAlternates, localeAlternatesFor, localizePath, stripLocale } from './config';
 
 describe('locale paths', () => {
     it('prefixes Arabic and leaves English bare', () => {
@@ -46,5 +46,19 @@ describe('locale paths', () => {
         expect(isLocale('fr')).toBe(false);
         expect(fmt('© {year} Codetoon', { year: 2026 })).toBe('© 2026 Codetoon');
         expect(fmt('{missing}', {})).toBe('{missing}');
+    });
+});
+
+describe('alternates for partially translated pages', () => {
+    it('only advertises available languages', () => {
+        expect(localeAlternatesFor('/blog/x', 'en', ['en'])).toEqual({
+            canonical: 'https://codetoon.net/blog/x',
+            languages: { en: 'https://codetoon.net/blog/x', 'x-default': 'https://codetoon.net/blog/x' },
+        });
+        expect(localeAlternatesFor('/blog/x', 'ar', ['en', 'ar']).languages).toEqual({
+            en: 'https://codetoon.net/blog/x',
+            ar: 'https://codetoon.net/ar/blog/x',
+            'x-default': 'https://codetoon.net/blog/x',
+        });
     });
 });

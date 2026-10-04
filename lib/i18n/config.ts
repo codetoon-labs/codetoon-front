@@ -56,6 +56,17 @@ export function localeAlternates(path: string, locale: Locale) {
     };
 }
 
+/** Like localeAlternates, but for pages that exist in only some languages (blog posts). */
+export function localeAlternatesFor(path: string, locale: Locale, available: readonly Locale[]) {
+    return {
+        canonical: absoluteUrl(path, locale),
+        languages: {
+            ...Object.fromEntries(available.map((l) => [l, absoluteUrl(path, l)])),
+            'x-default': absoluteUrl(path, defaultLocale),
+        },
+    };
+}
+
 export const ogLocale: Record<Locale, string> = { en: 'en_US', ar: 'ar_EG' };
 
 /** Replace {name} placeholders. */
