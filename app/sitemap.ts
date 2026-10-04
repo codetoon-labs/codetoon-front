@@ -1,11 +1,15 @@
 import type { MetadataRoute } from 'next';
 import { getCategories, getProjects } from '@/lib/server-data';
 import { absoluteUrl, locales } from '@/lib/i18n/config';
+import { getAllBlogPosts, getBlogCategories } from '@/lib/blog-data';
+import { blogSitemapEntries } from '@/lib/blog';
 
 // The CMS doesn't expose an updated_at on projects/categories, so a per-URL
 // lastModified would just be "now" on every request — a false freshness signal.
 // One build-time date for the whole file is the honest version.
 const BUILD_DATE = new Date();
+
+export const revalidate = 300;
 
 // Each page exists once per locale (/x and /ar/x). Both get an entry, and each
 // entry lists every language version so search engines pair them (hreflang).
@@ -99,7 +103,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }));
 
-    return localized([...staticRoutes, ...projectRoutes, ...solutionRoutes, ...serviceRoutes]);
+    // Blog entries carry their own per-language availability and real dates.
+    const [blogPosts, blogCategories] = await Promise.all([getAllBlogPosts(), getBlogCategories('en')]);
+
+    return [
+      ...localized([...staticRoutes, ...projectRoutes, ...solutionRoutes, ...serviceRoutes]),
+      ...blogSitemapEntries(blogPosts, blogCategories),
+    ];
   } catch (error) {
     console.error('Error fetching dynamic routes for sitemap:', error);
     // Graceful fallback to static routes only if GraphQL API fails
