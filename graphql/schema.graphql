@@ -4,6 +4,12 @@
 
 "Indicates what fields are available at the top level of a query operation."
 type Query {
+  blogPost(slug: String!): BlogPost
+
+  "Same category first, then most shared tags, then newest."
+  relatedBlogPosts(slug: String!, first: Int = 3): [BlogPost!]!
+
+  blogCategories: [BlogCategory!]!
   allCategories(type: String): [Category!]!
   category(id: ID, slug: String, type: String): Category
   allCustomers: [Customer!]!
@@ -16,6 +22,20 @@ type Query {
   allServices: [Service!]!
   teams: [Team!]!
   allTestimonials: [Testimonial!]!
+
+  "Live posts, newest first. locale: \"ar\" returns only posts translated into Arabic."
+  blogPosts(
+    category: String
+    tag: String
+    locale: String
+
+    "Limits number of fetched items."
+    first: Int! = 12
+
+    "The offset from which items are returned."
+    page: Int
+  ): BlogPostPaginator!
+
   categories(
     type: String
 
@@ -69,6 +89,63 @@ scalar Date
 
 "Arbitrary JSON value."
 scalar JSON
+
+"A blog category. The slug is the URL key in every language."
+type BlogCategory {
+  id: ID!
+  slug: String!
+  name: Translation
+  description: Translation
+  seo_title: Translation
+  seo_description: Translation
+
+  "Live posts only."
+  posts_count: Int!
+}
+
+type Faq {
+  question: String!
+  answer: String!
+}
+
+"A post's FAQ, one list per locale."
+type FaqTranslation {
+  en: [Faq!]
+  ar: [Faq!]
+}
+
+"Minutes to read, per locale."
+type ReadingTime {
+  en: Int
+  ar: Int
+}
+
+"A live blog post. Drafts and scheduled posts are never exposed."
+type BlogPost {
+  id: ID!
+  slug: String!
+  title: Translation
+  excerpt: Translation
+
+  "Sanitised HTML; every h2 carries an id."
+  body: Translation
+
+  seo_title: Translation
+  seo_description: Translation
+  cover_alt: Translation
+  faqs: FaqTranslation
+  reading_time: ReadingTime
+
+  "Locales with both a title and a body. Always includes en."
+  available_locales: [String!]!
+
+  published_at: DateTime!
+  updated_at: DateTime!
+  cover: Media
+  category: BlogCategory
+  author: Team
+  tags: [Translation!]
+}
 
 "A category in the system."
 type Category {
@@ -214,6 +291,7 @@ type Team {
   id: ID!
   name: Translation
   title: Translation
+  bio: Translation
   sort: Int!
   image: Media
   created_at: DateTime!
@@ -273,6 +351,15 @@ type PaginatorInfo {
 
   "Number of total available items."
   total: Int!
+}
+
+"A paginated list of BlogPost items."
+type BlogPostPaginator {
+  "Pagination information about the list of items."
+  paginatorInfo: PaginatorInfo!
+
+  "A list of BlogPost items."
+  data: [BlogPost!]!
 }
 
 "A paginated list of Category items."

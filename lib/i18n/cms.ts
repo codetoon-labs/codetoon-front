@@ -6,7 +6,7 @@ import { defaultLocale, locales, type Locale } from './config';
 // falling back to English for anything not translated yet, so components keep
 // receiving plain strings and arrays.
 
-const TRANSLATION_TYPES = new Set(['Translation', 'TranslationList', 'ProcessStepsTranslation']);
+const TRANSLATION_TYPES = new Set(['Translation', 'TranslationList', 'ProcessStepsTranslation', 'FaqTranslation', 'ReadingTime']);
 const LOCALE_KEYS = new Set<string>([...locales, '__typename']);
 
 function isTranslation(value: Record<string, unknown>): boolean {

@@ -58,3 +58,17 @@ describe('localize', () => {
         expect(englishSlug(null)).toBeUndefined();
     });
 });
+
+describe('blog shapes', () => {
+    it('localizes FAQ lists and reading time with English fallback', () => {
+        const post = {
+            faqs: { __typename: 'FaqTranslation', en: [{ __typename: 'Faq', question: 'Q', answer: 'A' }], ar: null },
+            reading_time: { __typename: 'ReadingTime', en: 6, ar: 7 },
+        };
+        expect(localize<any>(post, 'ar')).toEqual({
+            faqs: [{ __typename: 'Faq', question: 'Q', answer: 'A' }],
+            reading_time: 7,
+        });
+        expect(localize<any>({ reading_time: { __typename: 'ReadingTime', en: 6, ar: null } }, 'ar').reading_time).toBe(6);
+    });
+});
