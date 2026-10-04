@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import JsonLd from '@/app/components/JsonLd';
 import BlogCard from '@/app/components/blog/BlogCard';
-import { getBlogCategories, getBlogPosts } from '@/lib/blog-data';
+import { findBlogCategory, getBlogCategories, getBlogPosts } from '@/lib/blog-data';
 import { blogListPath } from '@/lib/blog';
 import { fmt, localizePath, type Locale } from '@/lib/i18n/config';
 import { getMessages } from '@/lib/i18n/server';
@@ -10,8 +10,12 @@ import { blog, breadcrumbs, entityId, graph, webPage } from '@/lib/structured-da
 
 export default async function BlogListing({ locale, page, category }: { locale: Locale; page: number; category?: string }) {
     const t = getMessages(locale);
-    const [listing, categories] = await Promise.all([getBlogPosts(locale, page, category), getBlogCategories(locale)]);
-    const current = category ? categories.find((c) => c.slug === category) : undefined;
+    const [listing, categories, current] = await Promise.all([
+        getBlogPosts(locale, page, category),
+        // Chips: only categories with posts in this language.
+        getBlogCategories(locale),
+        category ? findBlogCategory(category, locale) : undefined,
+    ]);
 
     if (category && !current) notFound();
     if (page > 1 && page > listing.lastPage) notFound();

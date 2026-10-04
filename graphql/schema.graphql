@@ -9,7 +9,12 @@ type Query {
   "Same category first, then most shared tags, then newest."
   relatedBlogPosts(slug: String!, first: Int = 3): [BlogPost!]!
 
-  blogCategories: [BlogCategory!]!
+  """
+  Categories by sort order. With a locale, only categories that have at least one
+  live post (for a non-English locale: a live post translated into it).
+  """
+  blogCategories(locale: String): [BlogCategory!]!
+
   allCategories(type: String): [Category!]!
   category(id: ID, slug: String, type: String): Category
   allCustomers: [Customer!]!

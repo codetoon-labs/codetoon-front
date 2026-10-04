@@ -74,10 +74,24 @@ export function formatBlogDate(value: string, locale: Locale): string {
     return new Intl.DateTimeFormat(locale === 'ar' ? 'ar-EG' : 'en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(parseCmsDate(value));
 }
 
-/** Sitemap entries for the blog; Arabic URLs only where Arabic content exists. */
+/**
+ * hreflang languages for a listing page: Arabic only when the Arabic listing
+ * for the same page/category has posts (it is noindex or 404 otherwise).
+ * English always lists at least the Arabic posts.
+ */
+export function listingLocales(arabic: { total: number; lastPage: number }, page: number): Locale[] {
+    return arabic.total > 0 && page <= arabic.lastPage ? ['en', 'ar'] : ['en'];
+}
+
+/**
+ * Sitemap entries for the blog. Listings appear only once they have a post
+ * (empty ones are noindex), and in Arabic only where Arabic posts exist.
+ */
 export function blogSitemapEntries(posts: BlogPostCard[], categories: { slug: string }[]): MetadataRoute.Sitemap {
-    const localesFor = (arabicPosts: BlogPostCard[]): Locale[] => (arabicPosts.length ? ['en', 'ar'] : ['en']);
-    const arabic = posts.filter((p) => p.available_locales.includes('ar'));
+    const localesFor = (listed: BlogPostCard[]): Locale[] => {
+        if (!listed.length) return [];
+        return listed.some((p) => p.available_locales.includes('ar')) ? ['en', 'ar'] : ['en'];
+    };
 
     const entry = (path: string, available: Locale[], lastModified?: Date, priority = 0.6): MetadataRoute.Sitemap => {
         const languages = Object.fromEntries(available.map((l) => [l, absoluteUrl(path, l)]));
@@ -91,8 +105,8 @@ export function blogSitemapEntries(posts: BlogPostCard[], categories: { slug: st
     };
 
     return [
-        ...entry('/blog', localesFor(arabic), undefined, 0.8),
-        ...categories.flatMap((c) => entry(blogListPath(1, c.slug), localesFor(arabic.filter((p) => p.category?.slug === c.slug)))),
+        ...entry('/blog', localesFor(posts), undefined, 0.8),
+        ...categories.flatMap((c) => entry(blogListPath(1, c.slug), localesFor(posts.filter((p) => p.category?.slug === c.slug)))),
         ...posts.flatMap((p) => entry(blogPostPath(p.slug), p.available_locales, parseCmsDate(p.updated_at), 0.7)),
     ];
 }

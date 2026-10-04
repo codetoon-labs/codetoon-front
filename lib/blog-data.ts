@@ -92,10 +92,20 @@ export const getRelatedBlogPosts = cache(async (slug: string, locale: Locale): P
     return onlyAvailableIn(localizePosts<BlogPostCard>(data?.relatedBlogPosts, locale), locale);
 });
 
-export const getBlogCategories = cache(async (locale: Locale): Promise<BlogCategory[]> => {
-    const data = await cmsQuery<any>('blog categories', GET_BLOG_CATEGORIES);
+const fetchBlogCategories = cache(async (locale: Locale, withPostsOnly: boolean): Promise<BlogCategory[]> => {
+    const data = await cmsQuery<any>('blog categories', GET_BLOG_CATEGORIES, { locale: withPostsOnly ? locale : null });
     return localize<BlogCategory[]>((data?.blogCategories ?? []).map((c: unknown) => strictFields(c, locale, CATEGORY_PROSE)), locale);
 });
+
+/** Categories with at least one live post in `locale` (chips, sitemap). */
+export async function getBlogCategories(locale: Locale): Promise<BlogCategory[]> {
+    return fetchBlogCategories(locale, true);
+}
+
+/** Any category by slug, even an empty one: its page stays reachable (noindex) rather than 404. */
+export async function findBlogCategory(slug: string, locale: Locale): Promise<BlogCategory | undefined> {
+    return (await fetchBlogCategories(locale, false)).find((c) => c.slug === slug);
+}
 
 /** Every live post (English fields), for the sitemap and llms.txt. */
 export const getAllBlogPosts = cache(async (): Promise<BlogPostCard[]> => {

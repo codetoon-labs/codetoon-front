@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-    blogListPath, blogPostPath, blogSitemapEntries, postDescription, extractToc, formatBlogDate, onlyAvailableIn, parseCmsDate, parseListingPage, shouldRedirectToEnglish,
+    blogListPath, blogPostPath, blogSitemapEntries, listingLocales, postDescription, extractToc, formatBlogDate, onlyAvailableIn, parseCmsDate, parseListingPage, shouldRedirectToEnglish,
 } from './blog';
 
 describe('table of contents', () => {
@@ -90,6 +90,17 @@ describe('sitemap entries', () => {
         expect(withoutAr).toContain('https://codetoon.net/blog');
         expect(withoutAr).not.toContain('https://codetoon.net/ar/blog');
     });
+
+    it('leaves out categories without posts', () => {
+        const urls = blogSitemapEntries([post('both', ['en', 'ar'], 'ai')], [{ slug: 'ai' }, { slug: 'empty' }]).map((e) => e.url);
+        expect(urls).toContain('https://codetoon.net/blog/category/ai');
+        expect(urls).not.toContain('https://codetoon.net/blog/category/empty');
+        expect(urls).not.toContain('https://codetoon.net/ar/blog/category/empty');
+    });
+
+    it('lists nothing before the first post', () => {
+        expect(blogSitemapEntries([], [{ slug: 'ai' }])).toEqual([]);
+    });
 });
 
 describe('post description', () => {
@@ -105,5 +116,14 @@ describe('post description', () => {
         const description = postDescription({ seo_description: null, excerpt: null, body });
         expect(description.length).toBeLessThanOrEqual(156);
         expect(description.endsWith('…')).toBe(true);
+    });
+});
+
+describe('listing hreflang', () => {
+    it('links the Arabic listing only when that page has Arabic posts', () => {
+        expect(listingLocales({ total: 3, lastPage: 1 }, 1)).toEqual(['en', 'ar']);
+        expect(listingLocales({ total: 0, lastPage: 1 }, 1)).toEqual(['en']);
+        expect(listingLocales({ total: 13, lastPage: 2 }, 2)).toEqual(['en', 'ar']);
+        expect(listingLocales({ total: 13, lastPage: 2 }, 3)).toEqual(['en']);
     });
 });

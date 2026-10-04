@@ -257,8 +257,8 @@ export const GET_RELATED_BLOG_POSTS = gql`
 `;
 
 export const GET_BLOG_CATEGORIES = gql`
-    query GetBlogCategories {
-        blogCategories {
+    query GetBlogCategories($locale: String) {
+        blogCategories(locale: $locale) {
             id
             slug
             name { en ar }
