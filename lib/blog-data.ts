@@ -3,7 +3,7 @@ import type { Locale } from '@/lib/i18n/config';
 import { localize, strictFields } from '@/lib/i18n/cms';
 import { cmsQuery } from '@/lib/server-data';
 import { GET_BLOG_CATEGORIES, GET_BLOG_POST, GET_BLOG_POSTS, GET_RELATED_BLOG_POSTS } from '@/lib/graphql/queries';
-import { onlyAvailableIn } from '@/lib/blog';
+import { pickRelated } from '@/lib/blog';
 
 // Blog data for the pages. Queries return every locale; localize() picks the
 // page's language. `available_locales` is kept raw so pages can decide whether
@@ -89,7 +89,7 @@ export const getBlogPost = cache(async (slug: string, locale: Locale): Promise<B
 
 export const getRelatedBlogPosts = cache(async (slug: string, locale: Locale): Promise<BlogPostCard[]> => {
     const data = await cmsQuery<any>(`related posts "${slug}"`, GET_RELATED_BLOG_POSTS, { slug });
-    return onlyAvailableIn(localizePosts<BlogPostCard>(data?.relatedBlogPosts, locale), locale);
+    return pickRelated(localizePosts<BlogPostCard>(data?.relatedBlogPosts, locale), locale);
 });
 
 const fetchBlogCategories = cache(async (locale: Locale, withPostsOnly: boolean): Promise<BlogCategory[]> => {

@@ -239,7 +239,7 @@ export const GET_BLOG_POST = gql`
 
 export const GET_RELATED_BLOG_POSTS = gql`
     query GetRelatedBlogPosts($slug: String!) {
-        relatedBlogPosts(slug: $slug, first: 3) {
+        relatedBlogPosts(slug: $slug, first: 6) {
             id
             slug
             title { en ar }

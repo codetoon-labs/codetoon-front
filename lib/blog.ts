@@ -51,6 +51,17 @@ export function onlyAvailableIn<T extends { available_locales: readonly string[]
     return posts.filter((post) => post.available_locales.includes(locale));
 }
 
+/** Related posts shown under an article. */
+export const RELATED_COUNT = 3;
+
+/**
+ * The API is asked for twice as many related posts as shown, so dropping
+ * untranslated ones on Arabic pages still leaves a full row.
+ */
+export function pickRelated<T extends { available_locales: readonly string[] }>(posts: T[], locale: Locale): T[] {
+    return onlyAvailableIn(posts, locale).slice(0, RELATED_COUNT);
+}
+
 export function blogPostPath(slug: string): string {
     return `/blog/${slug}`;
 }

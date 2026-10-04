@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-    blogListPath, blogPostPath, blogSitemapEntries, listingLocales, postDescription, extractToc, formatBlogDate, onlyAvailableIn, parseCmsDate, parseListingPage, shouldRedirectToEnglish,
+    blogListPath, blogPostPath, blogSitemapEntries, listingLocales, pickRelated, postDescription, extractToc, formatBlogDate, onlyAvailableIn, parseCmsDate, parseListingPage, shouldRedirectToEnglish,
 } from './blog';
 
 describe('table of contents', () => {
@@ -125,5 +125,13 @@ describe('listing hreflang', () => {
         expect(listingLocales({ total: 0, lastPage: 1 }, 1)).toEqual(['en']);
         expect(listingLocales({ total: 13, lastPage: 2 }, 2)).toEqual(['en', 'ar']);
         expect(listingLocales({ total: 13, lastPage: 2 }, 3)).toEqual(['en']);
+    });
+});
+
+describe('related posts', () => {
+    it('keeps three posts in the page language even when some are untranslated', () => {
+        const posts = ['a', 'b', 'c', 'd', 'e', 'f'].map((slug, i) => ({ slug, available_locales: i % 2 ? ['en', 'ar'] : ['en'] }));
+        expect(pickRelated(posts, 'en').map((p) => p.slug)).toEqual(['a', 'b', 'c']);
+        expect(pickRelated(posts, 'ar').map((p) => p.slug)).toEqual(['b', 'd', 'f']);
     });
 });
