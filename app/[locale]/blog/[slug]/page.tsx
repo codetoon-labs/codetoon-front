@@ -13,7 +13,7 @@ import { blogListPath, blogPostPath, extractToc, formatBlogDate, MIN_TOC_HEADING
 import { fmt, localeAlternatesFor, localizePath, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
 import { ogImages, pageTitle } from '@/lib/seo';
-import { blogPosting, breadcrumbs, entityId, faqPage, graph, webPage } from '@/lib/structured-data';
+import { blog, blogPosting, breadcrumbs, entityId, faqPage, graph, webPage } from '@/lib/structured-data';
 
 export const revalidate = 300;
 
@@ -72,6 +72,8 @@ export default async function BlogPostPage({ params }: Props) {
             { name: post.title ?? slug, path },
         ]),
         blogPosting(post, path, locale),
+        // Minimal Blog node so BlogPosting.isPartOf resolves within this graph.
+        blog(locale, [], t.blog.meta.title, t.blog.meta.description),
         faqPage(post.faqs, path, locale),
     );
 

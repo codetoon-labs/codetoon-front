@@ -201,6 +201,13 @@ describe('blog entities', () => {
         expect(faqPage([], '/blog/x', 'en')).toBeNull();
     });
 
+    it('gives article pages a minimal Blog node for isPartOf', () => {
+        const node = blog('ar', [], 'المدونة', 'رؤى');
+        expect(node).toMatchObject({ '@type': 'Blog', '@id': blogId('ar'), url: 'https://codetoon.net/ar/blog' });
+        expect(node).not.toHaveProperty('blogPost');
+        expect(blanks(node)).toEqual([]);
+    });
+
     it('describes the blog with the posts on the page', () => {
         expect(blog('en', [post], 'Blog', 'Insights')).toMatchObject({
             '@type': 'Blog',
