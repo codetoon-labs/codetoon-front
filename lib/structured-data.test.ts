@@ -180,6 +180,11 @@ describe('blog entities', () => {
         expect(blanks(node)).toEqual([]);
     });
 
+    it('falls back to the excerpt, then the body text, for the description', () => {
+        expect(blogPosting({ ...post, seo_description: null }, '/blog/x', 'ar').description).toBe('Short.');
+        expect(blogPosting({ ...post, seo_description: null, excerpt: null }, '/blog/x', 'ar').description).toBe('Why one two three four');
+    });
+
     it('falls back to the organization when the author was deleted', () => {
         expect(blogPosting({ ...post, author: null, category: null }, '/blog/x', 'en')).toMatchObject({
             author: { '@id': ORGANIZATION_ID },

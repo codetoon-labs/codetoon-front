@@ -9,10 +9,10 @@ import ArticleToc from '@/app/components/blog/ArticleToc';
 import AuthorBox from '@/app/components/blog/AuthorBox';
 import BlogCard from '@/app/components/blog/BlogCard';
 import { getBlogPost, getRelatedBlogPosts } from '@/lib/blog-data';
-import { blogListPath, blogPostPath, extractToc, formatBlogDate, MIN_TOC_HEADINGS, shouldRedirectToEnglish } from '@/lib/blog';
+import { blogListPath, blogPostPath, extractToc, formatBlogDate, MIN_TOC_HEADINGS, postDescription, shouldRedirectToEnglish } from '@/lib/blog';
 import { fmt, localeAlternatesFor, localizePath, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
-import { metaDescription, ogImages, pageTitle } from '@/lib/seo';
+import { ogImages, pageTitle } from '@/lib/seo';
 import { blogPosting, breadcrumbs, entityId, faqPage, graph, webPage } from '@/lib/structured-data';
 
 export const revalidate = 300;
@@ -30,7 +30,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const path = blogPostPath(slug);
     const title = pageTitle(post.seo_title || post.title, t.meta.title);
-    const description = metaDescription(post.seo_description, post.excerpt);
+    // Fields arrive in the page's language only, so this never mixes languages.
+    const description = postDescription(post);
     return {
         title,
         description,
@@ -64,7 +65,7 @@ export default async function BlogPostPage({ params }: Props) {
     const toc = extractToc(post.body);
 
     const jsonLd = graph(
-        webPage({ path, locale, name: post.title ?? slug, description: post.seo_description || post.excerpt || undefined, image: post.cover?.full_url, mainEntityId: entityId(path, locale, 'article'), dateModified: post.updated_at }),
+        webPage({ path, locale, name: post.title ?? slug, description: postDescription(post) || undefined, image: post.cover?.full_url, mainEntityId: entityId(path, locale, 'article'), dateModified: post.updated_at }),
         breadcrumbs(path, locale, [
             { name: t.blog.meta.title, path: '/blog' },
             ...(post.category ? [{ name: post.category.name ?? post.category.slug, path: blogListPath(1, post.category.slug) }] : []),

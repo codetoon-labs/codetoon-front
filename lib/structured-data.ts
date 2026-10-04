@@ -9,6 +9,7 @@ import { absoluteUrl, SITE_URL, type Locale } from '@/lib/i18n/config';
 import type { BlogPost, BlogPostCard } from '@/lib/blog-data';
 import { getMessages } from '@/lib/i18n/server';
 import { cleanText } from '@/lib/seo';
+import { postDescription } from '@/lib/blog';
 
 type Node = Record<string, unknown>;
 export type Crumb = { name: string; path: string };
@@ -260,7 +261,7 @@ export function blogPosting(post: BlogPost, path: string, locale: Locale): Node 
         '@type': 'BlogPosting',
         '@id': entityId(path, locale, 'article'),
         headline: capHeadline(text(post.title)),
-        description: text(post.seo_description) ?? text(post.excerpt),
+        description: text(postDescription(post)),
         image: post.cover?.full_url,
         datePublished: toIsoDate(post.published_at),
         dateModified: toIsoDate(post.updated_at),

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
-    blogListPath, blogPostPath, blogSitemapEntries, extractToc, formatBlogDate, onlyAvailableIn, parseCmsDate, parseListingPage, shouldRedirectToEnglish,
+    blogListPath, blogPostPath, blogSitemapEntries, postDescription, extractToc, formatBlogDate, onlyAvailableIn, parseCmsDate, parseListingPage, shouldRedirectToEnglish,
 } from './blog';
 
 describe('table of contents', () => {
@@ -89,5 +89,21 @@ describe('sitemap entries', () => {
         expect(withAr).toContain('https://codetoon.net/ar/blog');
         expect(withoutAr).toContain('https://codetoon.net/blog');
         expect(withoutAr).not.toContain('https://codetoon.net/ar/blog');
+    });
+});
+
+describe('post description', () => {
+    it('prefers the SEO description, then the excerpt, then the body text', () => {
+        expect(postDescription({ seo_description: ' SEO ', excerpt: 'Excerpt', body: '<p>Body</p>' })).toBe('SEO');
+        expect(postDescription({ seo_description: null, excerpt: 'Excerpt', body: '<p>Body</p>' })).toBe('Excerpt');
+        expect(postDescription({ seo_description: '', excerpt: null, body: '<h2 id="a">لماذا</h2><p>نص &amp; <strong>مهم</strong></p>' })).toBe('لماذا نص & مهم');
+        expect(postDescription({ seo_description: null, excerpt: null })).toBe('');
+    });
+
+    it('cuts a long body down to a snippet', () => {
+        const body = `<p>${'word '.repeat(80)}</p>`;
+        const description = postDescription({ seo_description: null, excerpt: null, body });
+        expect(description.length).toBeLessThanOrEqual(156);
+        expect(description.endsWith('…')).toBe(true);
     });
 });

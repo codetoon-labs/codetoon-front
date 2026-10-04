@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import type { Locale } from '@/lib/i18n/config';
-import { localize } from '@/lib/i18n/cms';
+import { localize, strictFields } from '@/lib/i18n/cms';
 import { cmsQuery } from '@/lib/server-data';
 import { GET_BLOG_CATEGORIES, GET_BLOG_POST, GET_BLOG_POSTS, GET_RELATED_BLOG_POSTS } from '@/lib/graphql/queries';
 import { onlyAvailableIn } from '@/lib/blog';
@@ -8,6 +8,17 @@ import { onlyAvailableIn } from '@/lib/blog';
 // Blog data for the pages. Queries return every locale; localize() picks the
 // page's language. `available_locales` is kept raw so pages can decide whether
 // an Arabic URL exists for a post.
+//
+// Prose and SEO fields never fall back to English on other-language pages
+// (strictFields); pages fall back within their own language instead. Labels
+// (category and author names, tags) keep the English fallback.
+
+const POST_PROSE = ['seo_title', 'seo_description', 'excerpt', 'faqs', 'cover_alt'];
+const CATEGORY_PROSE = ['description', 'seo_title', 'seo_description'];
+
+function localizePosts<T>(raw: unknown[] | null | undefined, locale: Locale): T[] {
+    return localize<T[]>((raw ?? []).map((post) => strictFields(post, locale, POST_PROSE)), locale);
+}
 
 export const BLOG_PAGE_SIZE = 12;
 
@@ -64,7 +75,7 @@ export const getBlogPosts = cache(async (locale: Locale, page: number, category?
     });
     const result = data?.blogPosts;
     return {
-        posts: localize(result?.data ?? [], locale),
+        posts: localizePosts<BlogPostCard>(result?.data, locale),
         currentPage: result?.paginatorInfo?.currentPage ?? page,
         lastPage: result?.paginatorInfo?.lastPage ?? 1,
         total: result?.paginatorInfo?.total ?? 0,
@@ -73,17 +84,17 @@ export const getBlogPosts = cache(async (locale: Locale, page: number, category?
 
 export const getBlogPost = cache(async (slug: string, locale: Locale): Promise<BlogPost | null> => {
     const data = await cmsQuery<any>(`blog post "${slug}"`, GET_BLOG_POST, { slug });
-    return data?.blogPost ? localize<BlogPost>(data.blogPost, locale) : null;
+    return data?.blogPost ? localize<BlogPost>(strictFields(data.blogPost, locale, POST_PROSE), locale) : null;
 });
 
 export const getRelatedBlogPosts = cache(async (slug: string, locale: Locale): Promise<BlogPostCard[]> => {
     const data = await cmsQuery<any>(`related posts "${slug}"`, GET_RELATED_BLOG_POSTS, { slug });
-    return onlyAvailableIn(localize<BlogPostCard[]>(data?.relatedBlogPosts ?? [], locale), locale);
+    return onlyAvailableIn(localizePosts<BlogPostCard>(data?.relatedBlogPosts, locale), locale);
 });
 
 export const getBlogCategories = cache(async (locale: Locale): Promise<BlogCategory[]> => {
     const data = await cmsQuery<any>('blog categories', GET_BLOG_CATEGORIES);
-    return localize(data?.blogCategories ?? [], locale);
+    return localize<BlogCategory[]>((data?.blogCategories ?? []).map((c: unknown) => strictFields(c, locale, CATEGORY_PROSE)), locale);
 });
 
 /** Every live post (English fields), for the sitemap and llms.txt. */

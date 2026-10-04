@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { englishSlug, localize } from './cms';
+import { englishSlug, localize, strictFields } from './cms';
 
 const T = (en: unknown, ar: unknown, __typename = 'Translation') => ({ __typename, en, ar });
 
@@ -70,5 +70,44 @@ describe('blog shapes', () => {
             reading_time: 7,
         });
         expect(localize<any>({ reading_time: { __typename: 'ReadingTime', en: 6, ar: null } }, 'ar').reading_time).toBe(6);
+    });
+});
+
+describe('strictFields', () => {
+    const PROSE = ['seo_title', 'seo_description', 'excerpt', 'faqs', 'cover_alt'];
+    const post = {
+        slug: 'hello',
+        title: T('Hello', 'مرحبا'),
+        seo_title: T('SEO title', null),
+        seo_description: T('SEO description', ''),
+        excerpt: T('Excerpt', 'مقتطف'),
+        faqs: { __typename: 'FaqTranslation', en: [{ question: 'Q', answer: 'A' }], ar: null },
+        cover_alt: T('Cover', null),
+        author: { name: T('Omar', null) },
+    };
+
+    it('keeps English-only prose off Arabic pages', () => {
+        expect(localize<any>(strictFields(post, 'ar', PROSE), 'ar')).toEqual({
+            slug: 'hello',
+            title: 'مرحبا',
+            seo_title: null,
+            seo_description: null,
+            excerpt: 'مقتطف',
+            faqs: null,
+            cover_alt: null,
+            // Labels still fall back to English.
+            author: { name: 'Omar' },
+        });
+    });
+
+    it('uses the Arabic value when there is one', () => {
+        const translated = { ...post, faqs: { __typename: 'FaqTranslation', en: [{ question: 'Q', answer: 'A' }], ar: [{ question: 'س', answer: 'ج' }] } };
+        expect(localize<any>(strictFields(translated, 'ar', PROSE), 'ar').faqs).toEqual([{ question: 'س', answer: 'ج' }]);
+    });
+
+    it('leaves English pages and missing fields alone', () => {
+        expect(strictFields(post, 'en', PROSE)).toBe(post);
+        expect(localize<any>(strictFields(post, 'en', PROSE), 'en').seo_title).toBe('SEO title');
+        expect(strictFields({ slug: 'x', excerpt: null }, 'ar', PROSE)).toEqual({ slug: 'x', excerpt: null });
     });
 });

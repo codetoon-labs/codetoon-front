@@ -34,6 +34,26 @@ export function localize<T = any>(value: unknown, locale: Locale): T {
     return out as T;
 }
 
+/**
+ * Prose and SEO copy must not cross languages: an Arabic page showing an
+ * English meta description or FAQ is worse than none. Before localize(), keep
+ * only the page's own language for `keys`, so those fields stay null when
+ * untranslated (callers fall back within the language). Labels (names, tags)
+ * are left out of `keys` and keep localize()'s English fallback.
+ */
+export function strictFields<T>(raw: T, locale: Locale, keys: readonly string[]): T {
+    if (locale === defaultLocale || raw === null || typeof raw !== 'object') return raw;
+
+    const out: Record<string, unknown> = { ...(raw as Record<string, unknown>) };
+    for (const key of keys) {
+        const value = out[key];
+        if (value === null || typeof value !== 'object' || Array.isArray(value)) continue;
+        const { __typename, [locale]: own } = value as Record<string, unknown>;
+        out[key] = { ...(__typename === undefined ? {} : { __typename }), [locale]: own ?? null };
+    }
+    return out as T;
+}
+
 /** Project slugs are translatable in the CMS, but URLs always use the English one. */
 export function englishSlug(slug: unknown): string | undefined {
     if (typeof slug === 'string') return slug;

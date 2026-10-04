@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { absoluteUrl, defaultLocale, type Locale } from '@/lib/i18n/config';
 import type { BlogPostCard } from '@/lib/blog-data';
+import { metaDescription } from '@/lib/seo';
 
 // Pure helpers shared by the blog pages, sitemap and llms.txt.
 
@@ -26,6 +27,19 @@ export function extractToc(html: string | null | undefined): TocItem[] {
             text: decodeEntities(inner.replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim(),
         }))
         .filter((item) => item.text !== '');
+}
+
+/** Visible text of CMS HTML, for snippets. */
+export function plainText(html: string | null | undefined): string {
+    return html ? decodeEntities(html.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim() : '';
+}
+
+/**
+ * Meta/JSON-LD description, falling back within the page's language only:
+ * SEO description, then excerpt, then the start of the body.
+ */
+export function postDescription(post: { seo_description?: string | null; excerpt?: string | null; body?: string | null }): string {
+    return metaDescription(post.seo_description, post.excerpt, plainText(post.body));
 }
 
 export function shouldRedirectToEnglish(available: readonly string[], locale: Locale): boolean {
