@@ -205,6 +205,12 @@ export default function Footer({ projects: allProjects = [] }: { projects?: Proj
               >
                 {t.footer.ourStory}
               </Link>
+              <Link
+                href={href('/blog')}
+                className="font-medium text-[16px] lg:text-[20px] w-fit leading-[22px] text-gray-700 hover:text-[#0d71ba] transition-all duration-300"
+              >
+                {t.common.nav.blog}
+              </Link>
             </div>
 
             {/* Our Work Section */}

@@ -12,6 +12,7 @@ const common = {
         home: 'Home',
         solutions: 'Solutions',
         projects: 'Projects',
+        blog: 'Blog',
         aboutUs: 'About Us',
     },
     header: {

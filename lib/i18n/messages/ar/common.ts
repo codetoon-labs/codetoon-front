@@ -13,6 +13,7 @@ const common: typeof en = {
         home: 'الرئيسية',
         solutions: 'الحلول',
         projects: 'المشاريع',
+        blog: 'المدونة',
         aboutUs: 'من نحن',
     },
     header: {
