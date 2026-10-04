@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import { describe, expect, it } from 'vitest';
 import JsonLd from '@/app/components/JsonLd';
 import {
-    breadcrumbs, caseStudy, entityId, graph, itemList, organization, ORGANIZATION_ID, person, service, webPage, website, websiteId,
+    blog, blogId, blogPosting, breadcrumbs, caseStudy, entityId, faqPage, graph, itemList, organization, ORGANIZATION_ID, person, service, webPage, website, websiteId,
 } from './structured-data';
 
 /** Every value a builder emits should be meaningful: no blanks, no undefined. */
@@ -145,5 +145,64 @@ describe('JsonLd', () => {
         const html = renderToStaticMarkup(createElement(JsonLd, { data: { name: '</script><script>alert(1)</script>' } }));
         expect(html).not.toContain('</script><script>');
         expect(JSON.parse(html.replace(/^<script[^>]*>|<\/script>$/g, ''))).toEqual({ name: '</script><script>alert(1)</script>' });
+    });
+});
+
+describe('blog entities', () => {
+    const post = {
+        id: '9', slug: 'how-ai-cuts-costs', title: '  How AI cuts costs ', excerpt: 'Short.', cover_alt: null, reading_time: 6,
+        available_locales: ['en', 'ar'], published_at: '2026-10-01 08:00:00', updated_at: '2026-10-02 09:00:00',
+        cover: { full_url: 'https://cdn.example/c.webp' }, category: { slug: 'ai', name: 'AI' },
+        author: { id: '7', name: 'Omar', title: 'CTO', image: null },
+        body: '<h2 id="why">Why</h2><p>one two three four</p>', seo_title: null, seo_description: 'SEO desc.',
+        faqs: [{ question: 'Q?', answer: 'A.' }], tags: ['ai', 'erp'],
+    } as any;
+
+    it('describes the article with its author, dates and section', () => {
+        const node = blogPosting(post, '/blog/how-ai-cuts-costs', 'ar');
+        expect(node).toMatchObject({
+            '@type': 'BlogPosting',
+            '@id': 'https://codetoon.net/ar/blog/how-ai-cuts-costs#article',
+            headline: 'How AI cuts costs',
+            description: 'SEO desc.',
+            image: 'https://cdn.example/c.webp',
+            datePublished: '2026-10-01T08:00:00Z',
+            dateModified: '2026-10-02T09:00:00Z',
+            author: { '@type': 'Person', '@id': 'https://codetoon.net/about-us#person-7', name: 'Omar' },
+            publisher: { '@id': ORGANIZATION_ID },
+            mainEntityOfPage: { '@id': 'https://codetoon.net/ar/blog/how-ai-cuts-costs#webpage' },
+            isPartOf: { '@id': blogId('ar') },
+            articleSection: 'AI',
+            keywords: 'ai, erp',
+            wordCount: 5,
+            inLanguage: 'ar',
+        });
+        expect(blanks(node)).toEqual([]);
+    });
+
+    it('falls back to the organization when the author was deleted', () => {
+        expect(blogPosting({ ...post, author: null, category: null }, '/blog/x', 'en')).toMatchObject({
+            author: { '@id': ORGANIZATION_ID },
+        });
+    });
+
+    it('marks up FAQs as a FAQPage, and nothing without them', () => {
+        expect(faqPage(post.faqs, '/blog/x', 'en')).toEqual({
+            '@type': 'FAQPage',
+            '@id': 'https://codetoon.net/blog/x#faq',
+            mainEntity: [{ '@type': 'Question', name: 'Q?', acceptedAnswer: { '@type': 'Answer', text: 'A.' } }],
+        });
+        expect(faqPage(null, '/blog/x', 'en')).toBeNull();
+        expect(faqPage([], '/blog/x', 'en')).toBeNull();
+    });
+
+    it('describes the blog with the posts on the page', () => {
+        expect(blog('en', [post], 'Blog', 'Insights')).toMatchObject({
+            '@type': 'Blog',
+            '@id': 'https://codetoon.net/blog#blog',
+            url: 'https://codetoon.net/blog',
+            publisher: { '@id': ORGANIZATION_ID },
+            blogPost: [{ '@type': 'BlogPosting', '@id': 'https://codetoon.net/blog/how-ai-cuts-costs#article', headline: 'How AI cuts costs', url: 'https://codetoon.net/blog/how-ai-cuts-costs', datePublished: '2026-10-01T08:00:00Z' }],
+        });
     });
 });
