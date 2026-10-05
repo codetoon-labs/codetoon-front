@@ -50,3 +50,17 @@ export function suffixOnce(title: string, suffix: string): string {
 export function ogImages(url?: string | null) {
   return [{ url: cleanText(url) || OG_FALLBACK_IMAGE }];
 }
+
+/** Admin SEO overrides from the CMS, after localize(). Every field may be null. */
+export type SeoOverrides = {
+  title?: string | null;
+  description?: string | null;
+  canonical?: string | null;
+  og_image?: { full_url?: string | null } | null;
+} | null | undefined;
+
+/** An admin canonical override replaces the self-referencing one; hreflang stays. */
+export function withCanonical<T extends { canonical: string }>(alternates: T, canonical?: string | null): T {
+  const override = cleanText(canonical);
+  return override ? { ...alternates, canonical: override } : alternates;
+}

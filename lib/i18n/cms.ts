@@ -54,6 +54,20 @@ export function strictFields<T>(raw: T, locale: Locale, keys: readonly string[])
     return out as T;
 }
 
+const SEO_FIELDS = ['title', 'description', 'canonical'] as const;
+
+/**
+ * Admin SEO overrides (`seo { title description canonical }`) are per-language
+ * copy, so they never fall back across languages: an untranslated Arabic
+ * override stays null and the page builds its own Arabic metadata.
+ */
+export function strictSeo<T>(raw: T, locale: Locale): T {
+    if (raw === null || typeof raw !== 'object') return raw;
+    const seo = (raw as Record<string, unknown>).seo;
+    if (seo === null || typeof seo !== 'object') return raw;
+    return { ...raw, seo: strictFields(seo, locale, SEO_FIELDS) };
+}
+
 /** Project slugs are translatable in the CMS, but URLs always use the English one. */
 export function englishSlug(slug: unknown): string | undefined {
     if (typeof slug === 'string') return slug;

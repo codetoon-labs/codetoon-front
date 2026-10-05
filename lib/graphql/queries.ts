@@ -82,6 +82,14 @@ export const GET_PROJECTS = gql`
                 in_homepage
                 date
                 updated_at
+                seo {
+                    title { en ar }
+                    description { en ar }
+                    canonical { en ar }
+                    og_image {
+                        full_url
+                    }
+                }
             }
         }
     }
@@ -121,6 +129,14 @@ export const GET_CATEGORY_BY_SLUG = gql`
             main_image {
                 full_url
             }
+            seo {
+                title { en ar }
+                description { en ar }
+                canonical { en ar }
+                og_image {
+                    full_url
+                }
+            }
             services {
                 id
                 title { en ar }
@@ -152,6 +168,14 @@ export const GET_SERVICE_BY_SLUG = gql`
             }
             gallery {
                 full_url
+            }
+            seo {
+                title { en ar }
+                description { en ar }
+                canonical { en ar }
+                og_image {
+                    full_url
+                }
             }
             categories {
                 id
