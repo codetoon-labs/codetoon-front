@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: t.title,
         description: t.description,
         openGraph: {
-            title: t.title,
+            title: `${t.title} | Codetoon`,
             description: t.ogDescription,
             url: absoluteUrl('/projects', locale),
             siteName: 'Codetoon',

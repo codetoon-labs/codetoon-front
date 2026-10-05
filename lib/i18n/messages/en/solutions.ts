@@ -1,7 +1,8 @@
 // Solutions listing copy. Arabic counterpart: ../ar/solutions.ts (typed against this shape).
 const solutions = {
     meta: {
-        title: 'Our Solutions | Codetoon',
+        // The layout's title template appends " | Codetoon".
+        title: 'Our Solutions',
         description: "Explore Codetoon's full range of solutions including Tech, Design, and Marketing. We turn complex problems into elegant solutions.",
         ogDescription: 'From pixel-perfect branding to powerful digital products—we turn complex problems into elegant solutions.',
         twitterDescription: 'From pixel-perfect branding to powerful digital products.',
