@@ -167,6 +167,7 @@ type Category {
   created_at: DateTime!
   updated_at: DateTime!
   deleted_at: DateTime
+  seo: Seo
 }
 
 "A country in the system."
@@ -232,6 +233,7 @@ type Project {
   created_at: DateTime!
   updated_at: DateTime!
   deleted_at: DateTime
+  seo: Seo
 }
 
 "A counter (stat) belonging to a project."
@@ -277,6 +279,7 @@ type Service {
   created_at: DateTime!
   updated_at: DateTime!
   deleted_at: DateTime
+  seo: Seo
 }
 
 "A single step describing how a service is delivered."
@@ -466,3 +469,17 @@ enum Trashed {
   WITHOUT
 }
 
+"""
+Admin-entered SEO overrides for a public page. Null on records without
+overrides; every field may be null, and the frontend falls back to its own.
+"""
+type Seo {
+  id: ID!
+  title: Translation
+  description: Translation
+  canonical: Translation
+
+  "The uploaded social sharing image."
+  og_image: Media
+  updated_at: DateTime!
+}

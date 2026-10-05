@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import SolutionClient from './solution-client';
 import JsonLd from '@/app/components/JsonLd';
 import { getCategoryBySlug } from '@/lib/server-data';
-import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
+import { cleanText, metaDescription, ogImages, pageTitle, suffixOnce, withCanonical, type SeoOverrides } from '@/lib/seo';
 import { absoluteUrl, fmt, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
 import { breadcrumbs, entityId, graph, service, webPage } from '@/lib/structured-data';
@@ -24,10 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // `description` is the short, SERP-sized field; `overview` is the long
     // on-page copy (212-650 chars) and only serves as a fallback.
     const baseTitle = pageTitle(category.title, getMessages(locale).common.nav.solutions);
-    const title = locale === 'en'
+    // An admin-written SEO title is used as-is; otherwise build one from the content.
+    const seo: SeoOverrides = category.seo;
+    const title = cleanText(seo?.title) || (locale === 'en'
         ? suffixOnce(baseTitle, t.titleSuffix)
-        : fmt(t.titleTemplate, { title: baseTitle });
+        : fmt(t.titleTemplate, { title: baseTitle }));
     const description = metaDescription(
+        seo?.description,
         category.description,
         category.overview,
         fmt(t.fallbackDescription, { title: pageTitle(category.title) })
@@ -39,12 +42,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         openGraph: {
             title: `${title} | Codetoon`,
             description,
-            url: absoluteUrl(`/solution/${slug}`, locale),
+            url: cleanText(seo?.canonical) || absoluteUrl(`/solution/${slug}`, locale),
             locale: ogLocale[locale],
             type: 'website',
-            images: ogImages(category.main_image?.full_url),
+            images: ogImages(seo?.og_image?.full_url || category.main_image?.full_url),
         },
-        alternates: localeAlternates(`/solution/${slug}`, locale),
+        alternates: withCanonical(localeAlternates(`/solution/${slug}`, locale), seo?.canonical),
     };
 }
 

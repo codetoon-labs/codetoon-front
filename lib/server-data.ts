@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import type { Locale } from '@/lib/i18n/config';
-import { englishSlug, localize } from '@/lib/i18n/cms';
+import { englishSlug, localize, strictSeo } from '@/lib/i18n/cms';
 import { createApolloClient } from '@/lib/apollo-client';
 import {
     GET_CATEGORIES,
@@ -49,7 +49,7 @@ export const getCategories = cache(async (locale: Locale = 'en'): Promise<any[]>
 // carry their English slug.
 export const getProjects = cache(async (locale: Locale = 'en'): Promise<any[]> =>
     (await fetchProjects()).map((project: any) => ({
-        ...localize(project, locale),
+        ...localize(strictSeo(project, locale), locale),
         slug: englishSlug(project.slug),
     })));
 
@@ -59,7 +59,7 @@ export const getProjectBySlug = cache(async (slug: string, locale: Locale = 'en'
 });
 
 export const getCategoryBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> =>
-    localize(await fetchCategory(slug), locale));
+    localize(strictSeo(await fetchCategory(slug), locale), locale));
 
 export const getTestimonials = cache(async (locale: Locale = 'en'): Promise<any[]> =>
     localize(await fetchTestimonials(), locale));
@@ -71,4 +71,4 @@ export const getTeams = cache(async (locale: Locale = 'en'): Promise<any[]> =>
     localize(await fetchTeams(), locale));
 
 export const getServiceBySlug = cache(async (slug: string, locale: Locale = 'en'): Promise<any | null> =>
-    localize(await fetchService(slug), locale));
+    localize(strictSeo(await fetchService(slug), locale), locale));

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import ProjectClient from './project-client';
 import JsonLd from '@/app/components/JsonLd';
 import { getProjectBySlug, getTestimonials } from '@/lib/server-data';
-import { metaDescription, ogImages, pageTitle, suffixOnce } from '@/lib/seo';
+import { cleanText, metaDescription, ogImages, pageTitle, suffixOnce, withCanonical, type SeoOverrides } from '@/lib/seo';
 import { absoluteUrl, fmt, localeAlternates, ogLocale } from '@/lib/i18n/config';
 import { getMessages, resolveLocale } from '@/lib/i18n/server';
 import { breadcrumbs, caseStudy, entityId, graph, webPage } from '@/lib/structured-data';
@@ -23,10 +23,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     // CMS titles carry stray whitespace; the root layout appends "| Codetoon".
     const baseTitle = pageTitle(project.title, t.fallbackTitle);
-    const title = locale === 'en'
+    // An admin-written SEO title is used as-is; otherwise build one from the content.
+    const seo: SeoOverrides = project.seo;
+    const title = cleanText(seo?.title) || (locale === 'en'
         ? suffixOnce(baseTitle, t.titleSuffix)
-        : fmt(t.titleTemplate, { title: baseTitle });
+        : fmt(t.titleTemplate, { title: baseTitle }));
     const description = metaDescription(
+        seo?.description,
         project.short_description,
         project.description,
         fmt(t.fallbackDescription, { title: pageTitle(project.title, t.fallbackDescriptionTitle) })
@@ -38,12 +41,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         openGraph: {
             title: `${title} | Codetoon`,
             description,
-            url: absoluteUrl(`/project/${slug}`, locale),
+            url: cleanText(seo?.canonical) || absoluteUrl(`/project/${slug}`, locale),
             locale: ogLocale[locale],
             type: 'article',
-            images: ogImages(project.main_image?.full_url),
+            images: ogImages(seo?.og_image?.full_url || project.main_image?.full_url),
         },
-        alternates: localeAlternates(`/project/${slug}`, locale),
+        alternates: withCanonical(localeAlternates(`/project/${slug}`, locale), seo?.canonical),
     };
 }
 

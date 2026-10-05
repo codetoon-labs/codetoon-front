@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { englishSlug, localize, strictFields } from './cms';
+import { englishSlug, localize, strictFields, strictSeo } from './cms';
 
 const T = (en: unknown, ar: unknown, __typename = 'Translation') => ({ __typename, en, ar });
 
@@ -109,5 +109,35 @@ describe('strictFields', () => {
         expect(strictFields(post, 'en', PROSE)).toBe(post);
         expect(localize<any>(strictFields(post, 'en', PROSE), 'en').seo_title).toBe('SEO title');
         expect(strictFields({ slug: 'x', excerpt: null }, 'ar', PROSE)).toEqual({ slug: 'x', excerpt: null });
+    });
+});
+
+describe('strictSeo', () => {
+    const project = {
+        __typename: 'Project',
+        title: T('Alpha', 'ألفا'),
+        seo: {
+            __typename: 'Seo',
+            title: T('EN SEO title', null),
+            description: T('EN SEO description', 'وصف'),
+            canonical: T('https://codetoon.net/x', null),
+            og_image: { __typename: 'Media', full_url: 'og.png' },
+        },
+    };
+
+    it('keeps English SEO overrides off Arabic pages', () => {
+        const ar = localize<any>(strictSeo(project, 'ar'), 'ar');
+        expect(ar.seo.title).toBeNull();
+        expect(ar.seo.canonical).toBeNull();
+        expect(ar.seo.description).toBe('وصف');
+        expect(ar.seo.og_image.full_url).toBe('og.png');
+        // Content fields keep the normal English fallback.
+        expect(ar.title).toBe('ألفا');
+    });
+
+    it('leaves English pages and records without overrides untouched', () => {
+        expect(localize<any>(strictSeo(project, 'en'), 'en').seo.title).toBe('EN SEO title');
+        expect(strictSeo({ seo: null }, 'ar')).toEqual({ seo: null });
+        expect(strictSeo(null, 'ar')).toBeNull();
     });
 });
