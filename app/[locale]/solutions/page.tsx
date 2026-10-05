@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: t.title,
         description: t.description,
         openGraph: {
-            title: t.title,
+            title: `${t.title} | Codetoon`,
             description: t.ogDescription,
             url: absoluteUrl('/solutions', locale),
             siteName: 'Codetoon',
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
         twitter: {
             card: 'summary_large_image',
-            title: t.title,
+            title: `${t.title} | Codetoon`,
             description: t.twitterDescription,
         },
         alternates: localeAlternates('/solutions', locale),

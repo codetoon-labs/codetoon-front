@@ -1,7 +1,8 @@
 // Projects listing copy. Arabic counterpart: ../ar/projects.ts (typed against this shape).
 const projects = {
     meta: {
-        title: 'Our Projects | Codetoon',
+        // The layout's title template appends " | Codetoon".
+        title: 'Our Projects',
         description: "Explore Codetoon's portfolio of digital products, branding, and marketing projects — real work with real, measurable results.",
         ogDescription: 'Real Work. Real Growth. Real Fast. Explore our portfolio of digital products built to solve real business problems.',
     },

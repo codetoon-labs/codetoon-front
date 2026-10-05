@@ -53,3 +53,13 @@ describe('Arabic messages', () => {
         }
     });
 });
+
+describe('page titles', () => {
+    // The layout's title template appends " | Codetoon"; a title that already
+    // carries the brand renders it twice ("Our Solutions | Codetoon | Codetoon").
+    it.each(['en', 'ar'] as const)('listing titles in %s leave the brand to the layout template', (locale) => {
+        for (const title of [messages[locale].solutions.meta.title, messages[locale].projects.meta.title]) {
+            expect(title).not.toMatch(/codetoon|كودتون|\|/i);
+        }
+    });
+});
