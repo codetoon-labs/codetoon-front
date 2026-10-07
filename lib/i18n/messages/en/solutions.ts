@@ -2,12 +2,13 @@
 const solutions = {
     meta: {
         // The layout's title template appends " | Codetoon".
-        title: 'Our Solutions',
-        description: "Explore Codetoon's full range of solutions including Tech, Design, and Marketing. We turn complex problems into elegant solutions.",
-        ogDescription: 'From pixel-perfect branding to powerful digital products—we turn complex problems into elegant solutions.',
+        title: 'Digital Solutions for Businesses in Egypt',
+        // Also used as og:description.
+        description: "Codetoon's digital solutions for companies in Egypt and the Gulf: AI automation, custom software, mobile apps, branding and marketing from one team.",
         twitterDescription: 'From pixel-perfect branding to powerful digital products.',
     },
     hero: {
+        h1: 'Digital solutions for businesses in Egypt and the Gulf',
         line1: 'Tech',
         line2: 'Design',
         line3: 'Marketing.',

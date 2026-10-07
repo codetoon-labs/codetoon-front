@@ -54,19 +54,22 @@ export default function SolutionClient({ categories }: { categories: CategorySol
                     className="container mx-auto px-4 sm:px-9 relative z-10"
                 >
                     <div className="flex flex-col items-center text-center gap-7">
-                        <h1 className="flex flex-col relative end-5 lg:end-0 lg:w-[682px] scale-100 text-[50px] lg:text-[92px] font-semibold leading-[1.1] uppercase">
-                            <span className="p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">{t.solutions.hero.line1}</span>
+                        <p className="flex flex-col relative end-5 lg:end-0 lg:w-[682px] scale-100 text-[50px] lg:text-[92px] font-semibold leading-[1.1] uppercase">
+                            <span className="p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">{t.solutions.hero.line1}</span>{' '}
                             <span className="relative start-10 lg:start-0 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
                                 {t.solutions.hero.line2}
-                            </span>
+                            </span>{' '}
                             <span className="p-1 bg-linear-to-r text-start from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
                                 {t.solutions.hero.line3}
-                            </span>
+                            </span>{' '}
                             <span className="relative start-8 lg:start-18 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent italic">
                                 {t.solutions.hero.line4}
                             </span>
+                        </p>
+                        <h1 className="w-full mt-10 max-w-[640px] mx-auto text-[24px] leading-[1.4] font-semibold text-[#2B3136]">
+                            {t.solutions.hero.h1}
                         </h1>
-                        <p className="w-full mt-10 max-w-[600px] mx-auto text-[20px] leading-[30px] font-medium text-[#535556]">
+                        <p className="w-full max-w-[600px] mx-auto text-[20px] leading-[30px] font-medium text-[#535556]">
                             {t.solutions.hero.subtitle}
                         </p>
                     </div>

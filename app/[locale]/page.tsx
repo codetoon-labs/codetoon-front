@@ -13,12 +13,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const locale = await resolveLocale(params);
     const { common, home } = getMessages(locale);
     return {
-        title: common.meta.defaultTitle,
-        description: common.meta.description,
+        // The home title already carries the brand, so skip the layout's " | Codetoon" template.
+        title: { absolute: home.meta.title },
+        description: home.meta.description,
         keywords: common.meta.keywords,
         openGraph: {
-            title: common.meta.ogTitle,
-            description: common.meta.description,
+            title: home.meta.title,
+            description: home.meta.description,
             url: absoluteUrl('/', locale),
             siteName: "Codetoon",
             locale: ogLocale[locale],
@@ -34,8 +35,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
         twitter: {
             card: "summary_large_image",
-            title: home.meta.twitterTitle,
-            description: common.meta.description,
+            title: home.meta.title,
+            description: home.meta.description,
             creator: "@Codetooneg",
             images: ["https://codetoon.net/codetoon-og.png"],
         },
@@ -63,11 +64,11 @@ export default async function Home({ params }: PageProps) {
         getTestimonials(locale),
         getCustomers(locale),
     ]);
-    const { meta } = getMessages(locale).common;
+    const { meta } = getMessages(locale).home;
     // Testimonials are deliberately not marked up as Review/AggregateRating:
     // Google treats reviews a business hosts about itself as self-serving.
     const jsonLd = graph(
-        webPage({ path: '/', locale, name: meta.defaultTitle, description: meta.description, hasBreadcrumb: false, mainEntityId: ORGANIZATION_ID }),
+        webPage({ path: '/', locale, name: meta.title, description: meta.description, hasBreadcrumb: false, mainEntityId: ORGANIZATION_ID }),
     );
     return (
         <>

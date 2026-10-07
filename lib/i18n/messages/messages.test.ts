@@ -63,3 +63,17 @@ describe('page titles', () => {
         }
     });
 });
+
+describe('home metadata', () => {
+    // The home page renders its title with `absolute`, so it must carry the brand itself.
+    it.each(['en', 'ar'] as const)('home title in %s carries the brand exactly once', (locale) => {
+        const matches = messages[locale].home.meta.title.match(/codetoon|كودتون/gi) ?? [];
+        expect(matches).toHaveLength(1);
+    });
+
+    it.each(['en', 'ar'] as const)('home and solutions descriptions in %s fit the 155-character snippet', (locale) => {
+        for (const description of [messages[locale].home.meta.description, messages[locale].solutions.meta.description]) {
+            expect(description.length).toBeLessThanOrEqual(155);
+        }
+    });
+});

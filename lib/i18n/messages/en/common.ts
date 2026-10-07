@@ -3,7 +3,6 @@ const common = {
     meta: {
         defaultTitle: 'Codetoon | transform your ideas into reality',
         description: 'Full service digital agency, crafting tech and design solutions based in Egypt',
-        ogTitle: 'Codetoon - Digital Agency in Egypt | Transform Your Ideas into Reality',
         ogAlt: 'Codetoon - Transform your ideas into reality',
         keywords: ['Codetoon', 'digital agency', 'tech solutions', 'design solutions', 'Egypt'],
         notFoundTitle: 'Page not found',
