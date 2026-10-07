@@ -22,12 +22,12 @@ export default function HeroSectionContent() {
                                 {t.tagline}
                             </p>
 
-                            <h1 className="flex flex-col w-full sm:w-[65%] lg:w-[624px] px-5 sm:px-0 text-[55px] sm:text-[65px] lg:text-[80px] font-semibold leading-11 lg:leading-[77px] uppercase overflow-hidden">
-                                <span className="hero-word hero-word-1 self-start mb-7">{t.headline[0]}</span>
-                                <span className="hero-word hero-word-2 self-end mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">{t.headline[1]}</span>
-                                <span className="hero-word hero-word-3 self-start mb-7">{t.headline[2]}</span>
+                            <p className="flex flex-col w-full sm:w-[65%] lg:w-[624px] px-5 sm:px-0 text-[55px] sm:text-[65px] lg:text-[80px] font-semibold leading-11 lg:leading-[77px] uppercase overflow-hidden">
+                                <span className="hero-word hero-word-1 self-start mb-7">{t.headline[0]}</span>{' '}
+                                <span className="hero-word hero-word-2 self-end mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#0B65A7] bg-clip-text text-transparent">{t.headline[1]}</span>{' '}
+                                <span className="hero-word hero-word-3 self-start mb-7">{t.headline[2]}</span>{' '}
                                 <span className="hero-word hero-word-4 self-center relative end-10 mb-8 p-1 bg-linear-to-r from-black via-[#0d71ba] to-[#F4D315] bg-clip-text text-transparent">{t.headline[3]}</span>
-                            </h1>
+                            </p>
 
                             <div className="hidden lg:flex flex-col items-end gap-[339px]">
                                 <p className="hero-fade-right delay-1 w-[180px] text-[20px] leading-6 font-semibold text-[#535556]">
@@ -43,6 +43,10 @@ export default function HeroSectionContent() {
                                 {t.description}
                             </p>
                         </div>
+
+                        <h1 className="hero-button-reveal max-w-[640px] px-5 sm:px-0 text-[20px] lg:text-[24px] leading-[1.4] font-semibold text-[#2B3136]">
+                            {t.h1}
+                        </h1>
 
                         <div className="hero-button-reveal">
                             <button

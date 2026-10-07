@@ -1,9 +1,12 @@
 // home copy. Arabic counterpart: ../ar/home.ts (typed against this shape).
 const home = {
     meta: {
-        twitterTitle: 'Codetoon - transform your ideas into reality',
+        // Rendered as-is (not through the layout's " | Codetoon" template); also og:title and twitter:title.
+        title: 'Software Company in Egypt | ERP, AI & Custom Apps | Codetoon',
+        description: 'Codetoon is a software company in Egypt building business systems: Buongo ERP, Autopilot AI automation on WhatsApp, and custom web and mobile apps.',
     },
     hero: {
+        h1: 'Software company in Egypt for business systems, ERP and AI automation',
         tagline: 'Delivering the WOW factor—through code, design, and strategy.',
         headline: ['Change', 'The world', 'cause', 'we can'],
         omg: 'From idea to "OMG that\'s awesome!"',
