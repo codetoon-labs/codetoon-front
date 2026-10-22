@@ -53,9 +53,14 @@ jobs:
 
       - name: Summary
         if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+          REF_TYPE: ${{ github.event.inputs.ref_type }}
+          REF: ${{ github.event.inputs.ref }}
+          COMMIT: ${{ github.sha }}
+          ACTOR: ${{ github.actor }}
         run: |
           echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- **Ref Type**: ${{ github.event.inputs.ref_type }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Ref**: ${{ github.event.inputs.ref }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Ref Type**: $REF_TYPE" >> $GITHUB_STEP_SUMMARY
+          echo "- **Ref**: $REF" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: $COMMIT" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: $ACTOR" >> $GITHUB_STEP_SUMMARY
